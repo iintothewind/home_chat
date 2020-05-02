@@ -93,8 +93,7 @@ export class MessageBoard extends React.Component {
           </Content>
           <Footer style={{ padding: 0 }}>
             <Row>
-              <Col span={1} />
-              <Col span={19}>
+              <Col span={20} push={0}>
                 <TextArea
                   allowClear
                   ref={ref => this.inputArea = ref}
@@ -105,13 +104,11 @@ export class MessageBoard extends React.Component {
                     }
                   }} />
               </Col>
-              <Col span={1} />
-              <Col span={1}>
+              <Col span={1} push={0}>
                 <Button type="primary" shape="round" size="large" onClick={e => this.handleInput()}>
                   Send
                 </Button>
               </Col>
-              <Col span={1} />
             </Row>
           </Footer>
         </Layout>
