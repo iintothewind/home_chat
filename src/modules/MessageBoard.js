@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Input, List, Comment, Layout, notification } from 'antd';
+import './MessageBoard.css'
+import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd';
 import moment from 'moment';
 
 const { TextArea } = Input;
@@ -10,21 +11,37 @@ export class MessageBoard extends React.Component {
   constructor(props) {
     super(props)
     const params = new URLSearchParams(this.props.location.search)
-    const client = require('mqtt').connect(params.get('mqtt_url'))
     const sender = params.get('name') || 'user'.concat(moment().format('X'))
     const topic = params.get('topic') || 'home'
+    const url = decodeURIComponent(params.get('mqtt_url')) || 'mqtt://localhost:1884'
+    const client = require('mqtt').connect(url, { clean: false, clientId: sender })
     this.state = { client: client, topic: topic, sender: sender, messages: [] }
   }
 
-  addMessage = message => {
+  pushMessage = message => {
     if (message.content.trim()) {
-      this.state.client.publish(this.state.topic, JSON.stringify(message))
+      this.state.client.publish(this.state.topic, JSON.stringify(message), { qos: 2 }, error => {
+        if (error) {
+          notification['error'].open({
+            message: 'MQTT Client',
+            description: 'MQTT client publish failed: '.concat(error.message)
+          })
+        }
+      })
+    }
+  }
+
+  handleInput() {
+    const msg = this.inputArea.state.value.trim()
+    if (msg) {
+      this.pushMessage({ sender: this.state.sender, moment: moment().format('YYYY-MM-DD HH:mm:ss'), content: msg })
+      this.inputArea.setState({ value: '' })
     }
   }
 
   componentDidMount() {
     this.state.client.on('connect', () => {
-      this.state.client.subscribe(this.state.topic, error => {
+      this.state.client.subscribe(this.state.topic, { qos: 2 }, error => {
         if (error) {
           notification['error'].open({
             message: 'MQTT Client',
@@ -74,24 +91,31 @@ export class MessageBoard extends React.Component {
               )}
             />
           </Content>
-          <Footer>
-            <TextArea
-              allowClear
-              ref={ref => this.inputArea = ref}
-              rows={4}
-              onKeyPress={e => {
-                if (e.ctrlKey && e.which === 13) {
-                  const msg = e.target.value.trim()
-                  if (msg) {
-                    this.addMessage({ sender: this.state.sender, moment: moment().format('YYYY-MM-DD HH:mm:ss'), content: msg })
-                    this.inputArea.setState({ value: '' })
-                  }
-                }
-              }} />
+          <Footer style={{ padding: 0 }}>
+            <Row>
+              <Col span={1}/>
+              <Col span={19}>
+                <TextArea
+                  allowClear
+                  ref={ref => this.inputArea = ref}
+                  rows={4}
+                  onKeyPress={e => {
+                    if (e.ctrlKey && e.which === 13) {
+                      this.handleInput()
+                    }
+                  }} />
+              </Col>
+              <Col span={1}/>
+              <Col span={1}>
+                <Button type="primary" shape="round" size="large" onClick={e => this.handleInput()}>
+                  Send
+                </Button>
+              </Col>
+              <Col span={1}/>
+            </Row>
           </Footer>
         </Layout>
-        <div style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}>
-        </div>
+        <div style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }} />
       </div >
 
     );
