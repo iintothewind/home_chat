@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import 'antd/dist/antd.css';
+import { MessageBoard } from './modules/MessageBoard'
+import { BrowserRouter, Route } from 'react-router-dom'
+/*
+ReactDOM.render(<Input rows={4} defaultValue="this is a text area" />, document.getElementById('txtArea'));
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const Msg = () => {
+  return (
+    <Comment
+      author={"Han Solo"}
+      content={
+        <p>
+          We supply a series of design principles, practical patterns and high quality design
+          resources (Sketch and Axure), to help people create their product prototypes beautifully
+          and efficiently.
+        </p>
+      }
+      datetime={
+        <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+          <span>{moment().fromNow()}</span>
+        </Tooltip>
+      }
+    />
+  );
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<Msg />, document.getElementById('msg'));
+*/
+
+// ReactDOM.render(<MessageBoard />, document.getElementById('app'));
+
+ReactDOM.render((
+  <BrowserRouter>
+    <Route path="/messageBoard" component={MessageBoard}/>
+  </BrowserRouter>
+), document.getElementById('app'))
