@@ -13,7 +13,7 @@ export class MessageBoard extends React.Component {
     const params = new URLSearchParams(this.props.location.search)
     const sender = params.get('name') || 'user'.concat(moment().format('X'))
     const topic = params.get('topic') || 'home'
-    const url = decodeURIComponent(params.get('mqtt_url')) || 'mqtt://localhost:1884'
+    const url = decodeURIComponent(params.get('mqtt_url')) || 'mqtt://'.concat(window.location.hostname).concat(':1884')
     const client = require('mqtt').connect(url, { clean: false, clientId: sender })
     this.state = { client: client, topic: topic, sender: sender, messages: [] }
   }
