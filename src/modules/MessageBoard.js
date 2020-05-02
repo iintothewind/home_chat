@@ -1,11 +1,11 @@
-import React from 'react';
-import 'antd/dist/antd.css';
+import React from 'react'
+import 'antd/dist/antd.css'
 import './MessageBoard.css'
-import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd';
-import moment from 'moment';
+import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd'
+import moment from 'moment'
 
-const { TextArea } = Input;
-const { Footer, Content } = Layout;
+const { TextArea } = Input
+const { Footer, Content } = Layout
 
 export class MessageBoard extends React.Component {
   constructor(props) {
@@ -93,7 +93,7 @@ export class MessageBoard extends React.Component {
           </Content>
           <Footer style={{ padding: 0 }}>
             <Row>
-              <Col span={1}/>
+              <Col span={1} />
               <Col span={19}>
                 <TextArea
                   allowClear
@@ -105,17 +105,17 @@ export class MessageBoard extends React.Component {
                     }
                   }} />
               </Col>
-              <Col span={1}/>
+              <Col span={1} />
               <Col span={1}>
                 <Button type="primary" shape="round" size="large" onClick={e => this.handleInput()}>
                   Send
                 </Button>
               </Col>
-              <Col span={1}/>
+              <Col span={1} />
             </Row>
           </Footer>
         </Layout>
-        <div style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }} />
+        <div style={{ float: "left", clear: "both" }} ref={(ref) => { this.bottom = ref }} />
       </div >
 
     );
