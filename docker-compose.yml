@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mosquitto:
+    image: "eclipse-mosquitto:1.6.9"
+    ports:
+      - "1883:1883"
+      - "1884:1884"
+    volumes:
+      - ./config//mosquitto.conf:/mosquitto/config/mosquitto.conf
+  nginx:
+    image: "nginx:stable"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./build:/usr/share/nginx/html:ro
