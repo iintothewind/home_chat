@@ -1,68 +1,60 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# home chat
 
-## Available Scripts
+a web im based on top of react and mqtt.
+![home_chat_demo](https://github.com/iintothewind/images/raw/master/home_chat_demo_002.jpg)
 
-In the project directory, you can run:
+## why I develop it
 
-### `npm start`
+Text message transmission is frequently at home.
+Imagine when you saw a funny web page on your phone and you need to send the url of this page to one of your family member.
+While he or she is using a PC or tablet but not a phone.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+If you sent the text message via wechat or qq, what your family member is surpposed to receive this message on PC? He or she probably needs to open web wechat or web qq, take out his or her phone use the IM app to scan the QR code shown on the web page to login the account.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The whole process is so inconvenient.
 
-### `npm test`
+This is why I developed this web app.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+By using home chat, you just need to open it by simply click the link from your favorite bookmark folder.
+And device that supports websoket web page can open this app to sync up messages with your family.
 
-### `npm run build`
+## installation
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This app should be build by npm, and it runs on nginx and mosquitto.
+It can be deployed in x86(pc) and armv7(respberrypi) docker environment.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- `npm run build`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+All compile pages have been created in `./build` folder.
 
-### `npm run eject`
+- `docker up -d`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+mosquitto service needs to use the port number `1883` for mqtt protocol support and `1884` for websocket protocol support on your host.
+nginx service needs to use the port number `8080` on your host.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+If this app has been successfully deployed on host `192.168.0.147`, on any device **within same local area network** that supports websocket you can open the app by using the url:
+`http://192.168.0.147:8080/messageBoard?name=yourname&mqtt_url=mqtt%3A%2F%2F192.168.0.147%3A1884&topic=topic01`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+For the url above, there are three **optional** query parameters you can use:
 
-## Learn More
+- name=`username`
+The user name of this app, should be unique for every logon device.
+If `name` is not given, then a random user name is used.
+The name will be used as `client id` for mqtt consumer subscription session.
+Please keey user name the same for every connected device to make sure you can always get the missed message when they go offline.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- mqtt_url=`mqtt%3A%2F%2F192.168.0.147%3A1884`
+The mqtt message broker url, url encoded.
+If `mqtt_url` is not given, then `mqtt://<host_name>:1884` will be used.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- topic=`topic01`
+The topic name for mqtt subscription.
+If topic name is not given, then `home` will be used.
 
-### Code Splitting
+Most of the time, on every connecting device, the url should be:
+`http://192.168.0.147:8080/messageBoard?name=<unique_user_name>`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+And make sure this url should be added into your faviorite bookmarks.
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
