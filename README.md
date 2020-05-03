@@ -1,31 +1,31 @@
 # home chat
 
-a web im based on top of react and mqtt.
+Home chat is an IM tool to transfer message between home devices.
 ![home_chat_demo](https://github.com/iintothewind/images/raw/master/home_chat_demo_002.jpg)
 
 ## why I developed it
 
-Text message transmission is frequently at home.
+Text message transmission between home devices is a high frenquency requirement at home.
 Imagine when you saw a funny web page on your phone and you need to send the url of this page to one of your family member.
 While he or she is using a PC or tablet but not a phone.
 
-If you sent the text message via wechat or qq, what your family member is surpposed to receive this message on PC? He or she probably needs to open web wechat or web qq, take out his or her phone use the IM app to scan the QR code shown on the web page to login the account.
+If you sent the text message via wechat or qq, what your family member is surpposed to receive this message on PC? He or she probably needs to open web wechat or web qq, take out his or her phone, then use the IM app such as wechat to scan the QR code shown on the web page to login web wechat or web qq.
 
 The whole process is so inconvenient.
 
-This is why I developed this web app.
+This is the problem I want to solve.
 
 By using home chat, you just need to open it by simply click the link from your favorite bookmark folder.
-And device that supports websoket web page can open this app to sync up messages with your family.
+Then any device that supports websoket can be used with this app to sync up messages with your family.
 
 ## installation
 
-This app should be build by npm, and it runs on nginx and mosquitto.
-It can be deployed in x86(pc) and armv7(respberrypi) docker environment.
+This app should be built by npm, and it runs on nginx and mosquitto.
+It can be deployed in x86(pc) and armv7(respberrypi) docker containers.
 
 - `npm run build`
 
-All compile pages have been created in `./build` folder.
+All compiled pages will be created in `./build` folder.
 
 - `docker up -d`
 
@@ -58,5 +58,5 @@ Most of the time, on every connecting device, the url should be:
 
 `http://192.168.0.147:8080/messageBoard?name=<unique_user_name>`
 
-And make sure this url should be added into your faviorite bookmarks.
+And make sure this url be added into your faviorite bookmarks.
 
