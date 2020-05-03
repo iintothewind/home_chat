@@ -56,7 +56,7 @@ If topic name is not given, then `home` will be used.
 
 Most of the time, on every connecting device, the url should be:
 
-`http://192.168.0.147:8080/messageBoard?name=<unique_user_name>`
+`http://<host_name>:8080/messageBoard?name=<unique_user_name>`
 
 And make sure this url be added into your faviorite bookmarks.
 
