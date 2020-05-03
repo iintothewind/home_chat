@@ -3,7 +3,7 @@
 a web im based on top of react and mqtt.
 ![home_chat_demo](https://github.com/iintothewind/images/raw/master/home_chat_demo_002.jpg)
 
-## why I develop it
+## why I developed it
 
 Text message transmission is frequently at home.
 Imagine when you saw a funny web page on your phone and you need to send the url of this page to one of your family member.
