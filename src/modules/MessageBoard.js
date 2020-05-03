@@ -105,7 +105,7 @@ export class MessageBoard extends React.Component {
                   }} />
               </Col>
               <Col span={1} push={0}>
-                <Button type="primary" shape="round" size="large" onClick={e => this.handleInput()}>
+                <Button type="primary" shape="round" size="default" onClick={e => this.handleInput()}>
                   Send
                 </Button>
               </Col>
