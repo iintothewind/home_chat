@@ -3,14 +3,20 @@ services:
   mosquitto:
     image: "eclipse-mosquitto:1.6.9"
     ports:
+      # host:container mqtt port
       - "1883:1883"
+      # host:container websocket port
       - "1884:1884"
     volumes:
+      # host:container mosquitto config
       - ./config//mosquitto.conf:/mosquitto/config/mosquitto.conf
   nginx:
     image: "nginx:stable"
     ports:
+      # host:container http port
       - "8080:8080"
     volumes:
+      # host:container http config
       - ./config/nginx.conf:/etc/nginx/nginx.conf
+      # host:container app directory
       - ./build:/usr/share/nginx/html:ro
