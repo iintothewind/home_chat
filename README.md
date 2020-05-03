@@ -27,7 +27,7 @@ It can be deployed in x86(pc) and armv7(respberrypi) docker containers.
 
 All compiled pages will be created in `./build` folder.
 
-- `docker up -d`
+- `docker-compose up -d`
 
 mosquitto service needs to use the port number `1883` for mqtt protocol support and `1884` for websocket protocol support on your host.
 nginx service needs to use the port number `8080` on your host.
