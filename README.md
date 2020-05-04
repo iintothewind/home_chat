@@ -6,11 +6,9 @@ Home chat is an IM tool to transfer message between home devices.
 ## why I developed it
 
 Text message transmission between home devices is a high frenquency requirement at home.
-Imagine when you saw a funny web page on your phone and you need to send the url of this page to one of your family member.
-While he or she is using a PC or tablet but not a phone.
 
-If you sent the text message via wechat or qq, what your family member is surpposed to receive this message on PC? He or she probably needs to open web wechat or web qq, take out his or her phone, then use the IM app such as wechat to scan the QR code shown on the web page to login web wechat or web qq.
-
+It can be painful if you try to receive message on web IM such as web wechat or web qq.
+If your family member sent the text message via wechat or qq, what you are surpposed to receive this message on PC? You probably needs to open web wechat or web qq, take out your phone, then use the mobile IM app to scan the QR code shown on the web page to login then finally you can see the message.
 The whole process is so inconvenient.
 
 This is the problem I want to solve.
