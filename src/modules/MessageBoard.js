@@ -3,6 +3,7 @@ import 'antd/dist/antd.css'
 import './MessageBoard.css'
 import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd'
 import moment from 'moment'
+import { isJsonString } from './util'
 
 const { TextArea } = Input
 const { Footer, Content } = Layout
@@ -22,7 +23,7 @@ export class MessageBoard extends React.Component {
     if (message.content.trim()) {
       this.state.client.publish(this.state.topic, JSON.stringify(message), { qos: 2 }, error => {
         if (error) {
-          notification['error'].open({
+          notification['error']({
             message: 'MQTT Client',
             description: 'MQTT client publish failed: '.concat(error.message)
           })
@@ -43,7 +44,7 @@ export class MessageBoard extends React.Component {
     this.state.client.on('connect', () => {
       this.state.client.subscribe(this.state.topic, { qos: 2 }, error => {
         if (error) {
-          notification['error'].open({
+          notification['error']({
             message: 'MQTT Client',
             description: 'MQTT client subscription failed: '.concat(error.message)
           })
@@ -52,12 +53,26 @@ export class MessageBoard extends React.Component {
     })
 
     this.state.client.on('message', (topic, message) => {
-      const msg = JSON.parse(message)
-      this.setState({ messages: this.state.messages.concat({ sender: msg.sender, moment: msg.moment, content: msg.content }) })
+      if (isJsonString(message)) {
+        const msg = JSON.parse(message)
+        if (msg.sender && msg.moment && msg.content) {
+          this.setState({ messages: this.state.messages.concat({ sender: msg.sender, moment: msg.moment, content: msg.content }) })
+        } else {
+          notification['warning']({
+            message: 'MQTT Client',
+            description: 'invalid message: '.concat(message)
+          })
+        }
+      } else {
+        notification['warning']({
+          message: 'MQTT Client',
+          description: 'invalid message: '.concat(message)
+        })
+      }
     })
 
     this.state.client.on('error', error => {
-      notification['error'].open({
+      notification['error']({
         message: 'MQTT Client',
         description: 'MQTT client error: '.concat(error.message)
       });
