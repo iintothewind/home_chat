@@ -8,7 +8,7 @@ Home chat is an IM tool to transfer message between home devices.
 Text message transmission between home devices is a high frenquency requirement at home.
 
 It can be painful if you try to receive message on web IM such as web wechat or web qq.
-If your family member sent the text message via wechat or qq, what you are surpposed to receive this message on PC? You probably needs to open web wechat or web qq, take out your phone, then use the mobile IM app to scan the QR code shown on the web page to login then finally you can see the message.
+If your family member sent the text message via wechat or qq, what you are surpposed to receive this message on PC? You probably need to open web wechat or web qq, take out your phone, then use the mobile IM app to scan the QR code shown on the web page to login then finally you can see the message.
 The whole process is so inconvenient.
 
 This is the problem I want to solve.
