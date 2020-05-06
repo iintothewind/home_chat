@@ -5,6 +5,7 @@ export function isJsonString(str) {
       return true;
     }
   } catch (e) {
+    // empty
   }
   return false;
 }

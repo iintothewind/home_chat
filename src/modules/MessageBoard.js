@@ -2,6 +2,7 @@ import React from 'react'
 import 'antd/dist/antd.css'
 import './MessageBoard.css'
 import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { isJsonString } from './util'
 
@@ -9,6 +10,10 @@ const { TextArea } = Input
 const { Footer, Content } = Layout
 
 export class MessageBoard extends React.Component {
+  static propTypes = {
+    location: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props)
     const params = new URLSearchParams(this.props.location.search)
@@ -120,7 +125,7 @@ export class MessageBoard extends React.Component {
                   }} />
               </Col>
               <Col span={1} push={0}>
-                <Button type="primary" shape="round" size="default" onClick={e => this.handleInput()}>
+                <Button type="primary" shape="round" size="default" onClick={() => this.handleInput()}>
                   Send
                 </Button>
               </Col>
