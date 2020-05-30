@@ -6,6 +6,10 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { isJsonString } from './util'
 
+const _ = require('underscore')
+const Barn = require('barn')
+const maxLocalMessages = 100
+
 const { TextArea } = Input
 const { Footer, Content } = Layout
 
@@ -37,6 +41,40 @@ export class MessageBoard extends React.Component {
     }
   }
 
+  removeStaleLocalMessages() {
+    try {
+      const barn = new Barn('home_chat', localStorage)
+      const size = barn.llen('messages')
+      if (size > maxLocalMessages) {
+        _.range(size - maxLocalMessages).forEach(() => barn.lpop('messages'))
+      }
+    } catch (error) {
+      console.warn('localStorage not supported: ', error)
+    }
+  }
+
+  loadLocalMessages() {
+    try {
+      const barn = new Barn(localStorage)
+      const size = barn.llen('messages')
+      if (_.isNumber(size) && size > 0) {
+        const localMsgs = barn.lrange('messages', (size - maxLocalMessages), (size - 1))
+        this.setState({ messages: this.state.messages.concat(localMsgs) })
+      }
+    } catch (error) {
+      console.warn('localStorage not supported: ', error)
+    }
+  }
+
+  pushLocalMessage = msg => {
+    try {
+      const barn = new Barn(localStorage)
+      barn.rpush('messages', msg)
+    } catch (error) {
+      console.warn('localStorage not supported: ', error)
+    }
+  }
+
   handleInput() {
     const msg = this.inputArea.state.value.trim()
     if (msg) {
@@ -46,6 +84,8 @@ export class MessageBoard extends React.Component {
   }
 
   componentDidMount() {
+    this.loadLocalMessages()
+
     this.state.client.on('connect', () => {
       this.state.client.subscribe(this.state.topic, { qos: 2 }, error => {
         if (error) {
@@ -62,6 +102,8 @@ export class MessageBoard extends React.Component {
         const msg = JSON.parse(message)
         if (msg.sender && msg.moment && msg.content) {
           this.setState({ messages: this.state.messages.concat({ sender: msg.sender, moment: msg.moment, content: msg.content }) })
+          this.pushLocalMessage(msg)
+          this.removeStaleLocalMessages()
         } else {
           notification['warning']({
             message: 'MQTT Client',
