@@ -84,6 +84,7 @@ export class MessageBoard extends React.Component {
   }
 
   componentDidMount() {
+    this.removeStaleLocalMessages()
     this.loadLocalMessages()
 
     this.state.client.on('connect', () => {
@@ -103,7 +104,6 @@ export class MessageBoard extends React.Component {
         if (msg.sender && msg.moment && msg.content) {
           this.setState({ messages: this.state.messages.concat({ sender: msg.sender, moment: msg.moment, content: msg.content }) })
           this.pushLocalMessage(msg)
-          this.removeStaleLocalMessages()
         } else {
           notification['warning']({
             message: 'MQTT Client',
