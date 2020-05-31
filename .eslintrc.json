@@ -2,8 +2,7 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "node": true,
-        "es6": true
+        "node": true
     },
     "extends": [
         "eslint:recommended",
@@ -15,7 +14,8 @@
     },
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            "impliedStrict": true
         },
         "ecmaVersion": 2018,
         "sourceType": "module"

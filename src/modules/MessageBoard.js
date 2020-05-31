@@ -44,7 +44,7 @@ export class MessageBoard extends React.Component {
   removeStaleLocalMessages() {
     try {
       const barn = new Barn('home_chat', localStorage)
-      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      const key = `${this.state.topic}_${this.state.sender}_messages`
       const size = barn.llen(key)
       if (size > maxLocalMessages) {
         _.range(size - maxLocalMessages).forEach(() => barn.lpop(key))
@@ -57,7 +57,7 @@ export class MessageBoard extends React.Component {
   loadLocalMessages() {
     try {
       const barn = new Barn('home_chat', localStorage)
-      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      const key = `${this.state.topic}_${this.state.sender}_messages`
       const size = barn.llen(key)
       if (_.isNumber(size) && size > 0) {
         const localMsgs = barn.lrange(key, (size - maxLocalMessages), (size - 1))
@@ -71,7 +71,7 @@ export class MessageBoard extends React.Component {
   pushLocalMessage = msg => {
     try {
       const barn = new Barn('home_chat', localStorage)
-      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      const key = `${this.state.topic}_${this.state.sender}_messages`
       barn.rpush(key, msg)
     } catch (error) {
       console.warn('localStorage not supported: ', error)
