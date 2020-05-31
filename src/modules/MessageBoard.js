@@ -44,9 +44,10 @@ export class MessageBoard extends React.Component {
   removeStaleLocalMessages() {
     try {
       const barn = new Barn('home_chat', localStorage)
-      const size = barn.llen('messages')
+      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      const size = barn.llen(key)
       if (size > maxLocalMessages) {
-        _.range(size - maxLocalMessages).forEach(() => barn.lpop('messages'))
+        _.range(size - maxLocalMessages).forEach(() => barn.lpop(key))
       }
     } catch (error) {
       console.warn('localStorage not supported: ', error)
@@ -56,9 +57,10 @@ export class MessageBoard extends React.Component {
   loadLocalMessages() {
     try {
       const barn = new Barn(localStorage)
-      const size = barn.llen('messages')
+      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      const size = barn.llen(key)
       if (_.isNumber(size) && size > 0) {
-        const localMsgs = barn.lrange('messages', (size - maxLocalMessages), (size - 1))
+        const localMsgs = barn.lrange(key, (size - maxLocalMessages), (size - 1))
         this.setState({ messages: this.state.messages.concat(localMsgs) })
       }
     } catch (error) {
