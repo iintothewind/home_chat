@@ -56,7 +56,7 @@ export class MessageBoard extends React.Component {
 
   loadLocalMessages() {
     try {
-      const barn = new Barn(localStorage)
+      const barn = new Barn('home_chat', localStorage)
       const key = this.state.topic.concat(this.state.sender).concat('messages')
       const size = barn.llen(key)
       if (_.isNumber(size) && size > 0) {
@@ -70,8 +70,9 @@ export class MessageBoard extends React.Component {
 
   pushLocalMessage = msg => {
     try {
-      const barn = new Barn(localStorage)
-      barn.rpush('messages', msg)
+      const barn = new Barn('home_chat', localStorage)
+      const key = this.state.topic.concat(this.state.sender).concat('messages')
+      barn.rpush(key, msg)
     } catch (error) {
       console.warn('localStorage not supported: ', error)
     }
