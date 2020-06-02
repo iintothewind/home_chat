@@ -1,5 +1,10 @@
 
 .ant-comment-inner {
-  display: flex !important;
-  padding: 0px !important;
+  display: flex;
+  padding: 0px;
+}
+
+.ant-comment-content {
+  font-size: 14px;
+  word-break: break-all;
 }
