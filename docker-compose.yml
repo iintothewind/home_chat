@@ -9,7 +9,7 @@ services:
       - "1884:1884"
     volumes:
       # host:container mosquitto config
-      - ./config//mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
   nginx:
     image: "nginx:stable"
     ports:
@@ -19,4 +19,4 @@ services:
       # host:container http config
       - ./config/nginx.conf:/etc/nginx/nginx.conf
       # host:container app directory
-      - ./build:/usr/share/nginx/html:ro
+      - ./build:/usr/share/nginx/html/home_chat:ro

@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { isJsonString } from './util'
 
+const cfg = require('../../package.json')
+
 const _ = require('underscore')
 const Barn = require('barn')
 const maxLocalMessages = 100
@@ -43,7 +45,7 @@ export class MessageBoard extends React.Component {
 
   removeStaleLocalMessages() {
     try {
-      const barn = new Barn('home_chat', localStorage)
+      const barn = new Barn(cfg.name, localStorage)
       const key = `${this.state.topic}_${this.state.sender}_messages`
       const size = barn.llen(key)
       if (size > maxLocalMessages) {
@@ -56,7 +58,7 @@ export class MessageBoard extends React.Component {
 
   loadLocalMessages() {
     try {
-      const barn = new Barn('home_chat', localStorage)
+      const barn = new Barn(cfg.name, localStorage)
       const key = `${this.state.topic}_${this.state.sender}_messages`
       const size = barn.llen(key)
       if (_.isNumber(size) && size > 0) {
@@ -70,7 +72,7 @@ export class MessageBoard extends React.Component {
 
   pushLocalMessage = msg => {
     try {
-      const barn = new Barn('home_chat', localStorage)
+      const barn = new Barn(cfg.name, localStorage)
       const key = `${this.state.topic}_${this.state.sender}_messages`
       barn.rpush(key, msg)
     } catch (error) {
