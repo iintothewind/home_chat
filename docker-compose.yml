@@ -10,6 +10,8 @@ services:
     volumes:
       # host:container mosquitto config
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - home_chat
   nginx:
     image: "nginx:stable"
     ports:
@@ -20,3 +22,8 @@ services:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
       # host:container app directory
       - ./build:/usr/share/nginx/html/home_chat:ro
+    networks:
+      - home_chat
+networks:
+  home_chat:
+    external: true
