@@ -1,0 +1,73 @@
+.chat-input-wrapper{
+  position: fixed;
+  z-index: 1200;
+  background-color:#d9d9d9;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding: 10px 45px;
+  box-sizing: border-box;
+}
+.chat-input-wrapper .textarea-box{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.chat-input-wrapper .placeholder{
+  white-space:normal;
+  word-break:break-all;
+  overflow:hidden;
+  visibility: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: #333;
+  line-height: 32px;
+  font-size: 18px;
+  max-height: 200px;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  margin: 0px;
+}
+.chat-input-wrapper .textarea{
+  width: 100%;
+  margin: 0px;
+  padding: 0px 10px;
+  color: #333;
+  position: absolute;
+  z-index: 9;
+  height: 100%;
+  line-height: 32px;
+  font-size: 18px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #edf5f8;
+  border: none;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.send-button-box{
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 5px;
+  bottom: 12px;
+  background: linear-gradient(120deg,#3bacee,#32c4d3);
+  box-shadow: -3px 2px 2px rgba(18,111,112,.2);
+  border-radius: 50%;
+}
+.send-button-box .send-button{
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  margin-top: 4px;
+}
+.send-button-box:hover{
+    background: #0a5f91;
+}

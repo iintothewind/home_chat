@@ -5,6 +5,7 @@ import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'an
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { isJsonString } from './util'
+import ChatInput from './ChatInput'
 
 const cfg = require('../../package.json')
 
@@ -31,7 +32,7 @@ export class MessageBoard extends React.Component {
   }
 
   pushMessage = message => {
-    if (message.content.trim()) {
+    if (message && message.content && message.content.trim()) {
       this.state.client.publish(this.state.topic, JSON.stringify(message), { qos: 2 }, error => {
         if (error) {
           notification['error']({
@@ -81,8 +82,9 @@ export class MessageBoard extends React.Component {
   }
 
   handleInput() {
-    const msg = this.inputArea.state.value.trim()
-    if (msg) {
+    const inputValue = this.inputArea.state.value
+    if (inputValue) {
+      const msg = inputValue.trim()
       this.pushMessage({ sender: this.state.sender, moment: moment().format('YYYY-MM-DD HH:mm:ss'), content: msg })
       this.inputArea.setState({ value: '' })
     }
@@ -136,7 +138,7 @@ export class MessageBoard extends React.Component {
   }
 
   componentDidUpdate() {
-    this.bottom.scrollIntoView({ behavior: "smooth" });
+    this.bottom.scrollIntoView({ behavior: 'smooth' });
   }
 
   render() {
@@ -145,7 +147,7 @@ export class MessageBoard extends React.Component {
         <Layout>
           <Content>
             <List
-              size="small"
+              size='small'
               //pagination={{ pageSize: 9 }}
               dataSource={this.state.messages}
               renderItem={message => (
@@ -158,28 +160,11 @@ export class MessageBoard extends React.Component {
               )}
             />
           </Content>
-          <Footer style={{ padding: 0 }}>
-            <Row>
-              <Col span={20} push={0}>
-                <TextArea
-                  allowClear
-                  ref={ref => this.inputArea = ref}
-                  rows={4}
-                  onKeyPress={e => {
-                    if (e.ctrlKey && e.which === 13) {
-                      this.handleInput()
-                    }
-                  }} />
-              </Col>
-              <Col span={1} push={0}>
-                <Button type="primary" shape="round" size="default" onClick={() => this.handleInput()}>
-                  Send
-                </Button>
-              </Col>
-            </Row>
+          <Footer>
+            <ChatInput/>
           </Footer>
         </Layout>
-        <div style={{ float: "left", clear: "both" }} ref={(ref) => { this.bottom = ref }} />
+        <div style={{ float: 'left', clear: 'both' }} ref={(ref) => { this.bottom = ref }} />
       </div >
 
     );
