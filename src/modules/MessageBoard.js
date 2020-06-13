@@ -1,10 +1,10 @@
 import React from 'react'
 import 'antd/dist/antd.css'
 import './MessageBoard.css'
-import { Button, Input, List, Comment, Layout, Row, Col, notification } from 'antd'
+import { List, Comment, Layout, notification } from 'antd'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { isJsonString } from './util'
+import { isJsonString } from '../service/util'
 import ChatInput from './ChatInput'
 
 const cfg = require('../../package.json')
@@ -13,7 +13,6 @@ const _ = require('underscore')
 const Barn = require('barn')
 const maxLocalMessages = 100
 
-const { TextArea } = Input
 const { Footer, Content } = Layout
 
 export class MessageBoard extends React.Component {
@@ -31,8 +30,9 @@ export class MessageBoard extends React.Component {
     this.state = { client: client, topic: topic, sender: sender, messages: [] }
   }
 
-  pushMessage = message => {
-    if (message && message.content && message.content.trim()) {
+  pushMessage = content => {
+    if (content && content.trim()) {
+      const message = { sender: this.state.sender, moment: moment().format('YYYY-MM-DD HH:mm:ss'), content: content }
       this.state.client.publish(this.state.topic, JSON.stringify(message), { qos: 2 }, error => {
         if (error) {
           notification['error']({
@@ -44,7 +44,7 @@ export class MessageBoard extends React.Component {
     }
   }
 
-  removeStaleLocalMessages() {
+  removeStaleLocalMessages = () => {
     try {
       const barn = new Barn(cfg.name, localStorage)
       const key = `${this.state.topic}_${this.state.sender}_messages`
@@ -57,7 +57,7 @@ export class MessageBoard extends React.Component {
     }
   }
 
-  loadLocalMessages() {
+  loadLocalMessages = () => {
     try {
       const barn = new Barn(cfg.name, localStorage)
       const key = `${this.state.topic}_${this.state.sender}_messages`
@@ -78,15 +78,6 @@ export class MessageBoard extends React.Component {
       barn.rpush(key, msg)
     } catch (error) {
       console.warn('localStorage not supported: ', error)
-    }
-  }
-
-  handleInput() {
-    const inputValue = this.inputArea.state.value
-    if (inputValue) {
-      const msg = inputValue.trim()
-      this.pushMessage({ sender: this.state.sender, moment: moment().format('YYYY-MM-DD HH:mm:ss'), content: msg })
-      this.inputArea.setState({ value: '' })
     }
   }
 
@@ -161,7 +152,7 @@ export class MessageBoard extends React.Component {
             />
           </Content>
           <Footer>
-            <ChatInput/>
+            <ChatInput ref={ref => this.chatInput = ref} pushMessage={this.pushMessage} />
           </Footer>
         </Layout>
         <div style={{ float: 'left', clear: 'both' }} ref={(ref) => { this.bottom = ref }} />

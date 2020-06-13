@@ -5,7 +5,7 @@ import './ChatInput.css'
 
 export default class ChatInput extends Component {
   static propTypes = {
-    sendMessage: PropTypes.func
+    pushMessage: PropTypes.func
   }
 
   constructor(props) {
@@ -13,21 +13,25 @@ export default class ChatInput extends Component {
     this.state = { inputText: '' }
   }
 
-  send = () => {
-    this.setState({ inputText: '' })
+  handleInput = () => {
+    if (this.textarea && this.textarea.value) {
+      const inputValue = this.textarea.value
+      if (inputValue && inputValue.trim()) {
+        const content = inputValue.trim()
+        this.props.pushMessage(content)
+        this.setState({ inputText: '' })
+      }
+    }
   }
 
   onKeyPress = e => {
     if (e.ctrlKey && e.which === 13) {
-      this.send()
+      this.handleInput()
     }
   }
 
   onTextChange = e => {
-    const text = e.target.value
-    if (text.trim()) {
-      this.setState({ inputText: e.target.value })
-    }
+    this.setState({ inputText: e.target.value })
   }
 
   render() {
@@ -43,10 +47,10 @@ export default class ChatInput extends Component {
             placeholder='input ctrl-enter to send'
             onChange={this.onTextChange}
             onKeyPress={this.onKeyPress}
-            ref={(ref) => { this.textarea = ref }}
+            ref={ref => { this.textarea = ref }}
           />
         </div>
-        <div className='send-button-box' onClick={this.send}>
+        <div className='send-button-box' onClick={this.handleInput}>
           <img src={submitIcon} className='send-button' alt='send messge' />
         </div>
       </div>
