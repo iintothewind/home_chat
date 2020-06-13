@@ -44,7 +44,7 @@ export default class ChatInput extends Component {
             type='text'
             className='textarea'
             value={inputText}
-            placeholder='input ctrl-enter to send'
+            placeholder='press ctrl-enter to send'
             onChange={this.onTextChange}
             onKeyPress={this.onKeyPress}
             ref={ref => { this.textarea = ref }}
