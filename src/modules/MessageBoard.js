@@ -66,7 +66,6 @@ export class MessageBoard extends React.Component {
   loadLocalMessages = () => {
     if (this.state.barn) {
       const key = `${this.state.topic}/${this.state.sender}/messages`
-      const key = `${this.state.topic}/${this.state.sender}/messages`
       const size = this.state.barn.llen(key)
       if (_.isNumber(size) && size > 0) {
         const localMsgs = this.state.barn.lrange(key, (size - maxLocalMessages), (size - 1))
