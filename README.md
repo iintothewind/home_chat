@@ -54,7 +54,7 @@ nginx service needs to use the port number `8080` on your host.
 
 If this app has been successfully deployed on host `192.168.0.147`, on any device **within same local area network** that supports websocket you can open the app by using the url:
 
-`http://192.168.0.147:8080/home_chat/messageBoard?name=username&mqtt_url=mqtt%3A%2F%2F192.168.0.147%3A1884&topic=home`
+`http://192.168.0.147:8080/home_chat/messageBoard?name=username&mqtt_url=mqtt%3A%2F%2F192.168.0.147%3A1884&topic=home_chat%2Fgeneral`
 
 For the url above, there are three **optional** query parameters you can use:
 
@@ -66,11 +66,11 @@ Please keey user name unique for every connected device to make sure you can alw
 
 - mqtt_url=`mqtt%3A%2F%2F192.168.0.147%3A1884`
 The mqtt message broker url, url encoded.
-If `mqtt_url` is not given, then `mqtt://<host_name>:1884` will be used.
+If `mqtt_url` is not given, then `mqtt://<http_host_name>:1884` will be used.
 
-- topic=`home`
+- topic=`home_chat%2Fgeneral`
 The topic name for mqtt subscription.
-If topic name is not given, then `home` will be used.
+If topic name is not given, then `home_chat/general` will be used.
 
 Most of the time, on every connecting device, the url should be:
 
