@@ -23,8 +23,9 @@ Then any device that supports websoket can be used with this app to sync up mess
 - [X] Client side message persistence, the latest 100 received messages will be stored on browser local storage.
 - [X] Backend API support via [home_chat_backend](https://github.com/iintothewind/home_chat_backend)
 
-## more features in progress
+## more features in roadmap
 
+- [ ] https support
 - [ ] Access control support(Authentication & Authorization)
 - [ ] Private Chat support
 - [ ] Chat bot support
