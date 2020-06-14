@@ -11,7 +11,7 @@ const cfg = require('../../package.json')
 
 const _ = require('underscore')
 const Barn = require('barn')
-const maxLocalMessages = 100
+const maxLocalMessages = 50
 
 const { Footer, Content } = Layout
 
@@ -27,7 +27,16 @@ export class MessageBoard extends React.Component {
     const topic = params.get('topic') || `${cfg.name}/general`
     const url = params.get('mqtt_url') || `mqtt://${window.location.hostname}:1884`
     const client = require('mqtt').connect(decodeURIComponent(url), { clean: false, clientId: sender })
-    this.state = { client: client, topic: decodeURIComponent(topic), sender: sender, messages: [] }
+    const barn = this.initBarn()
+    this.state = { barn: barn, client: client, topic: decodeURIComponent(topic), sender: sender, messages: [] }
+  }
+
+  initBarn = () => {
+    try {
+      return new Barn(cfg.name, localStorage, { maxKeys: 100 })
+    } catch (error) {
+      console.warn('localStorage not supported: ', error)
+    }
   }
 
   pushMessage = content => {
@@ -45,39 +54,31 @@ export class MessageBoard extends React.Component {
   }
 
   removeStaleLocalMessages = () => {
-    try {
-      const barn = new Barn(cfg.name, localStorage)
+    if (this.state.barn) {
       const key = `${this.state.topic}/${this.state.sender}/messages`
-      const size = barn.llen(key)
+      const size = this.state.barn.llen(key)
       if (size > maxLocalMessages) {
-        _.range(size - maxLocalMessages).forEach(() => barn.lpop(key))
+        _.range(size - maxLocalMessages).forEach(() => this.state.barn.lpop(key))
       }
-    } catch (error) {
-      console.warn('localStorage not supported: ', error)
     }
   }
 
   loadLocalMessages = () => {
-    try {
-      const barn = new Barn(cfg.name, localStorage)
+    if (this.state.barn) {
       const key = `${this.state.topic}/${this.state.sender}/messages`
-      const size = barn.llen(key)
+      const key = `${this.state.topic}/${this.state.sender}/messages`
+      const size = this.state.barn.llen(key)
       if (_.isNumber(size) && size > 0) {
-        const localMsgs = barn.lrange(key, (size - maxLocalMessages), (size - 1))
+        const localMsgs = this.state.barn.lrange(key, (size - maxLocalMessages), (size - 1))
         this.setState({ messages: this.state.messages.concat(localMsgs) })
       }
-    } catch (error) {
-      console.warn('localStorage not supported: ', error)
     }
   }
 
   pushLocalMessage = msg => {
-    try {
-      const barn = new Barn(cfg.name, localStorage)
+    if (this.state.barn) {
       const key = `${this.state.topic}/${this.state.sender}/messages`
-      barn.rpush(key, msg)
-    } catch (error) {
-      console.warn('localStorage not supported: ', error)
+      this.state.barn.rpush(key, msg)
     }
   }
 
@@ -157,8 +158,7 @@ export class MessageBoard extends React.Component {
         </Layout>
         <div style={{ float: 'left', clear: 'both' }} ref={(ref) => { this.bottom = ref }} />
       </div >
-
-    );
+    )
   }
 
 }
