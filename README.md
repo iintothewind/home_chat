@@ -16,6 +16,22 @@ This is the problem I want to solve.
 By using home chat, you just need to open it by simply click the link from your favorite bookmark folder.
 Then any device that supports websoket can be used with this app to sync up messages with your family.
 
+## features
+
+- [X] Exactly once delivery for both message publish and receive.
+- [X] Server side message persistence, undelivered message will be stored on server side for one month for each offline client.
+- [X] Client side message persistence, the latest 100 received messages will be stored on browser local storage.
+- [X] Backend API support via [home_chat_backend](https://github.com/iintothewind/home_chat_backend)
+
+## more features in progress
+
+- [] Access control support(Authentication & Authorization)
+- [] Chat bot support
+- [] Image support
+- [] Emoji support
+- [] Audio support
+- [] Video support
+
 ## installation
 
 This app should be built by npm, and it runs on nginx and mosquitto.
