@@ -26,6 +26,7 @@ Then any device that supports websoket can be used with this app to sync up mess
 ## more features in progress
 
 - [ ] Access control support(Authentication & Authorization)
+- [ ] Private Chat support
 - [ ] Chat bot support
 - [ ] Image support
 - [ ] Emoji support
