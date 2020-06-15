@@ -38,7 +38,7 @@ export class MessageBoard extends React.Component {
     const barn = this.initBarn()
     const sender = params.get('name') || `user_${moment().format('X')}`
     const topic = params.get('topic') || `${cfg.name}/general`
-    const url = params.get('mqtt_url') || `mqtt://${window.location.hostname}:1884`
+    const url = params.get('mqtt_url') || `ws://${window.location.hostname}:1884`
     const clean = params.get('name') ? false : true
     const client = require('mqtt').connect(decodeURIComponent(url), { clean: clean, clientId: sender })
     return { barn: barn, client: client, topic: decodeURIComponent(topic), sender: sender, messages: [] }
