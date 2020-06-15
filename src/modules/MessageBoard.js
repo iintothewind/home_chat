@@ -23,12 +23,7 @@ export class MessageBoard extends React.Component {
   constructor(props) {
     super(props)
     const params = new URLSearchParams(this.props.location.search)
-    const sender = params.get('name') || `user_${moment().format('X')}`
-    const topic = params.get('topic') || `${cfg.name}/general`
-    const url = params.get('mqtt_url') || `mqtt://${window.location.hostname}:1884`
-    const client = require('mqtt').connect(decodeURIComponent(url), { clean: false, clientId: sender })
-    const barn = this.initBarn()
-    this.state = { barn: barn, client: client, topic: decodeURIComponent(topic), sender: sender, messages: [] }
+    this.state = this.initState(params)
   }
 
   initBarn = () => {
@@ -37,6 +32,16 @@ export class MessageBoard extends React.Component {
     } catch (error) {
       console.warn('localStorage not supported: ', error)
     }
+  }
+
+  initState = params => {
+    const barn = this.initBarn()
+    const sender = params.get('name') || `user_${moment().format('X')}`
+    const topic = params.get('topic') || `${cfg.name}/general`
+    const url = params.get('mqtt_url') || `mqtt://${window.location.hostname}:1884`
+    const clean = params.get('name') ? false : true
+    const client = require('mqtt').connect(decodeURIComponent(url), { clean: clean, clientId: sender })
+    return { barn: barn, client: client, topic: decodeURIComponent(topic), sender: sender, messages: [] }
   }
 
   pushMessage = content => {
