@@ -131,6 +131,7 @@ export class MessageBoard extends React.Component {
 
   componentWillUnmount() {
     this.state.client.end()
+    this.removeStaleLocalMessages()
   }
 
   componentDidUpdate() {
