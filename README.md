@@ -20,10 +20,10 @@ Then any device that supports websoket can be used with this app to sync up mess
 
 - [X] Exactly once delivery for both message publish and receive.
 - [X] Server side message persistence, undelivered message will be stored on server side for one month for each offline client.
-- [X] Client side message persistence, the latest 50 received messages will be stored on browser local storage.
+- [X] Client side message persistence, the latest 50 received messages will be stored in browser local storage.
 - [X] Backend API support via [home_chat_backend](https://github.com/iintothewind/home_chat_backend)
 
-## more features in roadmap
+## more features on roadmap
 
 - [ ] HTTPS support
 - [ ] Access control support(Authentication & Authorization)
@@ -44,6 +44,8 @@ It can be deployed in x86(pc) and armv7(respberrypi) docker containers.
 All compiled pages will be created in `./build` folder.
 
 - `docker network create home_chat`
+
+created network manually to work with [home_chat_backend](https://github.com/iintothewind/home_chat_backend)
 
 - `docker-compose up -d`
 
