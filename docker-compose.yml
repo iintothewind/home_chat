@@ -13,6 +13,8 @@ services:
     networks:
       - home_chat
   nginx:
+    depends_on:
+      - mosquitto
     image: "nginx:stable"
     ports:
       # host:container http port
