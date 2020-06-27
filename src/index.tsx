@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MessageBoard } from './modules/MessageBoard'
+import MessageList from './components/MessageList'
 import { BrowserRouter, Route } from 'react-router-dom'
+import { cfg } from './util/config'
 
-const cfg = require('../package.json')
 
 ReactDOM.render((
-  <BrowserRouter basename={cfg.name}>
-    <Route path="/messageBoard" component={MessageBoard}/>
+  <BrowserRouter basename={cfg.appKey}>
+    <Route path="/messageList" component={MessageList} />
   </BrowserRouter>
 ), document.getElementById('app'))
