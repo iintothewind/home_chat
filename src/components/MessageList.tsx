@@ -27,20 +27,24 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   private chatInput: React.RefObject<ChatInput>
   private bottom: React.RefObject<HTMLDivElement>
   private user: string
+  private topic: string
   private mqtt: MqttClient
   constructor(props: MessageListProps) {
     super(props)
     this.chatInput = React.createRef<ChatInput>()
     this.bottom = React.createRef<HTMLDivElement>()
-    this.user = this.initUser(this.props?.location?.search)
+    const params = this.initParams(this.props?.location?.search)
+    this.user = params.user
+    this.topic = params.topic
     this.mqtt = this.initMqttConnection(this.user)
     this.state = { messages: [] }
   }
 
-  initUser = (query: string | undefined) => {
+  initParams = (query: string | undefined) => {
     const params = new URLSearchParams(query)
     const user = params.get('user')?.trim() || `user_${moment().format('x')}`
-    return user
+    const topic = params.get('topic')?.trim() ? `${cfg.appKey}/${params.get('topic')?.trim()}` : cfg.mqttDefaultTopic
+    return { user: user, topic: topic }
   }
 
   initMqttConnection = (sender: string) => {
@@ -88,11 +92,11 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.loadMessages(this.user)
     this.mqtt
       .on('connect', () => {
-        this.mqtt.subscribe(cfg.mqttDefaultTopic, { qos: 2 }, error => {
+        this.mqtt.subscribe(this.topic, { qos: 2 }, error => {
           if (error) {
             notification['error']({
               message: 'MQTTClient',
-              description: `Topic ${cfg.mqttDefaultTopic} subscription failed: ${error.message}`
+              description: `Topic ${this.topic} subscription failed: ${error.message}`
             })
           }
         })
@@ -149,7 +153,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
             />
           </Content>
           <Footer>
-            <ChatInput ref={this.chatInput} sender={this.user} sendMessage={this.sendMessage} />
+            <ChatInput ref={this.chatInput} topic={this.topic} sender={this.user} sendMessage={this.sendMessage} />
           </Footer>
         </Layout>
         <div style={{ float: 'left', clear: 'both' }} ref={this.bottom} />

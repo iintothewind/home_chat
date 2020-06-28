@@ -7,6 +7,7 @@ import { submitIcon } from '../styles/icon'
 import './ChatInput.css'
 
 interface ChatInputProps {
+  readonly topic: string
   readonly sender: string
   readonly sendMessage: (message: Message) => void
 }
@@ -29,7 +30,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
       if (inputValue && inputValue.trim() && this.props.sendMessage) {
         const now = moment.now()
         const content = inputValue.trim()
-        this.props.sendMessage({ topic: cfg.mqttDefaultTopic, moment: now, sender: this.props.sender, content: content })
+        this.props.sendMessage({ topic: this.props.topic, moment: now, sender: this.props.sender, content: content })
         this.setState({ inputText: '' })
       }
     }
