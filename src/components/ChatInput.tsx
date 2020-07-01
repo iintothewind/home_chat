@@ -111,6 +111,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
         />
         <Drawer
           placement='top'
+          height={350}
           closable={true}
           onClose={this.onDrawerClose}
           visible={drawerVisible}
