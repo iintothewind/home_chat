@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
-import { notification } from 'antd'
+import { Button, Drawer, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
 import { cfg } from '../util/config';
-import { submitIcon } from '../styles/icon'
-import './ChatInput.css'
+import '../styles/ChatInput.css'
+import { SendOutlined, FileMarkdownOutlined } from '@ant-design/icons'
+// import { createFromIconfontCN } from '@ant-design/icons'
+
+// const Icon = createFromIconfontCN({
+//   scriptUrl: [
+//     '//at.alicdn.com/t/font_1916135_bbxcwszebon.js',
+//   ],
+// })
 
 interface ChatInputProps {
-  readonly topic: string
-  readonly sender: string
-  readonly sendMessage: (message: Message) => void
+  topic: string
+  sender: string
+  sendMessage: (message: Message) => void
 }
 
 interface ChatInputStates {
-  readonly inputText: string
+  inputText: string
+  drawerVisible: boolean
+  drawerPlacement: string
 }
 
 export default class ChatInput extends Component<ChatInputProps, ChatInputStates> {
@@ -21,7 +30,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   constructor(props: ChatInputProps) {
     super(props)
     this.textarea = React.createRef<HTMLTextAreaElement>()
-    this.state = { inputText: '' }
+    this.state = { drawerVisible: false, drawerPlacement: 'left', inputText: '' }
   }
 
   handleInput = () => {
@@ -58,11 +67,18 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   render() {
     const { inputText } = this.state
     return (
-      <div className="chat-input-wrapper">
-        <div className="textarea-box" style={{ height: !inputText ? 32 : 'auto' }}>
-          <p className="placeholder">{inputText}</p>
+      <div className='chat-input-wrapper'>
+        <Button
+          type='primary'
+          shape='circle'
+          size='large'
+          icon={<FileMarkdownOutlined />}
+          className='text-render'
+        />
+        <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
+          <p className='placeholder'>{inputText}</p>
           <textarea
-            className="textarea"
+            className='textarea'
             value={inputText}
             maxLength={cfg.maxInputLength}
             placeholder='press ctrl-enter to send'
@@ -71,9 +87,14 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
             ref={this.textarea}
           />
         </div>
-        <div className="send-button-box" onClick={this.handleInput}>
-          <img src={submitIcon} className="send-button" alt='send messge' />
-        </div>
+        <Button
+          type='primary'
+          shape='circle'
+          size='large'
+          icon={<SendOutlined />}
+          className='send-button'
+          onClick={this.handleInput}
+        />
       </div>
     )
   }
