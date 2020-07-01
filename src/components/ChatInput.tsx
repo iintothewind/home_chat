@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Message } from '../util/db';
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
-import { SendOutlined, FileMarkdownOutlined } from '@ant-design/icons'
+import { SendOutlined } from '@ant-design/icons'
 import MarkDownTable from './markdown';
 
 // const Icon = createFromIconfontCN({
@@ -78,17 +78,19 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   render() {
-    const { inputText, drawerVisible } = this.state
+    const { inputText, drawerVisible, markDownEnabled } = this.state
     return (
       <div className='chat-input-wrapper'>
         <Button
           type='primary'
           shape='circle'
           size='large'
-          icon={<FileMarkdownOutlined />}
+          // icon={markDownEnabled ? <FileMarkdownOutlined /> : <FileTextOutlined />}
           className='text-render'
           onClick={this.showDrawer}
-        />
+        >
+          {markDownEnabled ? 'M' : 'T'}
+        </Button>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText}</p>
           <textarea
