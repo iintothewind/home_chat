@@ -23,6 +23,15 @@ body {
   font-size: 12px;
 }
 
+.ant-btn-circle {
+    top: 10px;
+    min-width: 28px;
+    padding-right: 0;
+    padding-left: 0;
+    text-align: center;
+    border-radius: 50%;
+}
+
 .ant-list {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;

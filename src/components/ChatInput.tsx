@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { Button, Drawer, notification } from 'antd'
+import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { SendOutlined, FileMarkdownOutlined } from '@ant-design/icons'
-// import { createFromIconfontCN } from '@ant-design/icons'
+import MarkDownTable from './markdown';
 
 // const Icon = createFromIconfontCN({
 //   scriptUrl: [
 //     '//at.alicdn.com/t/font_1916135_bbxcwszebon.js',
 //   ],
 // })
+const { TabPane } = Tabs
 
 interface ChatInputProps {
   topic: string
@@ -22,7 +23,7 @@ interface ChatInputProps {
 interface ChatInputStates {
   inputText: string
   drawerVisible: boolean
-  drawerPlacement: string
+  markDownEnabled: boolean
 }
 
 export default class ChatInput extends Component<ChatInputProps, ChatInputStates> {
@@ -30,7 +31,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   constructor(props: ChatInputProps) {
     super(props)
     this.textarea = React.createRef<HTMLTextAreaElement>()
-    this.state = { drawerVisible: false, drawerPlacement: 'left', inputText: '' }
+    this.state = { inputText: '', drawerVisible: false, markDownEnabled: false }
   }
 
   handleInput = () => {
@@ -43,6 +44,14 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
         this.setState({ inputText: '' })
       }
     }
+  }
+
+  showDrawer = () => {
+    this.setState({ drawerVisible: true });
+  }
+
+  onDrawerClose = () => {
+    this.setState({ drawerVisible: false });
   }
 
   onKeyPress: React.KeyboardEventHandler<HTMLTextAreaElement> = e => {
@@ -61,11 +70,15 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   onTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = e => {
-    this.setState({ inputText: e.target.value })
+    this.setState({ inputText: e.target.value, drawerVisible: false })
+  }
+
+  updateText = (text: string, markDownEnabled: boolean) => {
+    this.setState({ inputText: text, markDownEnabled: markDownEnabled })
   }
 
   render() {
-    const { inputText } = this.state
+    const { inputText, drawerVisible } = this.state
     return (
       <div className='chat-input-wrapper'>
         <Button
@@ -74,6 +87,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           size='large'
           icon={<FileMarkdownOutlined />}
           className='text-render'
+          onClick={this.showDrawer}
         />
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText}</p>
@@ -95,6 +109,33 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           className='send-button'
           onClick={this.handleInput}
         />
+        <Drawer
+          placement='top'
+          closable={true}
+          onClose={this.onDrawerClose}
+          visible={drawerVisible}
+          key='bottom'
+        >
+          <Tabs defaultActiveKey='1' >
+            <TabPane tab='markdown' key='1'>
+              <MarkDownTable updateText={this.updateText} />
+            </TabPane>
+            <TabPane tab='emoji' key='2'>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+            </TabPane>
+          </Tabs>
+        </Drawer>
       </div>
     )
   }
