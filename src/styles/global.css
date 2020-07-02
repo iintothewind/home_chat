@@ -24,12 +24,12 @@ body {
 }
 
 .ant-btn-circle {
-    top: 10px;
-    min-width: 28px;
-    padding-right: 0;
-    padding-left: 0;
-    text-align: center;
-    border-radius: 50%;
+  top: 10px;
+  min-width: 28px;
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+  border-radius: 50%;
 }
 
 .ant-list {
@@ -76,6 +76,18 @@ body {
 .ant-comment-content {
   font-size: 14px;
   word-break: break-all;
+}
+
+.ant-comment-content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.ant-comment-content pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow: auto;
+  tab-size: 2;
 }
 
 .ant-comment-actions {

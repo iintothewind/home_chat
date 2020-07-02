@@ -7,6 +7,7 @@ export interface Message {
   topic: string
   moment: number
   sender: string
+  category?: string
   content: string
 }
 
@@ -15,7 +16,7 @@ class AppDatabase extends Dexie {
   constructor() {
     super(cfg.appKey)
     this.version(cfg.dbVersion).stores({
-      message: '++id, topic, owner, moment, sender'
+      message: '++id, topic, owner, moment, sender, category'
     })
     this.message = this.table('message')
   }

@@ -40,8 +40,9 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
       const inputValue = this.textarea.current.value
       if (inputValue && inputValue.trim() && this.props.sendMessage) {
         const now = moment.now()
+        const category = this.state.markDownEnabled ? 'markdown' : 'plain'
         const content = inputValue.trim()
-        this.props.sendMessage({ topic: this.props.topic, moment: now, sender: this.props.sender, content: content })
+        this.props.sendMessage({ topic: this.props.topic, moment: now, sender: this.props.sender, category: category, content: content })
         this.setState({ inputText: '' })
       }
     }

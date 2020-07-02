@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactCommonmark from 'react-commonmark'
 import { List, Comment, Layout, notification } from 'antd'
 import moment from 'moment'
 import ChatInput from './ChatInput'
@@ -67,7 +68,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   loadMessages = (owner: string) => {
     db.transaction('r', db.message, async () => {
-      const messages = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
+      const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       this.setState({ messages: messages })
     }).catch(error => {
       notification['error']({
@@ -108,7 +109,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
           if (isJsonString(payload)) {
             const msg: Message = JSON.parse(payload) as Message
             if (msg.sender && msg.moment && msg.content) {
-              const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, content: msg.content }
+              const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
               this.setState({ messages: this.state.messages.concat(message) })
               this.logMessage(message)
             }
@@ -149,7 +150,10 @@ export default class MessageList extends React.Component<MessageListProps, Messa
                   <Comment
                     author={message.sender}
                     datetime={moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}
-                    content={<div style={{ whiteSpace: 'pre-wrap' }}>{message.content}</div>} />
+                    content={'markdown' === message.category ?
+                      <ReactCommonmark source={message.content} />
+                      :
+                      <div style={{ whiteSpace: 'pre-wrap' }}>{message.content}</div>} />
                 </List.Item>
               )}
             />
