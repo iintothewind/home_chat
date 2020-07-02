@@ -10,18 +10,11 @@ interface MarkDownSyntax {
 
 
 interface Props {
-  updateText: (operation: string, markDownEnabled: boolean) => void
+  updateText: (operation: string) => void
 }
 
 export default function MarkDownTable(props: Props) {
-  const onButtonClick = (record: MarkDownSyntax) => {
-    if (record.key > 0) {
-      props.updateText(record.operation, true)
-    } else {
-      props.updateText(record.operation, false)
-    }
-  }
-
+  const onButtonClick = (record: MarkDownSyntax) => props.updateText(record.operation)
   const markdownColumns = [
     {
       title: 'syntax',
@@ -38,7 +31,7 @@ export default function MarkDownTable(props: Props) {
       dataIndex: 'action',
       key: 'action',
       render: (_text: string, record: MarkDownSyntax) => (
-        <Tooltip title='copy'>
+        <Tooltip title='apply'>
           <Button shape='circle' icon={<CopyOutlined />} onClick={() => onButtonClick(record)} />
         </Tooltip>
       )

@@ -5,8 +5,8 @@ import { Message } from '../util/db';
 import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
-import { SendOutlined } from '@ant-design/icons'
-import MarkDownTable from './markdown';
+import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
+import MarkDownTable from './markdown'
 
 // const Icon = createFromIconfontCN({
 //   scriptUrl: [
@@ -89,9 +89,9 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     }
   }
 
-  updateText = (operation: string, markDownEnabled: boolean) => {
+  updateText = (operation: string) => {
     if ('plain text' === operation) {
-      this.setState({ markDownEnabled: markDownEnabled, drawerVisible: false })
+      this.setState({ markDownEnabled: false, drawerVisible: false })
     } else if ('insert image' === operation) {
       this.operate(makeImage)
     } else if ('insert link' === operation) {
@@ -113,11 +113,10 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           type='primary'
           shape='circle'
           size='large'
-          // icon={markDownEnabled ? <FileMarkdownOutlined /> : <FileTextOutlined />}
+          icon={markDownEnabled ? <FileMarkdownOutlined /> : <FileTextOutlined />}
           className='text-render'
           onClick={this.showDrawer}
         >
-          {markDownEnabled ? 'M' : 'T'}
         </Button>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText}</p>
@@ -151,7 +150,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
             <TabPane tab='markdown' key='1'>
               <MarkDownTable updateText={this.updateText} />
             </TabPane>
-            <TabPane tab='emoji' key='2'>
+            <TabPane tab='sticker' key='2'>
               <p>Some contents...</p>
               <p>Some contents...</p>
               <p>Some contents...</p>
