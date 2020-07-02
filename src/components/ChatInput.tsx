@@ -7,6 +7,7 @@ import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
 import MarkDownTable from './markdown'
+import StickerCard from './sticker';
 
 // const Icon = createFromIconfontCN({
 //   scriptUrl: [
@@ -151,18 +152,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
               <MarkDownTable updateText={this.updateText} />
             </TabPane>
             <TabPane tab='sticker' key='2'>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
+              <StickerCard />
             </TabPane>
           </Tabs>
         </Drawer>
