@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { SendOutlined } from '@ant-design/icons'
@@ -73,8 +74,34 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     this.setState({ inputText: e.target.value, drawerVisible: false })
   }
 
-  updateText = (text: string, markDownEnabled: boolean) => {
-    this.setState({ inputText: text, markDownEnabled: markDownEnabled })
+  operate = (ops: (text: string) => string) => {
+    const plainText = this.state.inputText
+    const markdownText = ops(plainText)
+    if (plainText === markdownText) {
+      this.setState({ markDownEnabled: false, drawerVisible: false })
+      notification['warning']({
+        message: 'Markdonw Text',
+        description: `Input text is invalid for the selected operation`
+      })
+    } else {
+      this.setState({ inputText: markdownText, markDownEnabled: true, drawerVisible: false })
+    }
+  }
+
+  updateText = (operation: string, markDownEnabled: boolean) => {
+    if ('plain text' === operation) {
+      this.setState({ markDownEnabled: markDownEnabled, drawerVisible: false })
+    } else if ('insert image' === operation) {
+      this.operate(makeImage)
+    } else if ('insert link' === operation) {
+      this.operate(makeLink)
+    } else if ('insert code' === operation) {
+      this.operate(makeCode)
+    } else if ('bold text' === operation) {
+      this.operate(makeBold)
+    } else if ('escape characters' === operation) {
+      this.operate(escapeMarkDown)
+    }
   }
 
   render() {

@@ -3,7 +3,7 @@ import { List, Comment, Layout, notification } from 'antd'
 import moment from 'moment'
 import ChatInput from './ChatInput'
 import db, { Message } from '../util/db'
-import { isJsonString } from '../util/util';
+import { isJsonString } from '../util';
 import { connect, MqttClient } from 'mqtt'
 import { cfg } from '../util/config';
 import '../styles/global.css'
