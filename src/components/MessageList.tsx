@@ -1,11 +1,12 @@
 import React from 'react'
+import ReactCommonmark from 'react-commonmark'
 import { List, Comment, Layout, notification } from 'antd'
 import moment from 'moment'
 import ChatInput from './ChatInput'
 import db, { Message } from '../util/db'
-import { isJsonString } from '../util/util';
+import { isJsonString, imageMarkdownRegex } from '../util'
 import { connect, MqttClient } from 'mqtt'
-import { cfg } from '../util/config';
+import { cfg } from '../util/config'
 import '../styles/global.css'
 
 const { Footer, Content } = Layout
@@ -51,7 +52,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const mqttUrl = 'https:' === window.location.protocol ? cfg.mqttsUrl : cfg.mqttUrl
     const clean = sender.startsWith('user_') ? true : false
     const client = connect(mqttUrl, { clientId: this.user, clean: clean })
-    return client;
+    return client
   }
 
   sendMessage = (message: Message) => {
@@ -65,9 +66,43 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     })
   }
 
+  cleanExpiredMessages = (owner: string) => {
+    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localMessageExpiration, 'days').format('x'))
+    db.transaction('rw', db.message, async () => {
+      await db.message
+        .where('owner').equalsIgnoreCase(owner)
+        .and(message => message.moment < localMessageExpirationDate)
+        .delete()
+    }).catch(error => {
+      notification['error']({
+        message: 'IndexedDB',
+        description: 'failed to clean message: '.concat(error.message)
+      })
+    })
+  }
+
+  cleanExpiredImages = (owner: string) => {
+    const imageExpirationDate: number = Number(moment().subtract(cfg.imageExpiration, 'days').format('x'))
+    db.transaction('rw', db.message, async () => {
+      await db.message
+        .where('owner').equalsIgnoreCase(owner)
+        .and(msg =>
+          msg.category === 'markdown'
+          && msg.moment < imageExpirationDate
+          && imageMarkdownRegex.test(msg.content))
+        .modify((msg: Message) => msg.category = 'plain')
+    }).catch(error => {
+      notification['error']({
+        message: 'IndexedDB',
+        description: 'failed to clean image: '.concat(error.message)
+      })
+    })
+  }
+
+
   loadMessages = (owner: string) => {
     db.transaction('r', db.message, async () => {
-      const messages = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
+      const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       this.setState({ messages: messages })
     }).catch(error => {
       notification['error']({
@@ -89,6 +124,8 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   componentDidMount(): void {
+    this.cleanExpiredImages(this.user)
+    this.cleanExpiredMessages(this.user)
     this.loadMessages(this.user)
     this.mqtt
       .on('connect', () => {
@@ -108,7 +145,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
           if (isJsonString(payload)) {
             const msg: Message = JSON.parse(payload) as Message
             if (msg.sender && msg.moment && msg.content) {
-              const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, content: msg.content }
+              const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
               this.setState({ messages: this.state.messages.concat(message) })
               this.logMessage(message)
             }
@@ -124,16 +161,18 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         notification['error']({
           message: 'MQTTClient',
           description: 'MQTTClient error: '.concat(error.message)
-        });
+        })
       })
   }
 
   componentWillUnmount(): void {
     this.mqtt.end()
+    this.cleanExpiredImages(this.user)
+    this.cleanExpiredMessages(this.user)
   }
 
   componentDidUpdate(): void {
-    this.bottom.current?.scrollIntoView({ behavior: 'smooth' });
+    this.bottom.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   render() {
@@ -149,7 +188,10 @@ export default class MessageList extends React.Component<MessageListProps, Messa
                   <Comment
                     author={message.sender}
                     datetime={moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}
-                    content={<div style={{ whiteSpace: 'pre-wrap' }}>{message.content}</div>} />
+                    content={'markdown' === message.category ?
+                      <ReactCommonmark source={message.content} />
+                      :
+                      <div style={{ whiteSpace: 'pre-wrap' }}>{message.content}</div>} />
                 </List.Item>
               )}
             />
