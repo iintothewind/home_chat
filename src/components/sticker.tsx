@@ -118,7 +118,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     }
   }
 
-  loadSticker = (owner: string) => {
+  loadStickers = (owner: string) => {
     db.transaction('r', db.sticker, async () => {
       const stickers: Sticker[] = await db.sticker.where('owner').equalsIgnoreCase(owner).sortBy('id')
       this.setState({ stickers: stickers })
@@ -131,7 +131,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   loadDefaultStickers = () => {
-    if (this.state.stickers === []) {
+    if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
       aluFaceUrs.forEach(url => {
         this.setState({ stickers: this.state.stickers.concat({ url: url }) })
         this.saveSticker(this.props.sender, url)
@@ -151,7 +151,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   componentDidMount(): void {
-    this.loadSticker(this.props.sender)
+    this.loadStickers(this.props.sender)
     this.loadDefaultStickers()
   }
 
