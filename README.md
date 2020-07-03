@@ -1,7 +1,10 @@
 # home chat
 
 Home chat is a web IM tool to transfer messages between home devices.
-![home_chat_demo](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_003.png)
+![home_chat_demo_006](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_006.png)
+![home_chat_demo_004](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_004.png)
+![home_chat_demo_005](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_005.png)
+![home_chat_demo_007](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_007.png)
 
 ## why I developed it
 
@@ -25,12 +28,11 @@ Then any device that supports websoket can be used with this app to sync up mess
 
 ## more features on roadmap
 
-- [ ] HTTPS support
+- [X] HTTPS support
 - [ ] Access control support(Authentication & Authorization)
 - [ ] Private Chat support
 - [ ] Chat bot support
-- [ ] Image support
-- [ ] Emoji support
+- [X] markdown support
 - [ ] Audio support
 - [ ] Video support
 
