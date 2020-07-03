@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown } from '../util'
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
@@ -90,7 +90,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     }
   }
 
-  updateText = (operation: string) => {
+  updateMarkdown = (operation: string) => {
     if ('plain text' === operation) {
       this.setState({ markDownEnabled: false, drawerVisible: false })
     } else if ('insert image' === operation) {
@@ -103,6 +103,12 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
       this.operate(makeBold)
     } else if ('escape characters' === operation) {
       this.operate(escapeMarkDown)
+    }
+  }
+
+  updateSticker = (imageMarkdown: string) => {
+    if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
+      this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markDownEnabled: true, drawerVisible: false })
     }
   }
 
@@ -149,10 +155,10 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
         >
           <Tabs defaultActiveKey='1' >
             <TabPane tab='markdown' key='1'>
-              <MarkDownTable updateText={this.updateText} />
+              <MarkDownTable updateMarkdown={this.updateMarkdown} />
             </TabPane>
             <TabPane tab='sticker' key='2'>
-              <StickerCard />
+              <StickerCard updateSticker={this.updateSticker} />
             </TabPane>
           </Tabs>
         </Drawer>

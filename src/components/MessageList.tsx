@@ -69,7 +69,10 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   cleanExpiredMessages = (owner: string) => {
     const localMessageExpirationDate: number = Number(moment().subtract(cfg.localMessageExpiration, 'days').format('x'))
     db.transaction('rw', db.message, async () => {
-      await db.message.where('owner').equalsIgnoreCase(owner).and(message => message.moment < localMessageExpirationDate).delete()
+      await db.message
+        .where('owner').equalsIgnoreCase(owner)
+        .and(message => message.moment < localMessageExpirationDate)
+        .delete()
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -82,8 +85,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const imageExpirationDate: number = Number(moment().subtract(cfg.imageExpiration, 'days').format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
-        .where('owner')
-        .equalsIgnoreCase(owner)
+        .where('owner').equalsIgnoreCase(owner)
         .and(msg =>
           msg.category === 'markdown'
           && msg.moment < imageExpirationDate

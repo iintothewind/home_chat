@@ -10,11 +10,11 @@ interface MarkDownSyntax {
 
 
 interface Props {
-  updateText: (operation: string) => void
+  updateMarkdown: (operation: string) => void
 }
 
 export default function MarkDownTable(props: Props) {
-  const onButtonClick = (record: MarkDownSyntax) => props.updateText(record.operation)
+  const onButtonClick = (record: MarkDownSyntax) => props.updateMarkdown(record.operation)
   const markdownColumns = [
     {
       title: 'syntax',
