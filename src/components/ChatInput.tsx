@@ -158,7 +158,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
               <MarkDownTable updateMarkdown={this.updateMarkdown} />
             </TabPane>
             <TabPane tab='sticker' key='2'>
-              <StickerCard updateSticker={this.updateSticker} />
+              <StickerCard sender={this.props.sender} updateSticker={this.updateSticker} />
             </TabPane>
           </Tabs>
         </Drawer>
