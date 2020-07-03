@@ -5,4 +5,6 @@ export const cfg = {
   mqttsUrl: 'wss://mqtt.eclipse.org:443/mqtt',
   mqttDefaultTopic: 'home_chat/general',
   maxInputLength: 5120,
+  imageExpiration: 1,
+  localMessageExpiration: 7
 }

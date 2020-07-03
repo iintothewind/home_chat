@@ -3,6 +3,8 @@ const urlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*/
 // eslint-disable-next-line
 const imageUrlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*(.jpg|.png|.gif|.webp)/
 
+const imageMarkdownRegex: RegExp = /\[.*\]\(.+(.jpg|.png|.gif|.webp)\)/
+
 const isJsonString = (json: string) => {
   try {
     if (typeof JSON.parse(json) == "object") {
@@ -59,4 +61,4 @@ const makeBold = (text: string) => {
   return escapeMarkDown(text) ? `**${text}**` : text
 }
 
-export { urlRegex, imageUrlRegex, isJsonString, escapeMarkDown, makePlainText, makeImage, makeLink, makeCode, makeBold }
+export { urlRegex, imageUrlRegex, imageMarkdownRegex, isJsonString, escapeMarkDown, makePlainText, makeImage, makeLink, makeCode, makeBold }
