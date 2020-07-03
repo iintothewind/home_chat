@@ -33,6 +33,24 @@ interface CardState {
   inputUrl?: string
 }
 
+const aluFaceUrs = [
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/22.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/23.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/24.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/25.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/26.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/27.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/31.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/34.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/36.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/66.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/82.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/56.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/57.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/58.png',
+  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/78.png',
+]
+
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
   private urlInput: React.RefObject<Input>
@@ -112,6 +130,15 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     })
   }
 
+  loadDefaultStickers = () => {
+    if (this.state.stickers === []) {
+      aluFaceUrs.forEach(url => {
+        this.setState({ stickers: this.state.stickers.concat({ url: url }) })
+        this.saveSticker(this.props.sender, url)
+      })
+    }
+  }
+
   saveSticker = (owner: string, url: string) => {
     db.transaction('rw', db.sticker, async () => {
       await db.sticker.add({ owner: owner, name: moment().format('x'), url: url })
@@ -125,13 +152,14 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   componentDidMount(): void {
     this.loadSticker(this.props.sender)
+    this.loadDefaultStickers()
   }
 
   render() {
     return <div className='sticker-card'>
       <div>
-        <Switch checkedChildren="del" onClick={this.switchRemove} />
-        <Input placeholder="image url" allowClear disabled={this.state.allowRemove} ref={this.urlInput} />
+        <Switch checkedChildren='del' onClick={this.switchRemove} />
+        <Input placeholder='input image url to add sticker' allowClear disabled={this.state.allowRemove} ref={this.urlInput} />
         <Tooltip title='add sticker'>
           <Button shape='circle' icon={<PlusOutlined />} disabled={this.state.allowRemove} onClick={this.addSticker} />
         </Tooltip>
