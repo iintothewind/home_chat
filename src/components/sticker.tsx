@@ -5,24 +5,6 @@ import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
 import db, { Sticker } from '../util/db'
 import moment from 'moment'
-import alu001 from '../resources/alu001.png'
-import alu002 from '../resources/alu002.png'
-import alu003 from '../resources/alu003.png'
-import alu004 from '../resources/alu004.png'
-import alu005 from '../resources/alu005.png'
-import alu006 from '../resources/alu006.png'
-import alu007 from '../resources/alu007.png'
-import alu008 from '../resources/alu008.png'
-import alu009 from '../resources/alu009.png'
-import alu010 from '../resources/alu010.png'
-import alu011 from '../resources/alu011.png'
-import alu012 from '../resources/alu012.png'
-import alu013 from '../resources/alu013.png'
-import alu014 from '../resources/alu014.png'
-import alu015 from '../resources/alu015.png'
-import alu016 from '../resources/alu016.png'
-import alu017 from '../resources/alu017.png'
-import alu018 from '../resources/alu018.png'
 
 interface StickerProps {
   name?: string
@@ -51,8 +33,27 @@ interface CardState {
   inputUrl?: string
 }
 
-const aluFacePaths = [alu001, alu002, alu003, alu004, alu005, alu006, alu007, alu008, alu009,
-  alu010, alu011, alu012, alu013, alu014, alu015, alu016, alu017, alu018]
+const aluFaceUrls = [
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu001.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu002.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu003.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu004.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu005.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu006.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu007.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu008.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu009.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu010.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu011.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu012.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu013.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu014.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu015.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu016.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu017.png',
+  'https://raw.githubusercontent.com/iintothewind/images/master/alu/alu018.png',
+]
+
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
   private urlInput: React.RefObject<Input>
@@ -135,8 +136,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   loadDefaultStickers = () => {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
-      aluFacePaths.forEach(path => {
-        const url = `${window.location.origin}${path}`
+      aluFaceUrls.forEach(url => {
         this.setState({ stickers: this.state.stickers.concat({ url: url }) })
         this.saveSticker(this.props.sender, url)
       })
