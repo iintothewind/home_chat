@@ -5,6 +5,24 @@ import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
 import db, { Sticker } from '../util/db'
 import moment from 'moment'
+import alu001 from '../resources/alu001.png'
+import alu002 from '../resources/alu002.png'
+import alu003 from '../resources/alu003.png'
+import alu004 from '../resources/alu004.png'
+import alu005 from '../resources/alu005.png'
+import alu006 from '../resources/alu006.png'
+import alu007 from '../resources/alu007.png'
+import alu008 from '../resources/alu008.png'
+import alu009 from '../resources/alu009.png'
+import alu010 from '../resources/alu010.png'
+import alu011 from '../resources/alu011.png'
+import alu012 from '../resources/alu012.png'
+import alu013 from '../resources/alu013.png'
+import alu014 from '../resources/alu014.png'
+import alu015 from '../resources/alu015.png'
+import alu016 from '../resources/alu016.png'
+import alu017 from '../resources/alu017.png'
+import alu018 from '../resources/alu018.png'
 
 interface StickerProps {
   name?: string
@@ -33,24 +51,8 @@ interface CardState {
   inputUrl?: string
 }
 
-const aluFaceUrs = [
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/22.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/23.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/24.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/25.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/26.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/27.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/31.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/34.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/36.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/66.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/82.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/56.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/57.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/58.png',
-  'https://raw.githubusercontent.com/isecret/alu-face/master/src/img/78.png',
-]
-
+const aluFacePaths = [alu001, alu002, alu003, alu004, alu005, alu006, alu007, alu008, alu009,
+  alu010, alu011, alu012, alu013, alu014, alu015, alu016, alu017, alu018]
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
   private urlInput: React.RefObject<Input>
@@ -119,9 +121,10 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   loadStickers = (owner: string) => {
-    db.transaction('r', db.sticker, async () => {
+    db.transaction('rw', db.sticker, async () => {
       const stickers: Sticker[] = await db.sticker.where('owner').equalsIgnoreCase(owner).sortBy('id')
       this.setState({ stickers: stickers })
+      this.loadDefaultStickers()
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -132,7 +135,8 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   loadDefaultStickers = () => {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
-      aluFaceUrs.forEach(url => {
+      aluFacePaths.forEach(path => {
+        const url = `${window.location.origin}${path}`
         this.setState({ stickers: this.state.stickers.concat({ url: url }) })
         this.saveSticker(this.props.sender, url)
       })
@@ -152,7 +156,6 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   componentDidMount(): void {
     this.loadStickers(this.props.sender)
-    this.loadDefaultStickers()
   }
 
   render() {
