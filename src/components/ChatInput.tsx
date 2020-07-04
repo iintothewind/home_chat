@@ -119,6 +119,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
         message: 'Input TextArea',
         description: 'Only one markdown image is supported per each message'
       })
+      this.setState({ markDownEnabled: true, drawerVisible: false })
     } else if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
       this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markDownEnabled: true, drawerVisible: false })
     }
