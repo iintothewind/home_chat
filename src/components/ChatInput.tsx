@@ -39,7 +39,13 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   handleInput = () => {
     if (this.textarea.current?.value) {
       const inputValue = this.textarea.current.value
-      if (inputValue && inputValue.trim() && this.props.sendMessage) {
+      const markdownImages = inputValue.match(imageMarkdownGlobalRegex)
+      if (this.state.markDownEnabled && Array.isArray(markdownImages) && markdownImages.length > 1) {
+        notification['warning']({
+          message: 'Input TextArea',
+          description: 'Only one markdown image is supported per each message'
+        })
+      } else if (inputValue && inputValue.trim() && this.props.sendMessage) {
         const now = moment.now()
         const category = this.state.markDownEnabled ? 'markdown' : 'plain'
         const content = inputValue.trim()
@@ -66,14 +72,6 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           message: 'Input TextArea',
           description: `Input text exceeded max length : ${cfg.maxInputLength}`
         })
-      } else if (this.state.markDownEnabled) {
-        const markdownImages = inputText.match(imageMarkdownGlobalRegex)
-        if (Array.isArray(markdownImages) && markdownImages.length > 1) {
-          notification['warning']({
-            message: 'Input TextArea',
-            description: 'Only one markdown image is supported per each message'
-          })
-        }
       } else {
         this.handleInput()
       }

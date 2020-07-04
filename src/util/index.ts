@@ -1,7 +1,7 @@
 // eslint-disable-next-line
-const urlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*/
+const urlRegex: RegExp = /^(http|https):\/\/[^\s]*$/
 // eslint-disable-next-line
-const imageUrlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.webp)/
+const imageUrlRegex: RegExp = /^(http|https):\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.webp)$/
 
 const imageMarkdownRegex: RegExp = /\[.*\]\(.+(.jpg|.jpeg|.png|.gif|.webp)\)/
 
