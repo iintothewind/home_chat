@@ -31,7 +31,7 @@ const replacements: { name: string, regex: RegExp, replace: string }[] = [
   { name: 'underscores', regex: /_/g, replace: '\\_' },
 ]
 
-const escapeMarkDown = (text: string, skips?: string[]) => {
+const escapeMarkdown = (text: string, skips?: string[]) => {
   const _skips = skips || []
   return replacements.reduce(function (text, replacement) {
     const name = replacement.name
@@ -60,10 +60,10 @@ const makeCode = (text: string) => {
 
 
 const makeBold = (text: string) => {
-  return escapeMarkDown(text) ? `**${text}**` : text
+  return escapeMarkdown(text) ? `**${escapeMarkdown(text)}**` : text
 }
 
 export {
   urlRegex, imageUrlRegex, imageMarkdownRegex, imageMarkdownGlobalRegex,
-  isJsonString, escapeMarkDown, makePlainText, makeImage, makeLink, makeCode, makeBold
+  isJsonString, escapeMarkdown, makePlainText, makeImage, makeLink, makeCode, makeBold
 }

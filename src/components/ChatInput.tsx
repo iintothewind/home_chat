@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex, imageMarkdownGlobalRegex } from '../util'
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex, imageMarkdownGlobalRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
@@ -108,7 +108,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     } else if ('bold text' === operation) {
       this.operate(makeBold)
     } else if ('escape characters' === operation) {
-      this.operate(escapeMarkDown)
+      this.operate(escapeMarkdown)
     }
   }
 
