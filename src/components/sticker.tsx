@@ -73,12 +73,12 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   parseInput = (input: string) => {
     if (input) {
-      if (input.indexOf(' : ')) {
+      if (input.indexOf(' : ') > 0) {
         const [fst, snd] = input.split(' : ')
         if (fst.length > cfg.stickerNameMaxLength) {
           notification['warning']({
             message: 'addSticker',
-            description: `lenght of name exceeded limit: ${cfg.stickerNameMaxLength}`
+            description: `length of name exceeded limit: ${cfg.stickerNameMaxLength}`
           })
         } else if (!imageUrlRegex.test(snd)) {
           notification['warning']({
