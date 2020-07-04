@@ -4,7 +4,7 @@ import { List, Comment, Layout, notification } from 'antd'
 import moment from 'moment'
 import ChatInput from './ChatInput'
 import db, { Message } from '../util/db'
-import { isJsonString, imageMarkdownRegex } from '../util'
+import { isJsonString, imageMarkdownRegex, disableZoom } from '../util'
 import { connect, MqttClient } from 'mqtt'
 import { cfg } from '../util/config'
 import '../styles/global.css'
@@ -124,6 +124,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   componentDidMount(): void {
+    disableZoom()
     this.cleanExpiredImages(this.user)
     this.cleanExpiredMessages(this.user)
     this.loadMessages(this.user)
