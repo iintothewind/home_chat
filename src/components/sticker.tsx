@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, Card, Input, Button, Switch, notification } from 'antd'
+import { Tooltip, Card, Button, Switch, notification } from 'antd'
 import { cfg } from '../util/config';
 import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
@@ -56,10 +56,10 @@ const aluFaceUrls = [
 
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
-  private urlInput: React.RefObject<Input>
+  private urlInput: React.RefObject<HTMLInputElement>
   constructor(props: CardProps) {
     super(props)
-    this.urlInput = React.createRef<Input>()
+    this.urlInput = React.createRef<HTMLInputElement>()
     this.state = {
       stickers: [],
       allowRemove: false,
@@ -72,7 +72,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   addSticker = () => {
-    const inputUrl = this.urlInput.current?.state.value
+    const inputUrl = this.urlInput.current?.value
     if (!inputUrl || !imageUrlRegex.test(inputUrl)) {
       notification['warning']({
         message: 'addSticker',
@@ -160,13 +160,13 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   render() {
     return <div className='sticker-card'>
-      <div>
+      <div className='sticker-control-wrapper'>
         <Switch checkedChildren='del' onClick={this.switchRemove} />
-        <Input placeholder='input image url to add sticker' allowClear disabled={this.state.allowRemove} ref={this.urlInput} />
+        <input className='ant-input' type='text' placeholder='input image url to add sticker' disabled={this.state.allowRemove} ref={this.urlInput} />
         <Tooltip title='add sticker'>
           <Button shape='circle' icon={<PlusOutlined />} disabled={this.state.allowRemove} onClick={this.addSticker} />
         </Tooltip>
-      </div >
+      </div>
       <Card>
         {this.state.stickers.map((stickProps, index) => {
           return <StickerGrid

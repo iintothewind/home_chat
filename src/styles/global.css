@@ -127,23 +127,34 @@ body {
   max-height: 100%;
 }
 
-.sticker-card .ant-input-affix-wrapper {
+.sticker-control-wrapper .ant-input {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum', "tnum";
   position: relative;
   display: inline-block;
-  max-width: 65%;
+  width: 65%;
+  min-width: 0;
   padding: 3px 7px;
   color: rgba(0, 0, 0, 0.65);
   font-size: 12px;
+  line-height: 1.66667;
+  background-color: #fff;
   background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  max-height: 28px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  touch-action: none;
 }
 
-.sticker-card .ant-switch {
-  margin-right: 10px;
+.sticker-control-wrapper .ant-switch {
+  margin: 0;
   padding: 0;
   line-height: 1.66667;
   position: relative;
@@ -157,4 +168,41 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.sticker-control-wrapper .ant-btn {
+  line-height: 1.66667;
+  position: relative;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  border: 1px solid transparent;
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  cursor: pointer;
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  height: 28px;
+  padding: 3px 11px;
+  font-size: 12px;
+  border-radius: 2px;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #fff;
+  border-color: #d9d9d9;
+  margin-left: 10px;
+}
+
+.sticker-control-wrapper .ant-btn-circle {
+  min-width: 28px;
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+  border-radius: 50%;
 }
