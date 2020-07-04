@@ -28,7 +28,7 @@ interface CardProps {
 }
 
 interface CardState {
-  stickers: StickerProps[]
+  stickers: Sticker[]
   allowRemove: boolean
   inputUrl?: string
 }
@@ -163,13 +163,14 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   loadDefaultStickers = () => {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
       aluFaceUrls.forEach(url => {
-        this.setState({ stickers: this.state.stickers.concat({ url: url }) })
-        this.saveSticker(this.props.sender, { name: url.substr(url.lastIndexOf('/') + 1), url: url })
+        const sticker: Sticker = { name: url.substr(url.lastIndexOf('/') + 1), url: url }
+        this.setState({ stickers: this.state.stickers.concat(sticker) })
+        this.saveSticker(this.props.sender, sticker)
       })
     }
   }
 
-  saveSticker = (owner: string, sticker: StickerProps) => {
+  saveSticker = (owner: string, sticker: Sticker) => {
     db.transaction('rw', db.sticker, async () => {
       await db.sticker.add({ owner: owner, name: sticker.name || moment().format('x'), url: sticker.url })
     }).catch(error => {
