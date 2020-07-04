@@ -5,8 +5,6 @@ const imageUrlRegex: RegExp = /^(http|https):\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.we
 
 const imageMarkdownRegex: RegExp = /\[.*\]\(.+(.jpg|.jpeg|.png|.gif|.webp)\)/
 
-const imageMarkdownGlobalRegex: RegExp = /\[.*\]\(.+(.jpg|.jpeg|.png|.gif|.webp)\)/g
-
 const isJsonString = (json: string) => {
   try {
     if (typeof JSON.parse(json) == "object") {
@@ -64,6 +62,6 @@ const makeBold = (text: string) => {
 }
 
 export {
-  urlRegex, imageUrlRegex, imageMarkdownRegex, imageMarkdownGlobalRegex,
+  urlRegex, imageUrlRegex, imageMarkdownRegex,
   isJsonString, escapeMarkdown, makePlainText, makeImage, makeLink, makeCode, makeBold
 }

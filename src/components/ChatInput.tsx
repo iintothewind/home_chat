@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex, imageMarkdownGlobalRegex } from '../util'
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
@@ -39,7 +39,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   handleInput = () => {
     if (this.textarea.current?.value) {
       const inputValue = this.textarea.current.value
-      const markdownImages = inputValue.match(imageMarkdownGlobalRegex)
+      const markdownImages = imageMarkdownRegex.exec(inputValue)
       if (this.state.markDownEnabled && Array.isArray(markdownImages) && markdownImages.length > 1) {
         notification['warning']({
           message: 'Input TextArea',
