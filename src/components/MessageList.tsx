@@ -11,20 +11,17 @@ import '../styles/global.css'
 
 const { Footer, Content } = Layout
 
-interface Location {
-  readonly search?: string
-}
-
 interface MessageListProps {
-  readonly location?: Location
+  location?: { search?: string }
 }
 
-interface MessageListStates {
-  readonly messages: Message[]
+interface MessageListState {
+  messages: Message[]
+  images: Message[]
 }
 
 
-export default class MessageList extends React.Component<MessageListProps, MessageListStates> {
+export default class MessageList extends React.Component<MessageListProps, MessageListState> {
   private chatInput: React.RefObject<ChatInput>
   private bottom: React.RefObject<HTMLDivElement>
   private user: string
@@ -38,7 +35,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.user = params.user
     this.topic = params.topic
     this.mqtt = this.initMqttConnection(this.user)
-    this.state = { messages: [] }
+    this.state = { messages: [], images: [] }
   }
 
   initParams = (query: string | undefined) => {
@@ -99,11 +96,17 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     })
   }
 
+  updateInListImages = (message: Message) => {
+    if (message && message.category === 'markdown' && imageMarkdownRegex.test(message.content)) {
+      this.setState({ images: this.state.images.concat(message) })
+    }
+  }
 
   loadMessages = (owner: string) => {
     db.transaction('r', db.message, async () => {
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       this.setState({ messages: messages })
+      messages.forEach(message => this.updateInListImages(message))
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -147,6 +150,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
             if (msg.sender && msg.moment && msg.content) {
               const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
               this.setState({ messages: this.state.messages.concat(message) })
+              this.updateInListImages(message)
               this.logMessage(message)
             }
           } else {
@@ -171,7 +175,24 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.cleanExpiredMessages(this.user)
   }
 
+  refreshState = () => {
+    if (this.state.images.length > cfg.maxInListImages) {
+      const head: Message = this.state.images[0]
+      const tail: Message[] = this.state.images.slice(1)
+      const refreshedMessages = this.state.messages.map(message => {
+        if (message.moment === head.moment) {
+          const plainMessage: Message = { owner: message.owner, topic: message.topic, moment: message.moment, sender: message.sender, category: 'plain', content: message.content }
+          return plainMessage
+        } else {
+          return message
+        }
+      })
+      this.setState({ messages: refreshedMessages, images: tail })
+    }
+  }
+
   componentDidUpdate(): void {
+    this.refreshState()
     this.bottom.current?.scrollIntoView({ behavior: 'smooth' })
   }
 

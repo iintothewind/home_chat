@@ -7,6 +7,7 @@ export const cfg = {
   maxInputLength: 5120,
   imageExpiration: 1,
   localMessageExpiration: 7,
+  maxInListImages: 10,
   maxSticker: 20,
   stickerNameMaxLength: 20
 }
