@@ -39,8 +39,8 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   handleInput = () => {
     if (this.textarea.current?.value) {
       const inputValue = this.textarea.current.value
-      const markdownImages = imageMarkdownRegex.exec(inputValue)
-      if (this.state.markDownEnabled && Array.isArray(markdownImages) && markdownImages.length > 1) {
+      const markdownImageNumber = inputValue.split('![').length - 1
+      if (this.state.markDownEnabled && markdownImageNumber > 1) {
         notification['warning']({
           message: 'Input TextArea',
           description: 'Only one markdown image is supported per each message'
@@ -113,7 +113,13 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   updateSticker = (imageMarkdown: string) => {
-    if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
+    const existingText = this.state.inputText
+    if (existingText && imageMarkdownRegex.test(existingText)) {
+      notification['warning']({
+        message: 'Input TextArea',
+        description: 'Only one markdown image is supported per each message'
+      })
+    } else if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
       this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markDownEnabled: true, drawerVisible: false })
     }
   }

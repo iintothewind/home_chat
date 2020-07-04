@@ -2,7 +2,7 @@
   "name": "home_chat",
   "version": "0.4.0",
   "private": true,
-  "homepage": "home_chat",
+  "homepage": ".",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "antd": "4.2.0",
