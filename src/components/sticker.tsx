@@ -72,7 +72,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   addSticker = () => {
-    const inputUrl = this.urlInput.current?.value
+    const inputUrl = this.urlInput.current?.state.value
     if (!inputUrl || !imageUrlRegex.test(inputUrl)) {
       notification['warning']({
         message: 'addSticker',
