@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex, disableZoom } from '../util'
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
@@ -113,7 +113,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   componentDidMount(): void {
-    disableZoom()
+
   }
 
   render() {

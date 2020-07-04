@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tooltip, Card, Input, Button, Switch, notification } from 'antd'
 import { cfg } from '../util/config';
-import { imageUrlRegex, makeImage, disableZoom } from '../util'
+import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
 import db, { Sticker } from '../util/db'
 import moment from 'moment'
@@ -155,7 +155,6 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
   }
 
   componentDidMount(): void {
-    disableZoom()
     this.loadStickers(this.props.sender)
   }
 
