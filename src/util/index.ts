@@ -51,7 +51,7 @@ const makeImage = (text: string) => {
 }
 
 const makeLink = (text: string) => {
-  return text && urlRegex.test(text) ? `[](${text})` : text
+  return text && urlRegex.test(text) ? `[${text}](${text})` : text
 }
 
 const makeCode = (text: string) => {

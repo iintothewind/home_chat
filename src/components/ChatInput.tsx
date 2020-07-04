@@ -39,7 +39,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   handleInput = () => {
     if (this.textarea.current?.value) {
       const inputValue = this.textarea.current.value
-      const markdownImages = inputValue.match(imageMarkdownGlobalRegex)
+      const markdownImages = imageMarkdownGlobalRegex.exec(inputValue)
       if (this.state.markDownEnabled && Array.isArray(markdownImages) && markdownImages.length > 1) {
         notification['warning']({
           message: 'Input TextArea',
