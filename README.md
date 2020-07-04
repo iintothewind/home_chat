@@ -22,14 +22,14 @@ Then any device that supports websoket can be used with this app to sync up mess
 - [X] Server side message persistence, undelivered message will be stored on server side for one month for each offline client.
 - [X] Client side message persistence, the latest 50 received messages will be stored in browser local storage.
 - [X] Backend API support via [home_chat_backend](https://github.com/iintothewind/home_chat_backend)
+- [X] HTTPS support
+- [X] markdown support
 
 ## more features on roadmap
 
-- [X] HTTPS support
 - [ ] Access control support(Authentication & Authorization)
 - [ ] Private Chat support
 - [ ] Chat bot support
-- [X] markdown support
 - [ ] Audio support
 - [ ] Video support
 
