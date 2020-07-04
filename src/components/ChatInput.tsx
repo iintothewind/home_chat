@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Drawer, Tabs, notification } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex } from '../util'
+import { makeImage, makeLink, makeCode, makeBold, escapeMarkDown, imageMarkdownRegex, imageMarkdownGlobalRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
@@ -66,6 +66,14 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           message: 'Input TextArea',
           description: `Input text exceeded max length : ${cfg.maxInputLength}`
         })
+      } else if (this.state.markDownEnabled) {
+        const markdownImages = inputText.match(imageMarkdownGlobalRegex)
+        if (Array.isArray(markdownImages) && markdownImages.length > 1) {
+          notification['warning']({
+            message: 'Input TextArea',
+            description: 'Only one markdown image is supported per each message'
+          })
+        }
       } else {
         this.handleInput()
       }
