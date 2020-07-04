@@ -1,9 +1,9 @@
 // eslint-disable-next-line
 const urlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*/
 // eslint-disable-next-line
-const imageUrlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*(.jpg|.png|.gif|.webp)/
+const imageUrlRegex: RegExp = /[a-zA-z]+:\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.webp)/
 
-const imageMarkdownRegex: RegExp = /\[.*\]\(.+(.jpg|.png|.gif|.webp)\)/
+const imageMarkdownRegex: RegExp = /\[.*\]\(.+(.jpg|.jpeg|.png|.gif|.webp)\)/
 
 const isJsonString = (json: string) => {
   try {

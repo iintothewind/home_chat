@@ -71,27 +71,53 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     this.setState({ allowRemove: !this.state.allowRemove })
   }
 
+  parseInput = (input: string) => {
+    if (input) {
+      if (input.indexOf(' : ')) {
+        const [fst, snd] = input.split(' : ')
+        if (fst.length > cfg.stickerNameMaxLength) {
+          notification['warning']({
+            message: 'addSticker',
+            description: `lenght of name exceeded limit: ${cfg.stickerNameMaxLength}`
+          })
+        } else if (!imageUrlRegex.test(snd)) {
+          notification['warning']({
+            message: 'addSticker',
+            description: `input url is invalid`
+          })
+        } else {
+          return { name: fst, url: snd }
+        }
+      } else if (imageUrlRegex.test(input)) {
+        const name = input.substr(input.lastIndexOf('/') + 1)
+        return { name: name, url: input }
+      } else {
+        notification['warning']({
+          message: 'addSticker',
+          description: `input url is invalid`
+        })
+      }
+    }
+  }
+
   addSticker = () => {
-    const inputUrl = this.urlInput.current?.state.value
-    if (!inputUrl || !imageUrlRegex.test(inputUrl)) {
-      notification['warning']({
-        message: 'addSticker',
-        description: `input url is invalid`
-      })
-    } else if (this.state.stickers.length > cfg.maxSticker) {
-      notification['warning']({
-        message: 'addSticker',
-        description: `stickers exceeded max allowed : ${cfg.maxSticker}`
-      })
-    } else if (this.state.stickers.find(sticker => sticker.url === inputUrl)) {
-      notification['warning']({
-        message: 'addSticker',
-        description: 'this sticker has already been added'
-      })
-    } else {
-      const sticker = { url: inputUrl }
-      this.setState({ stickers: this.state.stickers.concat(sticker) })
-      this.saveSticker(this.props.sender, inputUrl)
+    const parsedInput = this.parseInput(this.urlInput.current?.state.value)
+    if (parsedInput) {
+      if (this.state.stickers.length > cfg.maxSticker) {
+        notification['warning']({
+          message: 'addSticker',
+          description: `stickers exceeded max allowed : ${cfg.maxSticker}`
+        })
+      } else if (this.state.stickers.find(sticker => sticker.url === parsedInput.url)) {
+        notification['warning']({
+          message: 'addSticker',
+          description: 'this sticker has already been added'
+        })
+      } else if (parsedInput.url) {
+        const sticker: StickerProps = { name: parsedInput.name, url: parsedInput.url }
+        this.setState({ stickers: this.state.stickers.concat(sticker) })
+        this.saveSticker(this.props.sender, sticker)
+      }
     }
   }
 
@@ -138,14 +164,14 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
       aluFaceUrls.forEach(url => {
         this.setState({ stickers: this.state.stickers.concat({ url: url }) })
-        this.saveSticker(this.props.sender, url)
+        this.saveSticker(this.props.sender, { name: url.substr(url.lastIndexOf('/') + 1), url: url })
       })
     }
   }
 
-  saveSticker = (owner: string, url: string) => {
+  saveSticker = (owner: string, sticker: StickerProps) => {
     db.transaction('rw', db.sticker, async () => {
-      await db.sticker.add({ owner: owner, name: moment().format('x'), url: url })
+      await db.sticker.add({ owner: owner, name: sticker.name || moment().format('x'), url: sticker.url })
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -162,18 +188,18 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     return <div className='sticker-card'>
       <div className='sticker-control-wrapper'>
         <Switch checkedChildren='del' onClick={this.switchRemove} />
-        <Input allowClear type='text' placeholder='input image url to add sticker' disabled={this.state.allowRemove} ref={this.urlInput} />
+        <Input allowClear type='text' placeholder='input name : url' disabled={this.state.allowRemove} ref={this.urlInput} />
         <Tooltip title='add sticker'>
           <Button shape='circle' icon={<PlusOutlined />} disabled={this.state.allowRemove} onClick={this.addSticker} />
         </Tooltip>
       </div>
       <Card>
-        {this.state.stickers.map((stickProps, index) => {
+        {this.state.stickers.map((sticker, index) => {
           return <StickerGrid
             key={index}
-            name={String(index)}
-            url={stickProps.url}
-            handleClick={() => this.handleStickerClick(index, stickProps.url)} />
+            name={sticker.name || String(index)}
+            url={sticker.url}
+            handleClick={() => this.handleStickerClick(index, sticker.url)} />
         })}
       </Card>
     </div>
