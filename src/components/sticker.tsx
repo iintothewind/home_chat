@@ -114,9 +114,14 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
           description: 'this sticker has already been added'
         })
       } else if (parsedInput.url) {
-        const sticker: StickerProps = { name: parsedInput.name, url: parsedInput.url }
+        const sticker: Sticker = { name: parsedInput.name, url: parsedInput.url }
+        this.urlInput.current?.setState({ value: '' })
         this.setState({ stickers: this.state.stickers.concat(sticker) })
         this.saveSticker(this.props.sender, sticker)
+        notification['info']({
+          message: 'addSticker',
+          description: `sticker ${sticker.name} has been added`
+        })
       }
     }
   }
