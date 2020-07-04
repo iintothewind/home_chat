@@ -1,10 +1,7 @@
 # home chat
 
 Home chat is a web IM tool to transfer messages between home devices.
-![home_chat_demo_006](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_006.png)
-![home_chat_demo_004](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_004.png)
-![home_chat_demo_005](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_005.png)
-![home_chat_demo_007](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_007.png)
+![home_chat_demo_003](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_003.png)
 
 ## why I developed it
 
