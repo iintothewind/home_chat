@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactCommonmark from 'react-commonmark'
 import { List, Comment, Layout, notification } from 'antd'
-import moment from 'moment'
+import moment  from 'moment'
 import ChatInput from './ChatInput'
 import db, { Message } from '../util/db'
 import { isJsonString, imageMarkdownRegex } from '../util'
@@ -214,7 +214,8 @@ export default class MessageList extends React.Component<MessageListProps, Messa
                 <List.Item>
                   <Comment
                     author={message.sender}
-                    datetime={moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}
+                    // datetime={moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}
+                    datetime={moment(message.moment, 'x').fromNow()}
                     content={'markdown' === message.category ?
                       <ReactCommonmark source={message.content} />
                       :
