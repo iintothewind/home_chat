@@ -67,7 +67,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredMessages = (owner: string) => {
-    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localMessageExpiration, 'days').format('x'))
+    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localMessageExpiration.amount, cfg.localMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
@@ -82,13 +82,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredImages = (owner: string) => {
-    const imageExpirationDate: number = Number(moment().subtract(cfg.imageExpiration, 'days').format('x'))
+    const imageExpirationTime: number = Number(moment().subtract(cfg.imageExpiration.amount, cfg.imageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
         .and(msg =>
           msg.category === 'markdown'
-          && msg.moment < imageExpirationDate
+          && msg.moment < imageExpirationTime
           && imageMarkdownRegex.test(msg.content))
         .modify((msg: Message) => msg.category = 'plain')
     }).catch(error => {
