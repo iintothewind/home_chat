@@ -67,7 +67,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredMessages = (owner: string) => {
-    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localMessageExpiration.amount, cfg.localMessageExpiration.unit).format('x'))
+    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localTextMessageExpiration.amount, cfg.localTextMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
@@ -82,7 +82,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredImages = (owner: string) => {
-    const imageExpirationTime: number = Number(moment().subtract(cfg.imageExpiration.amount, cfg.imageExpiration.unit).format('x'))
+    const imageExpirationTime: number = Number(moment().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
@@ -204,7 +204,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   render() {
     return (
-      <div>
+      <div className='message-list-wrapper'>
         <Layout>
           <Content>
             <List

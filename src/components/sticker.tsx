@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, Card, Input, Button, Switch, notification } from 'antd'
+import { Tooltip, Card, Input, Button, Switch, notification, message } from 'antd'
 import { cfg } from '../util/config';
 import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
@@ -76,15 +76,9 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
       if (input.indexOf(' : ') > 0) {
         const [fst, snd] = input.split(' : ')
         if (fst.length < 1 || fst.length > cfg.stickerNameMaxLength) {
-          notification['warning']({
-            message: 'addSticker',
-            description: `name is empty or exceeded length limit: ${cfg.stickerNameMaxLength}`
-          })
+          message.warning(`name is empty or exceeded length limit: ${cfg.stickerNameMaxLength}`)
         } else if (!imageUrlRegex.test(snd)) {
-          notification['warning']({
-            message: 'addSticker',
-            description: `input url is invalid`
-          })
+          message.warning(`input url is invalid`)
         } else {
           return { name: fst, url: snd }
         }
@@ -92,10 +86,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
         const name = input.substr(input.lastIndexOf('/') + 1)
         return { name: name, url: input }
       } else {
-        notification['warning']({
-          message: 'addSticker',
-          description: `input url is invalid`
-        })
+        message.warning(`input url is invalid`)
       }
     }
   }
@@ -104,24 +95,15 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     const parsedInput = this.parseInput(this.urlInput.current?.state.value)
     if (parsedInput) {
       if (this.state.stickers.length > cfg.maxSticker) {
-        notification['warning']({
-          message: 'addSticker',
-          description: `stickers exceeded max allowed : ${cfg.maxSticker}`
-        })
+        message.warning(`stickers exceeded max allowed : ${cfg.maxSticker}`)
       } else if (this.state.stickers.find(sticker => sticker.url === parsedInput.url)) {
-        notification['warning']({
-          message: 'addSticker',
-          description: 'this sticker has already been added'
-        })
+        message.warning('this sticker has already been added')
       } else if (parsedInput.url) {
         const sticker: Sticker = { name: parsedInput.name, url: parsedInput.url }
         this.urlInput.current?.setState({ value: '' })
         this.setState({ stickers: this.state.stickers.concat(sticker) })
         this.saveSticker(this.props.sender, sticker)
-        notification['info']({
-          message: 'addSticker',
-          description: `sticker ${sticker.name} has been added`
-        })
+        message.success(`sticker ${sticker.name} has been added`)
       }
     }
   }

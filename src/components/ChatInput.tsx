@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Drawer, Tabs, notification } from 'antd'
+import { Button, Drawer, Tabs, message } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
 import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
@@ -41,10 +41,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
       const inputValue = this.textarea.current.value
       const markdownImageNumber = inputValue.split('![').length - 1
       if (this.state.markDownEnabled && markdownImageNumber > 1) {
-        notification['warning']({
-          message: 'Input TextArea',
-          description: 'Only one markdown image is supported per each message'
-        })
+        message.warning('Only one markdown image is supported per each message')
       } else if (inputValue && inputValue.trim() && this.props.sendMessage) {
         const now = moment.now()
         const category = this.state.markDownEnabled ? 'markdown' : 'plain'
@@ -68,10 +65,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
       const inputText = this.state.inputText || ''
       //  eslint-disable-next-line
       if (inputText.replace(/[^\x00-\xff]/g, '00').length > cfg.maxInputLength) {
-        notification['warning']({
-          message: 'Input TextArea',
-          description: `Input text exceeded max length : ${cfg.maxInputLength}`
-        })
+        message.warning(`Input text exceeded max length : ${cfg.maxInputLength}`)
       } else {
         this.handleInput()
       }
@@ -87,10 +81,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     const markdownText = ops(plainText)
     if (plainText === markdownText) {
       this.setState({ markDownEnabled: false, drawerVisible: false })
-      notification['warning']({
-        message: 'Markdonw Text',
-        description: `Input text is invalid for the selected operation`
-      })
+      message.warning(`Input text is invalid for the selected operation`)
     } else {
       this.setState({ inputText: markdownText, markDownEnabled: true, drawerVisible: false })
     }
@@ -115,10 +106,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   updateSticker = (imageMarkdown: string) => {
     const existingText = this.state.inputText
     if (existingText && imageMarkdownRegex.test(existingText)) {
-      notification['warning']({
-        message: 'Input TextArea',
-        description: 'Only one markdown image is supported per each message'
-      })
+      message.warning('Only one markdown image is supported per each message')
       this.setState({ markDownEnabled: true, drawerVisible: false })
     } else if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
       this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markDownEnabled: true, drawerVisible: false })
