@@ -7,7 +7,9 @@ import db, { Message } from '../util/db'
 import { isJsonString, imageMarkdownRegex } from '../util'
 import { connect, MqttClient } from 'mqtt'
 import { cfg } from '../util/config'
+import nprogress from 'nprogress'
 import '../styles/global.css'
+import '../styles/nprogress.css'
 
 const { Footer, Content } = Layout
 
@@ -61,6 +63,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         })
       }
     })
+    nprogress.start()
   }
 
   cleanExpiredMessages = (owner: string) => {
@@ -127,6 +130,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   componentDidMount(): void {
+    nprogress.configure({ showSpinner: false })
     this.cleanExpiredImages(this.user)
     this.cleanExpiredMessages(this.user)
     this.loadMessages(this.user)
@@ -166,6 +170,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
           message: 'MQTTClient',
           description: 'MQTTClient error: '.concat(error.message)
         })
+        nprogress.done()
       })
   }
 
@@ -194,6 +199,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   componentDidUpdate(): void {
     this.refreshState()
     this.bottom.current?.scrollIntoView({ behavior: 'smooth' })
+    nprogress.done()
   }
 
   render() {
