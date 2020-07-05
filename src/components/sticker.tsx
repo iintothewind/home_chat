@@ -76,9 +76,9 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
       if (input.indexOf(' : ') > 0) {
         const [fst, snd] = input.split(' : ')
         if (fst.length < 1 || fst.length > cfg.stickerNameMaxLength) {
-          message.warning(`name is empty or exceeded length limit: ${cfg.stickerNameMaxLength}`)
+          void message.warning(`name is empty or exceeded length limit: ${cfg.stickerNameMaxLength}`)
         } else if (!imageUrlRegex.test(snd)) {
-          message.warning(`input url is invalid`)
+          void message.warning(`input url is invalid`)
         } else {
           return { name: fst, url: snd }
         }
@@ -86,7 +86,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
         const name = input.substr(input.lastIndexOf('/') + 1)
         return { name: name, url: input }
       } else {
-        message.warning(`input url is invalid`)
+        void message.warning(`input url is invalid`)
       }
     }
   }
@@ -95,15 +95,15 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     const parsedInput = this.parseInput(this.urlInput.current?.state.value)
     if (parsedInput) {
       if (this.state.stickers.length > cfg.maxSticker) {
-        message.warning(`stickers exceeded max allowed : ${cfg.maxSticker}`)
+        void message.warning(`stickers exceeded max allowed : ${cfg.maxSticker}`)
       } else if (this.state.stickers.find(sticker => sticker.url === parsedInput.url)) {
-        message.warning('this sticker has already been added')
+        void message.warning('this sticker has already been added')
       } else if (parsedInput.url) {
         const sticker: Sticker = { name: parsedInput.name, url: parsedInput.url }
         this.urlInput.current?.setState({ value: '' })
         this.setState({ stickers: this.state.stickers.concat(sticker) })
         this.saveSticker(this.props.sender, sticker)
-        message.success(`sticker ${sticker.name} has been added`)
+        void message.success(`sticker ${sticker.name || ''} has been added`)
       }
     }
   }
@@ -120,7 +120,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
       }).catch(error => {
         notification['error']({
           message: 'IndexedDB',
-          description: 'failed to remove sticker: '.concat(error.message)
+          description: 'failed to remove sticker: '.concat(error)
         })
       })
     }
@@ -142,7 +142,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to load stickers: '.concat(error.message)
+        description: 'failed to load stickers: '.concat(error)
       })
     })
   }
@@ -163,7 +163,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to save sticker: '.concat(error.message)
+        description: 'failed to save sticker: '.concat(error)
       })
     })
   }

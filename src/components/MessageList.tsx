@@ -43,7 +43,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   initParams = (query: string | undefined) => {
     const params = new URLSearchParams(query)
     const user = params.get('user')?.trim() || `user_${moment().format('x')}`
-    const topic = params.get('topic')?.trim() ? `${cfg.appKey}/${params.get('topic')?.trim()}` : cfg.mqttDefaultTopic
+    const topic = params.get('topic')?.trim() ? `${cfg.appKey}/${(params.get('topic') || '').trim()}` : cfg.mqttDefaultTopic
     return { user: user, topic: topic }
   }
 
@@ -76,7 +76,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to clean message: '.concat(error.message)
+        description: 'failed to clean message: '.concat(error)
       })
     })
   }
@@ -94,7 +94,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to clean image: '.concat(error.message)
+        description: 'failed to clean image: '.concat(error)
       })
     })
   }
@@ -113,7 +113,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to load chat log: '.concat(error.message)
+        description: 'failed to load chat log: '.concat(error)
       })
     })
   }
@@ -124,7 +124,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
-        description: 'failed to log message: '.concat(error.message)
+        description: 'failed to log message: '.concat(error)
       })
     })
   }
