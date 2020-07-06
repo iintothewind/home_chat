@@ -1,22 +1,30 @@
+.login-layout a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
 .login-content {
   display: block;
   text-align: center;
 }
 
 .login-content .anticon {
-  display: inline-block;
   color: inherit;
   font-style: normal;
   font-size: 150px;
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 50%;
-  padding-bottom: 0%;
+  margin-top: 30%;
+  margin-bottom: 0%;
 }
 
 .login-content .anticon:hover {
@@ -30,19 +38,17 @@
 }
 
 .login-footer .anticon {
-  display: inline-block;
   color: inherit;
   font-style: normal;
   font-size: 50px;
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 10%;
-  padding-bottom: 20%;
+  margin-top: 5%;
+  margin-bottom: 20%;
 }
 
 .login-footer .anticon:hover {
