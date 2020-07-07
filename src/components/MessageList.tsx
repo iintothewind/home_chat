@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactCommonmark from 'react-commonmark'
+import Markdown from 'react-showdown'
 import { List, Comment, Layout, notification, Tooltip } from 'antd'
 import moment from 'moment'
 import ChatInput from './ChatInput'
@@ -10,6 +10,19 @@ import { cfg } from '../util/config'
 import nprogress from 'nprogress'
 import '../styles/global.css'
 import '../styles/nprogress.css'
+
+const markdownOptions = {
+  omitExtraWLInCodeBlocks: true,
+  parseImgDimensions: true,
+  simplifiedAutoLink: true,
+  tables: true,
+  tasklists: true,
+  simpleLineBreaks: true,
+  requireSpaceBeforeHeadingText: true,
+  openLinksInNewWindow: true,
+  backslashEscapesHTMLTags: true,
+  emoji: true
+}
 
 const { Footer, Content } = Layout
 
@@ -22,13 +35,12 @@ interface MessageListState {
   images: Message[]
 }
 
-
 export default class MessageList extends React.Component<MessageListProps, MessageListState> {
-  private chatInput: React.RefObject<ChatInput>
-  private bottom: React.RefObject<HTMLDivElement>
   private user: string
   private topic: string
   private mqtt: MqttClient
+  private chatInput: React.RefObject<ChatInput>
+  private bottom: React.RefObject<HTMLDivElement>
   constructor(props: MessageListProps) {
     super(props)
     this.chatInput = React.createRef<ChatInput>()
@@ -220,7 +232,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
                       </Tooltip>
                     }
                     content={'markdown' === message.category ?
-                      <ReactCommonmark source={message.content} />
+                      <Markdown markdown={message.content} options={markdownOptions} flavor='github' />
                       :
                       <div style={{ whiteSpace: 'pre-wrap' }}>{message.content}</div>
                     }
