@@ -1,11 +1,23 @@
-import React from 'react'
-import { Layout, notification, message, Tooltip } from 'antd'
+import React, { useEffect } from 'react'
+import { Layout, Tooltip } from 'antd'
 import { GithubOutlined, LoginOutlined } from '@ant-design/icons'
+import { useHistory, useLocation } from 'react-router-dom'
 import '../styles/login.css'
 
 const { Footer, Content } = Layout
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search)
+}
+
+interface LoginState {
+  code?: string
+}
+
+
 const Login = () => {
+  const query = useQuery()
+
 
   return (
     <Layout className='login-layout'>
