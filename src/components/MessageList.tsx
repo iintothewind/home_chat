@@ -21,7 +21,6 @@ const markdownOptions = {
   requireSpaceBeforeHeadingText: true,
   openLinksInNewWindow: true,
   backslashEscapesHTMLTags: true,
-  emoji: true
 }
 
 const { Footer, Content } = Layout
