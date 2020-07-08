@@ -221,7 +221,11 @@ export default class MessageList extends React.Component<MessageListProps, Messa
               renderItem={message => (
                 <List.Item>
                   <Comment
-                    author={`${message.sender}@${message.topic}`}
+                    author={
+                      <Tooltip title={`${message.sender}@${message.topic}`}>
+                        <b>{message.sender}</b>
+                      </Tooltip>
+                    }
                     datetime={
                       <Tooltip title={moment(message.moment, 'x').fromNow()}>
                         <span>{moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}</span>
