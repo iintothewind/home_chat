@@ -147,7 +147,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.loadMessages(this.user)
     this.mqtt
       .on('connect', () => {
-        this.mqtt.subscribe(this.topic, { qos: 2 }, error => {
+        this.mqtt.subscribe({ [this.topic]: { qos: 2 } }, error => {
           if (error) {
             notification['error']({
               message: 'MQTTClient',
@@ -156,24 +156,21 @@ export default class MessageList extends React.Component<MessageListProps, Messa
           }
         })
       })
-      .on('message', (topic, buffer) => {
-        // due to the bug of mqttjs. handle received messages that are not subscribed
-        if (this.topic === topic) {
-          const payload = buffer.toString()
-          if (isJsonString(payload)) {
-            const msg: Message = JSON.parse(payload) as Message
-            if (msg.sender && msg.moment && msg.content) {
-              const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
-              this.setState({ messages: this.state.messages.concat(message) })
-              this.updateInListImages(message)
-              this.logMessage(message)
-            }
-          } else {
-            notification['warning']({
-              message: 'MQTTClient',
-              description: 'Invalid message received: '.concat(payload)
-            })
+      .on('message', (_topic, buffer) => {
+        const payload = buffer.toString()
+        if (isJsonString(payload)) {
+          const msg: Message = JSON.parse(payload) as Message
+          if (msg.sender && msg.moment && msg.content) {
+            const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
+            this.setState({ messages: this.state.messages.concat(message) })
+            this.updateInListImages(message)
+            this.logMessage(message)
           }
+        } else {
+          notification['warning']({
+            message: 'MQTTClient',
+            description: 'Invalid message received: '.concat(payload)
+          })
         }
       })
       .on('error', error => {
@@ -224,7 +221,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
               renderItem={message => (
                 <List.Item>
                   <Comment
-                    author={message.sender}
+                    author={`${message.sender}@${message.topic}`}
                     datetime={
                       <Tooltip title={moment(message.moment, 'x').fromNow()}>
                         <span>{moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}</span>
