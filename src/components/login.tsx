@@ -29,7 +29,7 @@ const fetchUser = async (code: string) => {
   const ac: AccessToken = await fetch(`https://gatekeeper-iintothewind.herokuapp.com/authenticate/${code}`)
     .then(resp => resp.json())
   console.log(`ac: ${ac.token}`)
-  const user: UserInfo = await fetch(`https://api.github.com/user`, { headers: [['Authorization', `Bearer ${ac.token}`], ['Access-Control-Allow-Origin', '*']] })
+  const user: UserInfo = await fetch(`https://api.github.com/user`, { headers: [['Authorization', `Bearer ${ac.token}`], ['Origin', 'http://localhost:3000']] })
     .then(resp => resp.json())
   console.log(`user: ${user}`)
   return user
@@ -48,12 +48,12 @@ const Login = () => {
         .then(user => setState(user))
         .catch(error => console.log(error))
     }
-  })
+  }, [state])
 
 
   return (
     code ?
-      <p>code: {code}, user: {state}</p>
+      <p>code: {code}, user: {JSON.stringify(state)}</p>
       :
       <>
         <Layout className='login-layout'>
