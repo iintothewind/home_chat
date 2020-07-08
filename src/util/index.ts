@@ -33,7 +33,7 @@ const escapeMarkdown = (text: string, skips?: string[]) => {
   const _skips = skips || []
   return replacements.reduce(function (text, replacement) {
     const name = replacement.name
-    return name && _skips.indexOf(name) !== -1
+    return name && _skips.includes(name)
       ? text
       : text.replace(replacement.regex, replacement.replace)
   }, text)
