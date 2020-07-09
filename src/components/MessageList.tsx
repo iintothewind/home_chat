@@ -78,11 +78,11 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredMessages = (owner: string) => {
-    const localMessageExpirationDate: number = Number(moment().subtract(cfg.localTextMessageExpiration.amount, cfg.localTextMessageExpiration.unit).format('x'))
+    const localMessageExpirationTime: number = Number(moment().subtract(cfg.localTextMessageExpiration.amount, cfg.localTextMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
-        .and(message => message.moment < localMessageExpirationDate)
+        .and(message => message.moment < localMessageExpirationTime)
         .delete()
     }).catch(error => {
       notification['error']({
@@ -189,11 +189,12 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   refreshState = () => {
+    const imageExpirationTime: number = Number(moment().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
     if (this.state.images.length > cfg.maxInListImages) {
       const head: Message = this.state.images[0]
       const tail: Message[] = this.state.images.slice(1)
       const refreshedMessages = this.state.messages.map(message => {
-        if (message.moment === head.moment) {
+        if (message.moment === head.moment || message.moment < imageExpirationTime) {
           const plainMessage: Message = { owner: message.owner, topic: message.topic, moment: message.moment, sender: message.sender, category: 'plain', content: message.content }
           return plainMessage
         } else {

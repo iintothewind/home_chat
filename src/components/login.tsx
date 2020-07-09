@@ -20,19 +20,23 @@ interface AccessToken {
 }
 
 interface UserInfo {
-  login: string
-  name: string
-  avatarUrl: string
+  login?: string
+  name?: string
+  avatarUrl?: string
 }
 
 const fetchUser = async (code: string) => {
   const ac: AccessToken = await fetch(`https://gatekeeper-iintothewind.herokuapp.com/authenticate/${code}`)
     .then(resp => resp.json())
   console.log(`ac: ${ac.token}`)
-  const user: UserInfo = await fetch(`https://api.github.com/user`, { headers: [['Authorization', `Bearer ${ac.token}`], ['Origin', 'http://localhost:3000']] })
+  const user: UserInfo = await fetch(`https://api.github.com/user`, { headers: [['Authorization', `Bearer ${ac.token}`], ['Origin', 'http://localhost:3000'], ['Accept', 'application/json']] })
     .then(resp => resp.json())
   console.log(`user: ${user}`)
-  return user
+  if (user.login) {
+    return user
+  } {
+    throw 'fetch user error';
+  }
 }
 
 
@@ -41,15 +45,11 @@ const Login = () => {
   const code = query.get('code')
   const [state, setState] = useState<UserInfo | null>(null)
 
-  useEffect(() => {
-    if (code) {
-      console.log(`code: ${code}`)
-      fetchUser(code)
-        .then(user => setState(user))
-        .catch(error => console.log(error))
-    }
-  }, [state])
-
+  if (code && !state?.login) {
+    fetchUser(code)
+      .then(user => setState(user))
+      .catch(error => console.log(error))
+  }
 
   return (
     code ?
