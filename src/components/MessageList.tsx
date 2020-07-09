@@ -188,7 +188,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         userId: this.user
       }
     })
-    ReactGA.pageview(`${location.pathname}${location.search}`)
+    ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
   }
 
   componentWillUnmount(): void {

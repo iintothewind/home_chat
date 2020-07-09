@@ -8,7 +8,7 @@ import axios from 'axios'
 import '../styles/login.css'
 
 ReactGA.initialize(cfg.gaTrackingId)
-ReactGA.pageview(`${location.pathname}${location.search}`)
+ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
 
 const { Footer, Content } = Layout
 
