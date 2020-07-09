@@ -190,20 +190,18 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   refreshState = () => {
     const imageExpirationTime: number = Number(moment().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
-    if (this.state.images.length > cfg.maxInListImages) {
-      const head: Message = this.state.images[0]
-      const refreshedImages = this.state.images.slice(1).filter(msg => msg.moment > imageExpirationTime)
-      const refreshedMessages = this.state.messages.map(message => {
-        if ((message.moment === head.moment || message.moment < imageExpirationTime) && message.category === 'markdown') {
-          const plainMessage: Message = { owner: message.owner, topic: message.topic, moment: message.moment, sender: message.sender, category: 'plain', content: message.content }
-          return plainMessage
-        } else {
-          return message
-        }
-      })
+    const refreshedImages = this.state.images.slice(-cfg.maxInListImages).filter(msg => msg.moment > imageExpirationTime)
+    const refreshedHeadImage = refreshedImages[0]
+    const refreshedMessages = this.state.messages.map(message => {
+      if (((refreshedHeadImage && message.moment < refreshedHeadImage.moment) || message.moment < imageExpirationTime) && message.category === 'markdown') {
+        const plainMessage: Message = { owner: message.owner, topic: message.topic, moment: message.moment, sender: message.sender, category: 'plain', content: message.content }
+        return plainMessage
+      } else {
+        return message
+      }
+    })
 
-      this.setState({ messages: refreshedMessages, images: refreshedImages })
-    }
+    this.setState({ messages: refreshedMessages, images: refreshedImages })
   }
 
   componentDidUpdate(): void {
