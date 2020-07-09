@@ -14,7 +14,7 @@
 }
 
 .login-content .anticon {
-  color: inherit;
+  color: #08c;
   font-style: normal;
   font-size: 150px;
   line-height: 0;
@@ -25,11 +25,6 @@
   -moz-osx-font-smoothing: grayscale;
   margin-top: 30%;
   margin-bottom: 0%;
-}
-
-.login-content .anticon:hover {
-  color: #08c;
-  font-size: 150px;
 }
 
 .login-footer {
