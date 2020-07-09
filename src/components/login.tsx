@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Layout, Tooltip, Spin, Alert } from 'antd'
+import React, { useState } from 'react'
+import { Layout, Tooltip, Alert } from 'antd'
 import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Redirect } from 'react-router-dom'
+import { cfg } from '../util/config'
 import axios from 'axios'
 import '../styles/login.css'
 
@@ -33,24 +34,38 @@ const fetchUser = (code: string) => {
   return axios.get<User>('https://mqttchat.herokuapp.com/home_chat/user', { params: params, headers: headers })
 }
 
+const renderState = (state: LoginState | null) => {
+  if (state) {
+    if (state.user) {
+      return <Redirect exact to={{
+        pathname: '/messageList',
+        search: `?topic=${cfg.mqttDefaultTopic}&user=${state.user.login}`
+      }} />
+    } else if (state.error) {
+      const error: Error = state.error
+      return <Redirect exact to={{
+        pathname: '/login',
+        state: { error: error }
+      }} />
+    }
+  }
+  return <LoadingOutlined />
+}
+
 const Login = () => {
   const query = useQuery()
   const code = query.get('code')
   const [state, setState] = useState<LoginState | null>(null)
 
-  console.log(`code: ${code}, state: ${state}`);
   if (code && !state) {
     fetchUser(code)
       .then(response => {
-        console.log(`response: ${response.data}`);
         setState({ user: response.data })
       })
       .catch(error => {
-        console.log(`response: ${error}`);
-        setState({ error: error })
+        setState({ error: { error: 'login failed, please re-login', error_description: error } })
       })
   }
-
 
   return (
     <Layout className='login-layout'>
@@ -59,10 +74,7 @@ const Login = () => {
       </Content>
       <Footer className='login-footer'>
         {code ?
-          state?.user ?
-            <Alert message={JSON.stringify(state.user)} />
-            :
-            <Spin />
+          renderState(state)
           :
           <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=user:email'>
             <Tooltip title='click to login with github' placement='bottom'>
@@ -70,8 +82,9 @@ const Login = () => {
             </Tooltip>
           </a>
         }
+        {state?.error ? <Alert message={state?.error.error} /> : <></>}
       </Footer>
-    </Layout>
+    </Layout >
   )
 }
 

@@ -54,7 +54,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   initParams = (query: string | undefined) => {
     const params = new URLSearchParams(query)
     const user = params.get('user')?.trim() || `user_${moment().format('x')}`
-    const topic = params.get('topic')?.trim() ? `${cfg.appKey}/${(params.get('topic') || '').trim()}` : cfg.mqttDefaultTopic
+    const topic = params.get('topic')?.trim() ? `${cfg.mqttTopicPrefx}${(params.get('topic') || '').trim()}` : `${cfg.mqttTopicPrefx}${cfg.mqttDefaultTopic}`
     return { user: user, topic: topic }
   }
 
