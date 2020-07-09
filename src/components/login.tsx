@@ -11,14 +11,6 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search)
 }
 
-interface LoginState {
-  code?: string
-}
-
-interface AccessToken {
-  token: string
-}
-
 interface UserInfo {
   login?: string
   name?: string
@@ -39,6 +31,9 @@ const fetchUser = async (code: string) => {
   }
 }
 
+interface LoginState {
+  code?: string
+}
 
 const Login = () => {
   const query = useQuery()
