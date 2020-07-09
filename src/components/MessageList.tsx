@@ -183,12 +183,14 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         nprogress.done()
       })
 
-    ReactGA.initialize(cfg.gaTrackingId, {
-      gaOptions: {
-        userId: this.user
-      }
-    })
-    ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
+    if ('https' === window.location.protocol) {
+      ReactGA.initialize(cfg.gaTrackingId, {
+        gaOptions: {
+          userId: this.user
+        }
+      })
+      ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
+    }
   }
 
   componentWillUnmount(): void {

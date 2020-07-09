@@ -7,8 +7,10 @@ import { cfg } from '../util/config'
 import axios from 'axios'
 import '../styles/login.css'
 
-ReactGA.initialize(cfg.gaTrackingId)
-ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
+if ('https' === window.location.protocol) {
+  ReactGA.initialize(cfg.gaTrackingId)
+  ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
+}
 
 const { Footer, Content } = Layout
 
