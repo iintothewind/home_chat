@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactGA from 'react-ga'
 import Markdown from 'react-showdown'
 import { List, Comment, Layout, notification, Tooltip } from 'antd'
 import moment from 'moment'
@@ -10,6 +11,7 @@ import { cfg } from '../util/config'
 import nprogress from 'nprogress'
 import '../styles/global.css'
 import '../styles/nprogress.css'
+
 
 const markdownOptions = {
   omitExtraWLInCodeBlocks: true,
@@ -180,6 +182,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         })
         nprogress.done()
       })
+
+    ReactGA.initialize(cfg.gaTrackingId, {
+      gaOptions: {
+        userId: this.user
+      }
+    })
+    ReactGA.pageview(`${location.pathname}${location.search}`)
   }
 
   componentWillUnmount(): void {

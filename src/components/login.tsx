@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import { Layout, Tooltip, Alert } from 'antd'
 import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
+import ReactGA from 'react-ga'
 import { cfg } from '../util/config'
 import axios from 'axios'
 import '../styles/login.css'
+
+ReactGA.initialize(cfg.gaTrackingId)
+ReactGA.pageview(`${location.pathname}${location.search}`)
 
 const { Footer, Content } = Layout
 
@@ -26,12 +30,6 @@ interface Error {
 interface LoginState {
   user?: User
   error?: Error
-}
-
-const fetchUser = (code: string) => {
-  const params = new URLSearchParams({ code: code })
-  const headers = { 'Accept': 'application/json' }
-  return axios.get<User>('https://mqttchat.herokuapp.com/home_chat/user', { params: params, headers: headers })
 }
 
 const renderState = (state: LoginState | null) => {
@@ -58,12 +56,15 @@ const Login = () => {
   const [state, setState] = useState<LoginState | null>(null)
 
   if (code && !state) {
-    fetchUser(code)
+    const params = new URLSearchParams({ code: code })
+    const headers = { 'Accept': 'application/json' }
+    axios
+      .get<User>('https://mqttchat.herokuapp.com/home_chat/user', { params: params, headers: headers })
       .then(response => {
         setState({ user: response.data })
       })
       .catch(error => {
-        setState({ error: { error: 'login failed, please re-login', error_description: error } })
+        setState({ error: error as Error })
       })
   }
 

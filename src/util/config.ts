@@ -9,6 +9,7 @@ export const cfg = {
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
   maxInputLength: 5120,
+  gaTrackingId: 'UA-171653853-1',
   localImageMessageExpiration: { amount: 1 as DurationInputArg1, unit: 'hours' as DurationInputArg2 },
   localTextMessageExpiration: { amount: 7 as DurationInputArg1, unit: 'days' as DurationInputArg2 },
   maxInListImages: 10,
