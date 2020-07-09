@@ -30,7 +30,7 @@ ReactDOM.render((
       <Route exact path='/' component={Login} />
       <Route exact path='/login' component={Login} />
       <Route exact path='/messageList' component={MessageList} />
-      <Route path="*" component={NotFound} />
+      <Route path='*' component={NotFound} />
     </Switch>
   </BrowserRouter>
 ), document.getElementById('app'))

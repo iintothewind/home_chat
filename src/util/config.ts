@@ -1,4 +1,4 @@
-import { DurationInputArg1, DurationInputArg2 } from "moment";
+import { DurationInputArg1, DurationInputArg2 } from 'moment'
 
 export const cfg = {
   appKey: 'home_chat',

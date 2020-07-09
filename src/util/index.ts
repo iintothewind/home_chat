@@ -7,7 +7,7 @@ const imageMarkdownRegex: RegExp = /!\[.*\]\((http|https):\/\/[^\s]*(.jpg|.jpeg|
 
 const isJsonString = (json: string) => {
   try {
-    if (typeof JSON.parse(json) == "object") {
+    if (typeof JSON.parse(json) == 'object') {
       return true;
     }
   } catch (e) {
