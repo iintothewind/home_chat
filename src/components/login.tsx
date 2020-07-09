@@ -18,17 +18,6 @@ interface UserInfo {
 }
 
 const fetchUser = async (code: string) => {
-  const ac: AccessToken = await fetch(`https://gatekeeper-iintothewind.herokuapp.com/authenticate/${code}`)
-    .then(resp => resp.json())
-  console.log(`ac: ${ac.token}`)
-  const user: UserInfo = await fetch(`https://api.github.com/user`, { headers: [['Authorization', `Bearer ${ac.token}`], ['Origin', 'http://localhost:3000'], ['Accept', 'application/json']] })
-    .then(resp => resp.json())
-  console.log(`user: ${user}`)
-  if (user.login) {
-    return user
-  } {
-    throw 'fetch user error';
-  }
 }
 
 interface LoginState {
@@ -41,9 +30,9 @@ const Login = () => {
   const [state, setState] = useState<UserInfo | null>(null)
 
   if (code && !state?.login) {
-    fetchUser(code)
-      .then(user => setState(user))
-      .catch(error => console.log(error))
+    // fetchUser(code)
+    //   .then(user => setState(user))
+    //   .catch(error => console.log(error))
   }
 
   return (
