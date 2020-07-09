@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import { Layout, Tooltip } from 'antd'
-import { GithubOutlined, LoginOutlined } from '@ant-design/icons'
+import React, { useState, useEffect } from 'react'
+import { Layout, Tooltip, Spin, Alert } from 'antd'
+import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-import nprogress from 'nprogress'
-import '../styles/nprogress.css'
 import '../styles/login.css'
 
 const { Footer, Content } = Layout
@@ -29,8 +27,6 @@ interface LoginState {
   error?: Error
 }
 
-nprogress.configure({ showSpinner: false })
-
 const fetchUser = (code: string) => {
   const params = new URLSearchParams({ code: code })
   const headers = { 'Accept': 'application/json' }
@@ -38,21 +34,23 @@ const fetchUser = (code: string) => {
 }
 
 const Login = () => {
-  nprogress.start()
-
   const query = useQuery()
   const code = query.get('code')
   const [state, setState] = useState<LoginState | null>(null)
 
+  console.log(`code: ${code}, state: ${state}`);
   if (code && !state) {
     fetchUser(code)
-      .then(response => setState({ user: response.data }))
-      .catch(error => setState({ error: error }))
+      .then(response => {
+        console.log(`response: ${response.data}`);
+        setState({ user: response.data })
+      })
+      .catch(error => {
+        console.log(`response: ${error}`);
+        setState({ error: error })
+      })
   }
 
-  if (state?.user) {
-    nprogress.done()
-  }
 
   return (
     <Layout className='login-layout'>
@@ -60,17 +58,18 @@ const Login = () => {
         <GithubOutlined className='login-github' />
       </Content>
       <Footer className='login-footer'>
-        <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=user:emai'>
-          {code ?
-            <Tooltip title='click to login with github' placement='bottom'>
-              <LoginOutlined className='login-guest' />
-            </Tooltip>
+        {code ?
+          state?.user ?
+            <Alert message={JSON.stringify(state.user)} />
             :
+            <Spin />
+          :
+          <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=user:email'>
             <Tooltip title='click to login with github' placement='bottom'>
               <LoginOutlined className='login-guest' />
             </Tooltip>
-          }
-        </a>
+          </a>
+        }
       </Footer>
     </Layout>
   )

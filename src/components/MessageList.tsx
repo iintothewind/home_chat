@@ -201,7 +201,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       }
     })
 
-    this.setState({ messages: refreshedMessages, images: refreshedImages })
+    if (this.state.images.length !== refreshedImages.length) {
+      this.setState({ messages: refreshedMessages, images: refreshedImages })
+    }
   }
 
   componentDidUpdate(): void {
