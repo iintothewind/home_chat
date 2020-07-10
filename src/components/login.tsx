@@ -79,10 +79,8 @@ const Login = () => {
         {code ?
           renderState(state)
           :
-          <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=user:email'>
-            <Tooltip title='click to login with github' placement='bottom'>
-              <LoginOutlined className='login-guest' />
-            </Tooltip>
+          <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=read:user'>
+            <LoginOutlined className='login-guest' />
           </a>
         }
         {state?.error ? <Alert type='error' showIcon message={state?.error.error} /> : <></>}
