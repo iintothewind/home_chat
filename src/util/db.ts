@@ -7,7 +7,7 @@ export interface Message {
   topic: string
   moment: number
   sender: string
-  category?: string
+  category?: 'plain' | 'markdown'
   content: string
 }
 
