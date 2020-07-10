@@ -148,7 +148,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   pushNotification = (message: Message) => {
     if (this.state.allowNotify) {
-      push.create(`new message to ${this.user}`, {
+      push.create(`${message.sender}: `, {
         tag: `msg${message.moment}`,
         body: message.content,
         timeout: 5000,
