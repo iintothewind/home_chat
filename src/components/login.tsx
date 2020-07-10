@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
-import { Layout, Alert } from 'antd'
+import { Layout, Alert, Button } from 'antd'
 import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga'
 import { cfg } from '../util/config'
 import axios from 'axios'
 import '../styles/login.css'
+
+import { createFromIconfontCN } from '@ant-design/icons';
+const Icon = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1916135_b5enllknkag.js',
+});
 
 if ('https' === window.location.protocol) {
   ReactGA.initialize(cfg.gaTrackingId)
@@ -49,7 +54,7 @@ const renderState = (state: LoginState | null) => {
       }} />
     }
   }
-  return <LoadingOutlined />
+  return <Button type='primary' icon={<LoginOutlined className='login-guest' />} loading>login</Button>
 }
 
 const Login = () => {
@@ -73,14 +78,15 @@ const Login = () => {
   return (
     <Layout className='login-layout'>
       <Content className='login-content'>
-        <GithubOutlined className='login-github' />
+        <Icon type='icon-swallow' className='login-github' />
+        <h1>welcome to home_chat</h1>
       </Content>
       <Footer className='login-footer'>
         {code ?
           renderState(state)
           :
           <a href={`https://github.com/login/oauth/authorize?client_id=${cfg.clientId}&scope=read:user`}>
-            <LoginOutlined className='login-guest' />
+            <Button type='primary' icon={<LoginOutlined className='login-guest' />}>login</Button>
           </a>
         }
         {state?.error ? <Alert type='error' showIcon message={state?.error.error} /> : <></>}
