@@ -85,7 +85,7 @@ const Login = () => {
             </Tooltip>
           </a>
         }
-        {state?.error ? <Alert message={state?.error.error} /> : <></>}
+        {state?.error ? <Alert type='error' showIcon message={state?.error.error} /> : <></>}
       </Footer>
     </Layout >
   )
