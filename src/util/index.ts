@@ -1,4 +1,3 @@
-
 const urlRegex: RegExp = /^(http|https):\/\/[^\s]*$/
 
 const imageUrlRegex: RegExp = /^(http|https):\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.webp)$/

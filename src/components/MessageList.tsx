@@ -9,6 +9,7 @@ import { isJsonString, imageMarkdownRegex } from '../util'
 import { connect, MqttClient } from 'mqtt'
 import { cfg } from '../util/config'
 import nprogress from 'nprogress'
+import push from 'push.js'
 import '../styles/global.css'
 import '../styles/nprogress.css'
 
@@ -34,6 +35,7 @@ interface MessageListProps {
 interface MessageListState {
   messages: Message[]
   images: Message[]
+  allowNotify: boolean
 }
 
 export default class MessageList extends React.Component<MessageListProps, MessageListState> {
@@ -50,7 +52,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.user = params.user
     this.topic = params.topic
     this.mqtt = this.initMqttConnection(this.user)
-    this.state = { messages: [], images: [] }
+    this.state = { messages: [], images: [], allowNotify: false }
   }
 
   initParams = (query: string | undefined) => {
@@ -112,17 +114,11 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     })
   }
 
-  updateInListImages = (message: Message) => {
-    if (message && message.category === 'markdown' && imageMarkdownRegex.test(message.content)) {
-      this.setState({ images: this.state.images.concat(message) })
-    }
-  }
-
   loadMessages = (owner: string) => {
     db.transaction('r', db.message, async () => {
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
-      this.setState({ messages: messages })
-      messages.forEach(message => this.updateInListImages(message))
+      const images: Message[] = messages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
+      this.setState({ messages: messages, images: images })
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -142,7 +138,30 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     })
   }
 
+  handleDocVisibilityChange = () => {
+    if (document.visibilityState === 'hidden' && push.Permission.has()) {
+      this.setState({ allowNotify: true })
+    } else {
+      this.setState({ allowNotify: false })
+    }
+  }
+
+  pushNotification = (message: Message) => {
+    if (this.state.allowNotify) {
+      push.create(`new message to ${this.user}`, {
+        tag: `msg${message.moment}`,
+        body: message.content,
+        timeout: 5000,
+        onClick: () => {
+          push.close(`msg${message.moment}`)
+        }
+      })
+    }
+  }
+
   componentDidMount(): void {
+    push.Permission.request()
+    document.addEventListener('visibilitychange', this.handleDocVisibilityChange)
     nprogress.configure({ showSpinner: false })
     this.cleanExpiredImages(this.user)
     this.cleanExpiredMessages(this.user)
@@ -164,9 +183,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
           const msg: Message = JSON.parse(payload) as Message
           if (msg.sender && msg.moment && msg.content) {
             const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
-            this.setState({ messages: this.state.messages.concat(message) })
-            this.updateInListImages(message)
+            if (msg.category === 'markdown' && imageMarkdownRegex.test(message.content)) {
+              this.setState({ messages: this.state.messages.concat(message), images: this.state.images.concat(message) })
+            } else {
+              this.setState({ messages: this.state.messages.concat(message) })
+            }
             this.logMessage(message)
+            this.pushNotification(message)
           }
         } else {
           notification['warning']({
