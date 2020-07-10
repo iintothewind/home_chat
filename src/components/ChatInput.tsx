@@ -9,11 +9,6 @@ import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-desig
 import MarkDownTable from './markdown'
 import StickerCard from './sticker';
 
-// const Icon = createFromIconfontCN({
-//   scriptUrl: [
-//     '//at.alicdn.com/t/font_1916135_bbxcwszebon.js',
-//   ],
-// })
 const { TabPane } = Tabs
 
 interface ChatInputProps {
