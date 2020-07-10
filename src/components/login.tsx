@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Tooltip, Alert } from 'antd'
+import { Layout, Alert } from 'antd'
 import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga'
@@ -79,7 +79,7 @@ const Login = () => {
         {code ?
           renderState(state)
           :
-          <a href='https://github.com/login/oauth/authorize?client_id=d091146121f6eb144f83&scope=read:user'>
+          <a href={`https://github.com/login/oauth/authorize?client_id=${cfg.clientId}&scope=read:user`}>
             <LoginOutlined className='login-guest' />
           </a>
         }
