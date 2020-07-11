@@ -13,7 +13,7 @@
   text-align: center;
 }
 
-.login-content .anticon {
+.login-content .login-swallow {
   color: #08c;
   font-style: normal;
   font-size: 150px;
@@ -32,7 +32,7 @@
   text-align: center;
 }
 
-.login-footer .anticon {
+.login-footer .login-github {
   color: inherit;
   font-style: normal;
   font-size: 50px;
@@ -46,7 +46,7 @@
   margin-bottom: 5%;
 }
 
-.login-footer .anticon:hover {
+.login-footer .login-github:hover {
   color: #08c;
   font-size: 50px;
 }
