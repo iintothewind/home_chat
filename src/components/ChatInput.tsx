@@ -126,7 +126,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
         >
         </Button>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
-          <p className='placeholder'>{inputText}</p>
+          <p className='placeholder'>{inputText || ' '}</p>
           <textarea
             className='textarea'
             value={inputText}
