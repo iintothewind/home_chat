@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Layout, Alert, Button } from 'antd'
-import { GithubOutlined, LoginOutlined, LoadingOutlined } from '@ant-design/icons'
+import { LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga'
 import { cfg } from '../util/config'
@@ -9,7 +9,7 @@ import '../styles/login.css'
 
 import { createFromIconfontCN } from '@ant-design/icons';
 const Icon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1916135_b5enllknkag.js',
+  scriptUrl: '//at.alicdn.com/t/font_1916135_igrz1nxv5.js',
 });
 
 if ('https' === window.location.protocol) {
@@ -54,7 +54,7 @@ const renderState = (state: LoginState | null) => {
       }} />
     }
   }
-  return <Button type='primary' icon={<LoginOutlined className='login-guest' />} loading>login</Button>
+  return <LoadingOutlined className='login-github'/>
 }
 
 const Login = () => {
@@ -86,7 +86,7 @@ const Login = () => {
           renderState(state)
           :
           <a href={`https://github.com/login/oauth/authorize?client_id=${cfg.clientId}&scope=read:user`}>
-            <Button type='primary' icon={<LoginOutlined className='login-guest' />}>login</Button>
+            <LoginOutlined className='login-github' />
           </a>
         }
         {state?.error ? <Alert type='error' showIcon message={state?.error.error} /> : <></>}

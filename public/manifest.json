@@ -1,6 +1,6 @@
 {
-  "short_name": "home chat",
-  "name": "home chat app",
+  "short_name": "home_chat",
+  "name": "home_chat",
   "icons": [
     {
       "src": "favicon.ico",
