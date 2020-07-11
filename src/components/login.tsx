@@ -66,7 +66,7 @@ const Login = () => {
     const params = new URLSearchParams({ code: code })
     const headers = { 'Accept': 'application/json' }
     axios
-      .get<User>('https://mqttchat.herokuapp.com/home_chat/user', { params: params, headers: headers })
+      .get<User>(`${cfg.backendUrl}/home_chat/user`, { params: params, headers: headers })
       .then(response => {
         setState({ user: response.data })
       })

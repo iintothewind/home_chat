@@ -8,6 +8,7 @@ export const cfg = {
   mqttsUrl: 'wss://mqtt.eclipse.org:443/mqtt',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
+  backendUrl: 'https://mqttchat.herokuapp.com',
   clientId: 'd091146121f6eb144f83',
   maxInputLength: 5120,
   gaTrackingId: 'UA-171653853-1',

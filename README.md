@@ -22,7 +22,7 @@ By using this app and its backend API, messages can easily be shared and viewed 
 - [X] HTTPS support
 - [X] Markdown support
 - [X] Custom sticker support
-- [X] Notification push support for PC and Android web browsers. Nortification will be pushed to user when the window for this app is not visible.
+- [X] Notification push support for desktop and Android web browsers. Nortification will be pushed when the home_chat window is not visible.
 - [X] Sign in with github support
 
 ## more features on roadmap
