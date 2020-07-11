@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Alert, Button } from 'antd'
+import { Layout, Alert } from 'antd'
 import { LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga'
@@ -54,7 +54,7 @@ const renderState = (state: LoginState | null) => {
       }} />
     }
   }
-  return <LoadingOutlined className='login-github'/>
+  return <LoadingOutlined className='login-github' />
 }
 
 const Login = () => {
