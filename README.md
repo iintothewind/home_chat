@@ -37,6 +37,8 @@ By using this app and its backend API, messages can easily be shared and viewed 
 This app is built by npm, and it runs on nginx and mosquitto.
 It can be deployed on both x86(pc) and armv7(respberrypi) docker containers.
 
+- first of all use `docker` branch to do the follow
+
 - `npm run build`
 
 All compiled pages will be created in `./build` folder.
@@ -54,7 +56,7 @@ nginx service needs to use the port number `8080` on your host.
 
 If this app has been successfully deployed on host `192.168.0.147`, on any device **within same local area network** that supports websocket you can open the app by using the url:
 
-`http://192.168.0.147:8080/messageList?user=username&topic=general`
+`http://192.168.0.147:8080/home_chat/messageList?user=username&topic=general`
 
 For the url above, there are three **optional** query parameters you can use:
 
@@ -70,13 +72,15 @@ If topic name is not given, then `general` will be used.
 
 Most of the time, on every connecting device, the url should be:
 
-`http://<host_name>:8080/messageList?user=<unique_user_name>`
+`http://<host_name>:8080/home_chat/messageList?user=<unique_user_name>`
 
 And make sure this url be added into your faviorite bookmarks.
 
 ## enable sign in with github
 
 You need to create a client app for your own and change the configuration in `src\util\config.ts`. More details can be found in source code.
+
+## snapshot
 
 ![home_chat_demo_009](https://raw.githubusercontent.com/iintothewind/images/master/home_chat_demo_009.png)
 
