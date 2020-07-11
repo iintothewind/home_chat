@@ -40,6 +40,8 @@ home_chat是一个可以在不同家庭设备直接传输消息的网页及时�
 这个app是基于npm构建, 并运行在nginx和mosquitto的docker容器里面的.
 它可以被部署在`x86`和`armv7(respberrypi)`的docker容器里面.
 
+- 首先, 你需要切换到`docker`分支来做以下步骤
+
 - `npm run build`
 
 编译好的文件会放在`./build`里面
@@ -58,7 +60,7 @@ nginx使用端口号`8080`来提供`http`服务
 
 假设app已经被顺利部署在了`192.168.0.147`这个主机上, 在同一个局域网内的机器可以通过访问下面的URL来打开页面:
 
-`http://192.168.0.147:8080/messageList?user=username&topic=general`
+`http://192.168.0.147:8080/home_chat/messageList?user=username&topic=general`
 
 对于上面的URL, 有两个你可以使用的请求参数:
 
@@ -77,7 +79,7 @@ mqtt客户端订阅的主题名字.
 
 对于大多数情况来说, 对于连接的设备, 如果我们不需要使用特殊主题, 我们只需要提供用户名就可以了:
 
-`http://<host_name>:8080/messageList?user=<unique_user_name>`
+`http://<host_name>:8080/home_chat/messageList?user=<unique_user_name>`
 
 然后将这个URL加到浏览器的收藏夹里面确保每次使用不用手动输入.
 
