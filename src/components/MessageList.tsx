@@ -12,6 +12,7 @@ import nprogress from 'nprogress'
 import push from 'push.js'
 import '../styles/global.css'
 import '../styles/nprogress.css'
+import logo from '../resources/logo70.png'
 
 
 const markdownOptions = {
@@ -150,6 +151,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     if (this.state.allowNotify) {
       push.create(`${message.sender}: `, {
         tag: `msg${message.moment}`,
+        icon: logo,
         body: message.content,
         timeout: 5000,
         onClick: () => {
