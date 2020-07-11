@@ -9,7 +9,7 @@ services:
       - "1884:1884"
     volumes:
       # host:container mosquitto config
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./etc/mosquitto.conf:/mosquitto/config/mosquitto.conf
     networks:
       - home_chat
   nginx:
@@ -21,7 +21,7 @@ services:
       - "8080:8080"
     volumes:
       # host:container http config
-      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./etc/nginx.conf:/etc/nginx/nginx.conf
       # host:container app directory
       - ./build:/usr/share/nginx/html/home_chat:ro
     networks:
