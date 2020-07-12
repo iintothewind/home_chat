@@ -37,7 +37,7 @@ By using this app and its backend API, messages can easily be shared and viewed 
 This app is built by npm, and it runs on nginx and mosquitto.
 It can be deployed on both x86(pc) and armv7(respberrypi) docker containers.
 
-- first of all, use `docker` branch to do the following step
+- first of all, use [docker](https://github.com/iintothewind/home_chat/tree/docker) branch to do the following step
 
 - `npm run build`
 

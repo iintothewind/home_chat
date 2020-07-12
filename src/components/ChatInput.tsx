@@ -83,8 +83,8 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   updateMarkdown = (operation: string) => {
-    if ('plain text' === operation) {
-      this.setState({ markDownEnabled: false, drawerVisible: false })
+    if ('mode change' === operation) {
+      this.setState({ markDownEnabled: !this.state.markDownEnabled, drawerVisible: false })
     } else if ('insert image' === operation) {
       this.operate(makeImage)
     } else if ('insert link' === operation) {
