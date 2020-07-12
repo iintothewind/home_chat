@@ -34,13 +34,13 @@ interface CardState {
 }
 
 const aluFaceUrls = [
-  'http://psnine.com/Upload/face/majiang/41.gif',
-  'http://psnine.com/Upload/face/alu/44.gif',
+  'https://i.loli.net/2020/07/12/KqNQdCbmlHzgvsT.gif',
+  'https://i.loli.net/2020/07/12/KAYOB2lESaDLon7.gif',
   'https://i.loli.net/2020/07/04/oDPeR9zT6IF3YXN.png',
   'https://i.loli.net/2020/07/04/jAlqDEIrQxa5NG1.png',
   'https://i.loli.net/2020/07/04/hnrQltb8dLPVXNj.png',
-  'http://psnine.com/Upload/face/alu/32.gif',
-  'http://psnine.com/Upload/face/alu/33.gif',
+  'https://i.loli.net/2020/07/12/gpXRekfjr8U6GMh.gif',
+  'https://i.loli.net/2020/07/12/6vu1VTHcaGPYtpw.gif',
   'https://i.loli.net/2020/07/04/xr8oLYWCgOGidSc.png',
   'https://i.loli.net/2020/07/04/OsoutpAxXi3RHLF.png',
   'https://i.loli.net/2020/07/04/JzHAyxKsM3T8kXl.png',
