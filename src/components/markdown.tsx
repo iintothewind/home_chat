@@ -41,8 +41,8 @@ export default function MarkDownTable(props: Props) {
   const markdownDataSource: MarkDownSyntax[] = [
     {
       key: 0,
-      syntax: 'plain text',
-      operation: 'plain text'
+      syntax: 'switch between plain text and markdown',
+      operation: 'mode change'
     },
     {
       key: 1,
