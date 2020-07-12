@@ -34,23 +34,23 @@ interface CardState {
 }
 
 const aluFaceUrls = [
+  'http://psnine.com/Upload/face/majiang/41.gif',
+  'http://psnine.com/Upload/face/alu/44.gif',
   'https://i.loli.net/2020/07/04/oDPeR9zT6IF3YXN.png',
   'https://i.loli.net/2020/07/04/jAlqDEIrQxa5NG1.png',
   'https://i.loli.net/2020/07/04/hnrQltb8dLPVXNj.png',
-  'https://i.loli.net/2020/07/04/QwlXunsSiCELJyp.png',
+  'http://psnine.com/Upload/face/alu/32.gif',
+  'http://psnine.com/Upload/face/alu/33.gif',
   'https://i.loli.net/2020/07/04/xr8oLYWCgOGidSc.png',
   'https://i.loli.net/2020/07/04/OsoutpAxXi3RHLF.png',
-  'https://i.loli.net/2020/07/04/fxPLbWNZG1yUVeI.png',
   'https://i.loli.net/2020/07/04/JzHAyxKsM3T8kXl.png',
   'https://i.loli.net/2020/07/04/YOdBPLCxn46Tgqh.png',
   'https://i.loli.net/2020/07/04/IgQviSmuDWYZ6R8.png',
   'https://i.loli.net/2020/07/04/QZwmFVujTi51pDq.png',
-  'https://i.loli.net/2020/07/04/oOlthXgaUebIYSx.png',
   'https://i.loli.net/2020/07/04/gjOo95HnEuBUmb3.png',
   'https://i.loli.net/2020/07/04/wrFxtyNZ76WOjSk.png',
   'https://i.loli.net/2020/07/04/4g9QVWtYlhdoHjk.png',
   'https://i.loli.net/2020/07/04/hVDq9Ac2GNipzYf.png',
-  'https://i.loli.net/2020/07/04/2ORkQ3BhvF1pEof.png',
   'https://i.loli.net/2020/07/04/3E8vGZxbQYVkTq5.png',
 ]
 
