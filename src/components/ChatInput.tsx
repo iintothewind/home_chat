@@ -5,7 +5,7 @@ import { Message } from '../util/db';
 import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
-import { FileMarkdownTwoTone, FileTextTwoTone, SendOutlined } from '@ant-design/icons'
+import { FileMarkdownTwoTone, FileTextTwoTone } from '@ant-design/icons'
 import MarkDownTable from './markdown'
 import StickerCard from './sticker';
 import { RemoteIcon } from '../util/icon'
