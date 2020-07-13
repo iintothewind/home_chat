@@ -23,30 +23,10 @@ body {
   font-size: 12px;
 }
 
-.ant-table-cell .ant-btn {
-  position: absolute;
-  display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
-  background-image: none;
-  user-select: none;
-  touch-action: manipulation;
-  font-size: 12px;
-}
-
-.ant-table-cell .ant-btn-circle {
-  top: 10px;
-  min-width: 28px;
-  padding-right: 0;
-  padding-left: 0;
-  text-align: center;
-  border-radius: 50%;
-}
-
-.ant-list {
+.message-list-wrapper .ant-list {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin-bottom: 52px;
+  margin-bottom: 10px;
   padding: 0;
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
@@ -58,11 +38,11 @@ body {
   position: relative;
 }
 
-.ant-list-sm .ant-list-item {
+.message-list-wrapper .ant-list-sm .ant-list-item {
   padding: 0px 0px;
 }
 
-.ant-list-item {
+.message-list-wrapper .ant-list-item {
   padding: 0px 0px;
   display: -ms-flexbox;
   display: flex;
@@ -72,41 +52,62 @@ body {
   justify-content: space-between;
 }
 
-.ant-comment-inner {
+.message-list-wrapper .ant-comment-inner {
   display: flex;
   padding: 0px;
 }
 
-.ant-comment-content-author {
+.message-list-wrapper .ant-comment-content-author {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   font-size: 14px;
 }
 
-.ant-comment-content {
+.message-list-wrapper .ant-comment-content {
   font-size: 14px;
   word-break: break-all;
 }
 
-.ant-comment-content img {
+.message-list-wrapper .ant-comment-content img {
   max-width: 100%;
 }
 
-.ant-comment-content pre {
+.message-list-wrapper .ant-comment-content pre {
   white-space: pre-wrap;
   word-break: break-all;
   overflow: auto;
   tab-size: 2;
 }
 
-.ant-comment-actions {
+.message-list-wrapper .ant-comment-actions {
   margin-top: 0px;
   margin-bottom: inherit;
   padding-left: 0;
 }
 
-.ant-card-grid {
+.markdown-table .ant-table-cell .ant-btn {
+  position: absolute;
+  display: inline-block;
+  font-weight: 400;
+  white-space: nowrap;
+  background-image: none;
+  user-select: none;
+  touch-action: manipulation;
+  font-size: 12px;
+}
+
+.markdown-table .ant-table-cell .ant-btn-circle {
+  top: 10px;
+  min-width: 28px;
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+  border-radius: 50%;
+}
+
+
+.sticker-card .ant-card-grid {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,7 +121,7 @@ body {
   transition: all 0.3s;
 }
 
-.ant-card-grid img {
+.sticker-card .ant-card-grid img {
   width: auto;
   height: auto;
   max-width: 100%;
