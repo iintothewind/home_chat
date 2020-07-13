@@ -31,9 +31,7 @@ export default function MarkDownTable(props: Props) {
       dataIndex: 'action',
       key: 'action',
       render: (_text: string, record: MarkDownSyntax) => (
-        <Tooltip title='apply'>
-          <Button shape='circle' icon={<CopyOutlined />} onClick={() => onButtonClick(record)} />
-        </Tooltip>
+        <Button shape='circle' icon={<CopyOutlined />} onClick={() => onButtonClick(record)} />
       )
     }
   ]
