@@ -117,7 +117,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     return (
       <div className='chat-input-wrapper'>
         <div className='text-render-box'>
-          {markDownEnabled ? <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} />}
+          {markDownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} />}
         </div>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText || ' '}</p>
