@@ -5,12 +5,8 @@ import { useLocation, Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga'
 import { cfg } from '../util/config'
 import axios from 'axios'
+import { RemoteIcon } from '../util/icon'
 import '../styles/login.css'
-
-import { createFromIconfontCN } from '@ant-design/icons';
-const Icon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1916135_igrz1nxv5.js',
-});
 
 if ('https' === window.location.protocol) {
   ReactGA.initialize(cfg.gaTrackingId)
@@ -83,7 +79,7 @@ const Login = (props: LoginProps) => {
   return (
     <Layout className='login-layout'>
       <Content className='login-content'>
-        <Icon type='icon-swallow' className='login-swallow' />
+        <RemoteIcon type='icon-swallow' className='login-swallow' />
         <h1>welcome to home_chat</h1>
       </Content>
       <Footer className='login-footer'>

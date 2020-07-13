@@ -229,9 +229,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const refreshedImages = this.state.images.slice(-cfg.maxInListImages).filter(msg => msg.moment > imageExpirationTime)
     const refreshedHeadImage = refreshedImages[0]
     const refreshedMessages = this.state.messages.map(message => {
-      if (((refreshedHeadImage && message.moment < refreshedHeadImage.moment) || message.moment < imageExpirationTime)
-        && message.category === 'markdown'
-        && imageMarkdownRegex.test(message.content)) {
+      if ((message.category === 'markdown'
+        && imageMarkdownRegex.test(message.content)
+        && ((refreshedHeadImage && message.moment < refreshedHeadImage.moment) || message.moment <= imageExpirationTime))) {
         const plainMessage: Message = { owner: message.owner, topic: message.topic, moment: message.moment, sender: message.sender, category: 'plain', content: message.content }
         return plainMessage
       } else {

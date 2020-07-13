@@ -17,6 +17,7 @@
   border-radius: 5px;
   overflow: hidden;
   box-sizing: border-box;
+
 }
 
 .chat-input-wrapper .placeholder {
@@ -56,21 +57,58 @@
   box-sizing: border-box;
 }
 
-.text-render {
+.text-render-box {
+  overflow: hidden;
+  border-radius: 50%;
+  box-sizing: border-box;
   position: absolute;
   width: 32px;
   height: 32px;
   left: 5px;
   bottom: 10px;
-  font-size: 32px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #096dd9;
+}
+
+.text-render-box:hover {
+  background-color: #1890ff;
+}
+
+.text-render {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  font-size: 28px;
+}
+
+.send-button-box {
+  overflow: hidden;
   border-radius: 50%;
+  box-sizing: border-box;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  right: 5px;
+  bottom: 10px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #096dd9;
+}
+
+.send-button-box:hover {
+  background-color: #1890ff;
 }
 
 .send-button {
-  width: 32px;
-  height: 32px;
-  position: absolute;
-  right: 5px;
-  bottom: 10px;
-  font-size: 32px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  font-size: 28px;
 }

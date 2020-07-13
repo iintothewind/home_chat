@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { Button, Drawer, Tabs, message } from 'antd'
+import { Drawer, Tabs, message } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
 import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
-import { FileMarkdownOutlined, FileTextOutlined, SendOutlined } from '@ant-design/icons'
+import { FileMarkdownTwoTone, FileTextTwoTone } from '@ant-design/icons'
 import MarkDownTable from './markdown'
 import StickerCard from './sticker';
+import { RemoteIcon } from '../util/icon'
 
 const { TabPane } = Tabs
 
@@ -116,15 +117,9 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     const { inputText, drawerVisible, markDownEnabled } = this.state
     return (
       <div className='chat-input-wrapper'>
-        <Button
-          type='primary'
-          shape='circle'
-          size='large'
-          icon={markDownEnabled ? <FileMarkdownOutlined /> : <FileTextOutlined />}
-          className='text-render'
-          onClick={this.showDrawer}
-        >
-        </Button>
+        <div className='text-render-box'>
+          {markDownEnabled ? <FileMarkdownTwoTone className='text-render' onClick={this.showDrawer} /> : <FileTextTwoTone className='text-render' onClick={this.showDrawer} />}
+        </div>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText || ' '}</p>
           <textarea
@@ -137,14 +132,9 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
             ref={this.textarea}
           />
         </div>
-        <Button
-          type='primary'
-          shape='circle'
-          size='large'
-          icon={<SendOutlined />}
-          className='send-button'
-          onClick={this.handleInput}
-        />
+        <div className='send-button-box'>
+          <RemoteIcon type='icon-send' className='send-button' onClick={this.handleInput} />
+        </div>
         <Drawer
           placement='top'
           height={350}
