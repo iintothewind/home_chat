@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Tooltip, Table } from 'antd'
+import { Button, Table } from 'antd'
 import { CopyOutlined } from '@ant-design/icons'
 
 interface MarkDownSyntax {
