@@ -2,7 +2,7 @@ import { DurationInputArg1, DurationInputArg2 } from 'moment'
 
 export const cfg = {
   appKey: 'home_chat',
-  baseName: '/home_chat',
+  baseName: '/',
   dbVersion: 1,
   mqttUrl: 'ws://192.168.0.147:1884',
   mqttsUrl: 'wss://mqtt.eclipse.org:443/mqtt',
