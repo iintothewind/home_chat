@@ -68,5 +68,5 @@ export default function MarkDownTable(props: Props) {
       operation: 'escape characters'
     },
   ]
-  return <Table columns={markdownColumns} dataSource={markdownDataSource} />;
+  return <Table className='markdown-table' columns={markdownColumns} dataSource={markdownDataSource} />;
 }
