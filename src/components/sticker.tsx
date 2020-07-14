@@ -33,27 +33,26 @@ interface CardState {
   inputUrl?: string
 }
 
-const aluFaceUrls = [
-  'https://i.loli.net/2020/07/12/KqNQdCbmlHzgvsT.gif',
-  'https://i.loli.net/2020/07/12/KAYOB2lESaDLon7.gif',
-  'https://i.loli.net/2020/07/04/oDPeR9zT6IF3YXN.png',
-  'https://i.loli.net/2020/07/04/jAlqDEIrQxa5NG1.png',
-  'https://i.loli.net/2020/07/04/hnrQltb8dLPVXNj.png',
-  'https://i.loli.net/2020/07/12/gpXRekfjr8U6GMh.gif',
-  'https://i.loli.net/2020/07/12/6vu1VTHcaGPYtpw.gif',
-  'https://i.loli.net/2020/07/04/xr8oLYWCgOGidSc.png',
-  'https://i.loli.net/2020/07/04/OsoutpAxXi3RHLF.png',
-  'https://i.loli.net/2020/07/04/JzHAyxKsM3T8kXl.png',
-  'https://i.loli.net/2020/07/04/YOdBPLCxn46Tgqh.png',
-  'https://i.loli.net/2020/07/04/IgQviSmuDWYZ6R8.png',
-  'https://i.loli.net/2020/07/04/QZwmFVujTi51pDq.png',
-  'https://i.loli.net/2020/07/04/gjOo95HnEuBUmb3.png',
-  'https://i.loli.net/2020/07/04/wrFxtyNZ76WOjSk.png',
-  'https://i.loli.net/2020/07/04/4g9QVWtYlhdoHjk.png',
-  'https://i.loli.net/2020/07/04/hVDq9Ac2GNipzYf.png',
-  'https://i.loli.net/2020/07/04/3E8vGZxbQYVkTq5.png',
+const stickerIcons: { k: string, v: string }[] = [
+  { k: 'dodge001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/8h1u.png' },
+  { k: 'alu001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/kewp.png' },
+  { k: 'alu002', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/5rko.png' },
+  { k: 'alu003', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/v49s.png'},
+  { k: 'alu004', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/zjms.png' },
+  { k: 'alu005', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/7px0.png' },
+  { k: 'alu006', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/qpea.png' },
+  { k: 'alu007', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jo58.png' },
+  { k: 'alu008', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/xmqb.png' },
+  { k: 'alu009', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/g77d.png' },
+  { k: 'alu010', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/kolz.png' },
+  { k: 'alu011', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/edxt.png' },
+  { k: 'alu012', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/l5c3.png' },
+  { k: 'alu013', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jcp7.png' },
+  { k: 'alu014', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jfd2.png' },
+  { k: 'alu015', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/w1wx.png' },
+  { k: 'alu016', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/69j4.png' },
+  { k: 'alu017', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/tovo.png' },
 ]
-
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
   private urlInput: React.RefObject<Input>
@@ -149,8 +148,8 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   loadDefaultStickers = () => {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
-      aluFaceUrls.forEach(url => {
-        const sticker: Sticker = { name: url.substr(url.lastIndexOf('/') + 1), url: url }
+      stickerIcons.forEach(icon => {
+        const sticker: Sticker = { name: icon.k, url: icon.v }
         this.setState({ stickers: this.state.stickers.concat(sticker) })
         this.saveSticker(this.props.sender, sticker)
       })
