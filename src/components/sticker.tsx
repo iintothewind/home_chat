@@ -5,6 +5,7 @@ import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
 import db, { Sticker } from '../util/db'
 import moment from 'moment'
+import { dodge001, alu001, alu002, alu003, alu004, alu005, alu006, alu007, alu008, alu009, alu010, alu011, alu012, alu013, alu014, alu015, alu016, alu017 } from '../util/icon'
 
 interface StickerProps {
   name?: string
@@ -33,27 +34,26 @@ interface CardState {
   inputUrl?: string
 }
 
-const aluFaceUrls = [
-  'https://i.loli.net/2020/07/12/KqNQdCbmlHzgvsT.gif',
-  'https://i.loli.net/2020/07/12/KAYOB2lESaDLon7.gif',
-  'https://i.loli.net/2020/07/04/oDPeR9zT6IF3YXN.png',
-  'https://i.loli.net/2020/07/04/jAlqDEIrQxa5NG1.png',
-  'https://i.loli.net/2020/07/04/hnrQltb8dLPVXNj.png',
-  'https://i.loli.net/2020/07/12/gpXRekfjr8U6GMh.gif',
-  'https://i.loli.net/2020/07/12/6vu1VTHcaGPYtpw.gif',
-  'https://i.loli.net/2020/07/04/xr8oLYWCgOGidSc.png',
-  'https://i.loli.net/2020/07/04/OsoutpAxXi3RHLF.png',
-  'https://i.loli.net/2020/07/04/JzHAyxKsM3T8kXl.png',
-  'https://i.loli.net/2020/07/04/YOdBPLCxn46Tgqh.png',
-  'https://i.loli.net/2020/07/04/IgQviSmuDWYZ6R8.png',
-  'https://i.loli.net/2020/07/04/QZwmFVujTi51pDq.png',
-  'https://i.loli.net/2020/07/04/gjOo95HnEuBUmb3.png',
-  'https://i.loli.net/2020/07/04/wrFxtyNZ76WOjSk.png',
-  'https://i.loli.net/2020/07/04/4g9QVWtYlhdoHjk.png',
-  'https://i.loli.net/2020/07/04/hVDq9Ac2GNipzYf.png',
-  'https://i.loli.net/2020/07/04/3E8vGZxbQYVkTq5.png',
+const stickerIcons: { k: string, v: string }[] = [
+  { k: 'dodge001', v: dodge001 },
+  { k: 'alu001', v: alu001 },
+  { k: 'alu002', v: alu002 },
+  { k: 'alu003', v: alu003 },
+  { k: 'alu004', v: alu004 },
+  { k: 'alu005', v: alu005 },
+  { k: 'alu006', v: alu006 },
+  { k: 'alu007', v: alu007 },
+  { k: 'alu008', v: alu008 },
+  { k: 'alu009', v: alu009 },
+  { k: 'alu010', v: alu010 },
+  { k: 'alu011', v: alu011 },
+  { k: 'alu012', v: alu012 },
+  { k: 'alu013', v: alu013 },
+  { k: 'alu014', v: alu014 },
+  { k: 'alu015', v: alu015 },
+  { k: 'alu016', v: alu016 },
+  { k: 'alu017', v: alu017 },
 ]
-
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
   private urlInput: React.RefObject<Input>
@@ -149,8 +149,8 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
 
   loadDefaultStickers = () => {
     if (Array.isArray(this.state.stickers) && this.state.stickers.length <= 0) {
-      aluFaceUrls.forEach(url => {
-        const sticker: Sticker = { name: url.substr(url.lastIndexOf('/') + 1), url: url }
+      stickerIcons.forEach(icon => {
+        const sticker: Sticker = { name: icon.k, url: icon.v }
         this.setState({ stickers: this.state.stickers.concat(sticker) })
         this.saveSticker(this.props.sender, sticker)
       })
