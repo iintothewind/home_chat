@@ -5,24 +5,6 @@ import { imageUrlRegex, makeImage } from '../util'
 import { PlusOutlined } from '@ant-design/icons'
 import db, { Sticker } from '../util/db'
 import moment from 'moment'
-import dodge001 from '../resources/stickers/dodge001.png'
-import alu001 from '../resources/stickers/alu001.png'
-import alu002 from '../resources/stickers/alu002.png'
-import alu003 from '../resources/stickers/alu003.png'
-import alu004 from '../resources/stickers/alu004.png'
-import alu005 from '../resources/stickers/alu005.png'
-import alu006 from '../resources/stickers/alu006.png'
-import alu007 from '../resources/stickers/alu007.png'
-import alu008 from '../resources/stickers/alu008.png'
-import alu009 from '../resources/stickers/alu009.png'
-import alu010 from '../resources/stickers/alu010.png'
-import alu011 from '../resources/stickers/alu011.png'
-import alu012 from '../resources/stickers/alu012.png'
-import alu013 from '../resources/stickers/alu013.png'
-import alu014 from '../resources/stickers/alu014.png'
-import alu015 from '../resources/stickers/alu015.png'
-import alu016 from '../resources/stickers/alu016.png'
-import alu017 from '../resources/stickers/alu017.png'
 
 interface StickerProps {
   name?: string
@@ -52,24 +34,24 @@ interface CardState {
 }
 
 const stickerIcons: { k: string, v: string }[] = [
-  { k: 'dodge001', v: dodge001 },
-  { k: 'alu001', v: alu001 },
-  { k: 'alu002', v: alu002 },
-  { k: 'alu003', v: alu003 },
-  { k: 'alu004', v: alu004 },
-  { k: 'alu005', v: alu005 },
-  { k: 'alu006', v: alu006 },
-  { k: 'alu007', v: alu007 },
-  { k: 'alu008', v: alu008 },
-  { k: 'alu009', v: alu009 },
-  { k: 'alu010', v: alu010 },
-  { k: 'alu011', v: alu011 },
-  { k: 'alu012', v: alu012 },
-  { k: 'alu013', v: alu013 },
-  { k: 'alu014', v: alu014 },
-  { k: 'alu015', v: alu015 },
-  { k: 'alu016', v: alu016 },
-  { k: 'alu017', v: alu017 },
+  { k: 'dodge001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/8h1u.png' },
+  { k: 'alu001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/kewp.png' },
+  { k: 'alu002', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/5rko.png' },
+  { k: 'alu003', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/v49s.png'},
+  { k: 'alu004', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/zjms.png' },
+  { k: 'alu005', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/7px0.png' },
+  { k: 'alu006', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/qpea.png' },
+  { k: 'alu007', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jo58.png' },
+  { k: 'alu008', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/xmqb.png' },
+  { k: 'alu009', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/g77d.png' },
+  { k: 'alu010', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/kolz.png' },
+  { k: 'alu011', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/edxt.png' },
+  { k: 'alu012', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/l5c3.png' },
+  { k: 'alu013', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jcp7.png' },
+  { k: 'alu014', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/jfd2.png' },
+  { k: 'alu015', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/w1wx.png' },
+  { k: 'alu016', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/69j4.png' },
+  { k: 'alu017', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/tovo.png' },
 ]
 
 export default class StickerCard extends React.Component<CardProps, CardState> {
