@@ -4,7 +4,7 @@ export const cfg = {
   appKey: 'home_chat',
   baseName: '/home_chat',
   dbVersion: 1,
-  mqttUrl: 'ws://141.164.50.135:8083',
+  mqttUrl: 'ws://141.164.50.135:8083/mqtt',
   mqttsUrl: 'wss://141.164.50.135:8084/mqtt',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
