@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Drawer, Tabs, message } from 'antd'
 import moment from 'moment'
 import { Message } from '../util/db';
-import { makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
+import { removeExtraBlankLines, makeImage, makeLink, makeCode, makeBold, escapeMarkdown, imageMarkdownRegex } from '../util'
 import { cfg } from '../util/config';
 import '../styles/ChatInput.css'
 import MarkDownTable from './markdown'
@@ -32,14 +32,15 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   handleInput = () => {
-    const content = this.textarea.current?.value?.trim()
-    if (content) {
-      const markdownImageNumber = content.split('![').length - 1
+    const text = this.textarea.current?.value?.trim()
+    if (text) {
+      const markdownImageNumber = text.split('![').length - 1
       if (this.state.markdownEnabled && markdownImageNumber > 1) {
         void message.warning('Only one markdown image is supported per each message')
       } else if (this.props.sendMessage) {
         const now = moment.now()
         const category = this.state.markdownEnabled ? 'markdown' : 'plain'
+        const content = this.state.markdownEnabled ? text : removeExtraBlankLines(text)
         this.props.sendMessage({ topic: this.props.topic, moment: now, sender: this.props.sender, category: category, content: content })
         this.setState({ inputText: '' })
       }

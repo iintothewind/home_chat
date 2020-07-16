@@ -4,6 +4,10 @@ const imageUrlRegex: RegExp = /^(http|https):\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.we
 
 const imageMarkdownRegex: RegExp = /!\[.*\]\((http|https):\/\/[^\s]*(.jpg|.jpeg|.png|.gif|.webp)\)/
 
+const blankLinesRegex: RegExp = /(\s*)\n{1,}(\s*)/g
+
+const removeExtraBlankLines = (text: string) => text ? text.replace(blankLinesRegex, '\n') : text
+
 const isJsonString = (json: string) => {
   try {
     if (typeof JSON.parse(json) == 'object') {
@@ -61,6 +65,6 @@ const makeBold = (text: string) => {
 }
 
 export {
-  urlRegex, imageUrlRegex, imageMarkdownRegex,
-  isJsonString, escapeMarkdown, makePlainText, makeImage, makeLink, makeCode, makeBold
+  urlRegex, imageUrlRegex, imageMarkdownRegex, blankLinesRegex,
+  isJsonString, removeExtraBlankLines, escapeMarkdown, makePlainText, makeImage, makeLink, makeCode, makeBold
 }
