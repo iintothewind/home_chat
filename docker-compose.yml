@@ -12,7 +12,7 @@ services:
       # host:container wss
       - "8084:8084"
       # host:container api
-      - "8080:8080"
+      - "8082:8080"
     volumes:
       # host:container mosquitto config
       - ./etc/emqx.conf:/opt/emqx/emqx.conf
