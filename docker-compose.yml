@@ -1,20 +1,26 @@
 version: '3'
 services:
-  mosquitto:
-    image: "eclipse-mosquitto:1.6.9"
+  emqx:
+    image: "emqx/emqx:v4.1.1"
     ports:
-      # host:container mqtt port
+      # host:container mqtt
       - "1883:1883"
-      # host:container websocket port
-      - "1884:1884"
+      # host:container mqtts
+      - "8883:8883"
+      # host:container ws
+      - "8083:8083"
+      # host:container wss
+      - "8084:8084"
+      # host:container api
+      - "8080:8080"
     volumes:
       # host:container mosquitto config
-      - ./etc/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./etc/emqx.conf:/opt/emqx/emqx.conf
     networks:
       - home_chat
   nginx:
     depends_on:
-      - mosquitto
+      - emqx
     image: "nginx:stable"
     ports:
       # host:container http port
