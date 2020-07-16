@@ -68,7 +68,10 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   onTextChange: React.ChangeEventHandler<HTMLTextAreaElement> = e => {
-    this.setState({ inputText: e.target.value, drawerVisible: false })
+    const input = e.target.value
+    if (input === '' || input?.trim()) {
+      this.setState({ inputText: e.target.value, drawerVisible: false })
+    }
   }
 
   operate = (ops: (text: string) => string) => {
@@ -120,7 +123,7 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
           {markDownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} />}
         </div>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
-          <p className='placeholder'>{inputText || ' '}</p>
+          <p className='placeholder'>{inputText}</p>
           <textarea
             className='textarea'
             value={inputText}
