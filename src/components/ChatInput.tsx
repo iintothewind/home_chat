@@ -20,7 +20,7 @@ interface ChatInputProps {
 interface ChatInputStates {
   inputText: string
   drawerVisible: boolean
-  markDownEnabled: boolean
+  markdownEnabled: boolean
 }
 
 export default class ChatInput extends Component<ChatInputProps, ChatInputStates> {
@@ -28,19 +28,18 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   constructor(props: ChatInputProps) {
     super(props)
     this.textarea = React.createRef<HTMLTextAreaElement>()
-    this.state = { inputText: '', drawerVisible: false, markDownEnabled: false }
+    this.state = { inputText: '', drawerVisible: false, markdownEnabled: false }
   }
 
   handleInput = () => {
-    if (this.textarea.current?.value) {
-      const inputValue = this.textarea.current.value
-      const markdownImageNumber = inputValue.split('![').length - 1
-      if (this.state.markDownEnabled && markdownImageNumber > 1) {
+    const content = this.textarea.current?.value?.trim()
+    if (content) {
+      const markdownImageNumber = content.split('![').length - 1
+      if (this.state.markdownEnabled && markdownImageNumber > 1) {
         void message.warning('Only one markdown image is supported per each message')
-      } else if (inputValue && inputValue.trim() && this.props.sendMessage) {
+      } else if (this.props.sendMessage) {
         const now = moment.now()
-        const category = this.state.markDownEnabled ? 'markdown' : 'plain'
-        const content = inputValue.trim()
+        const category = this.state.markdownEnabled ? 'markdown' : 'plain'
         this.props.sendMessage({ topic: this.props.topic, moment: now, sender: this.props.sender, category: category, content: content })
         this.setState({ inputText: '' })
       }
@@ -78,16 +77,16 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     const plainText = this.state.inputText
     const markdownText = ops(plainText)
     if (plainText === markdownText) {
-      this.setState({ markDownEnabled: false, drawerVisible: false })
+      this.setState({ markdownEnabled: false, drawerVisible: false })
       void message.warning(`Input text is invalid for the selected operation`)
     } else {
-      this.setState({ inputText: markdownText, markDownEnabled: true, drawerVisible: false })
+      this.setState({ inputText: markdownText, markdownEnabled: true, drawerVisible: false })
     }
   }
 
   updateMarkdown = (operation: string) => {
     if ('mode change' === operation) {
-      this.setState({ markDownEnabled: !this.state.markDownEnabled, drawerVisible: false })
+      this.setState({ markdownEnabled: !this.state.markdownEnabled, drawerVisible: false })
     } else if ('insert image' === operation) {
       this.operate(makeImage)
     } else if ('insert link' === operation) {
@@ -105,9 +104,9 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     const existingText = this.state.inputText
     if (existingText && imageMarkdownRegex.test(existingText)) {
       void message.warning('Only one markdown image is supported per each message')
-      this.setState({ markDownEnabled: true, drawerVisible: false })
+      this.setState({ markdownEnabled: true, drawerVisible: false })
     } else if (imageMarkdown && imageMarkdownRegex.test(imageMarkdown)) {
-      this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markDownEnabled: true, drawerVisible: false })
+      this.setState({ inputText: `${this.state.inputText}  ${imageMarkdown}`, markdownEnabled: true, drawerVisible: false })
     }
   }
 
@@ -116,11 +115,11 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
   }
 
   render() {
-    const { inputText, drawerVisible, markDownEnabled } = this.state
+    const { inputText, drawerVisible, markdownEnabled } = this.state
     return (
       <div className='chat-input-wrapper'>
         <div className='text-render-box'>
-          {markDownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} />}
+          {markdownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} />}
         </div>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText}</p>
