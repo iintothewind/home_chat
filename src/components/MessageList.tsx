@@ -66,7 +66,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   initMqttConnection = (sender: string) => {
     const mqttUrl = 'https:' === window.location.protocol ? cfg.mqttsUrl : cfg.mqttUrl
     const clean = sender.startsWith('user_') ? true : false
-    const client = connect(mqttUrl, { clientId: this.user, clean: clean })
+    const client = connect(mqttUrl, { clientId: this.user, clean: clean, rejectUnauthorized: false })
     return client
   }
 
