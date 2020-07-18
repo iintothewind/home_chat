@@ -42,6 +42,8 @@ home_chat是一个可以在不同家庭设备直接传输消息的网页及时�
 
 - 首先, 你需要切换到[docker](https://github.com/iintothewind/home_chat/tree/docker)分支来做以下步骤
 
+- 更新配置文件`util/config.ts`, 比如`mqttUrl`, `backendUrl`, `baseName`等
+
 - `npm run build`
 
 编译好的文件会放在`./build`里面

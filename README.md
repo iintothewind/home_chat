@@ -39,6 +39,8 @@ It can be deployed on both x86(pc) and armv7(respberrypi) docker containers.
 
 - first of all, use [docker](https://github.com/iintothewind/home_chat/tree/docker) branch to do the following step
 
+- update config in `util/config.ts`, such as `mqttUrl`, `backend_url`, `baseName`, and so on
+
 - `npm run build`
 
 All compiled pages will be created in `./build` folder.
