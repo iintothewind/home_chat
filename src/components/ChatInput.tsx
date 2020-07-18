@@ -119,8 +119,8 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
     const { inputText, drawerVisible, markdownEnabled } = this.state
     return (
       <div className='chat-input-wrapper'>
-        <div className='text-render-box'>
-          {markdownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' onClick={this.showDrawer} /> : <RemoteIcon type='icon-file-text' className='text-render' onClick={this.showDrawer} />}
+        <div className='text-render-box' onClick={this.showDrawer}>
+          {markdownEnabled ? <RemoteIcon type='icon-file-markdown' className='text-render' /> : <RemoteIcon type='icon-file-text' className='text-render' />}
         </div>
         <div className='textarea-box' style={{ height: !inputText ? 32 : 'auto' }}>
           <p className='placeholder'>{inputText}</p>
@@ -134,8 +134,8 @@ export default class ChatInput extends Component<ChatInputProps, ChatInputStates
             ref={this.textarea}
           />
         </div>
-        <div className='send-button-box'>
-          <RemoteIcon type='icon-send' className='send-button' onClick={this.handleInput} />
+        <div className='send-button-box' onClick={this.handleInput}>
+          <RemoteIcon type='icon-send' className='send-button' />
         </div>
         <Drawer
           placement='top'
