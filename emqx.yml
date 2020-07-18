@@ -1,0 +1,33 @@
+version: '3'
+services:
+  emqx:
+    image: "emqx/emqx:v4.1.1"
+    environment:
+    - "EMQX_LOADED_PLUGINS=emqx_dashboard,emqx_management,emqx_rule_engine,emqx_retainer"
+    - "PLATFORM_DATA_DIR=/opt/emqx/data"
+    ports:
+      # host:container management
+      - "8081:8081"
+      # host:container mqtt
+      - "1883:1883"
+      # host:container mqtts
+      - "8883:8883"
+      # host:container ws
+      - "8083:8083"
+      # host:container wss
+      - "8084:8084"
+      # host:container dashboard
+      - "18083:18083"
+    volumes:
+      # host:container mosquitto config
+      - ./etc/emqx.conf:/opt/emqx/etc/emqx.conf
+      - ./etc/key.pem:/opt/emqx/etc/certs/key.pem
+      - ./etc/cert.pem:/opt/emqx/etc/certs/cert.pem
+      #- ./data:/opt/emqx/data
+    networks:
+      - emqx-bridge
+
+networks:
+  emqx-bridge:
+    driver: bridge
+  
