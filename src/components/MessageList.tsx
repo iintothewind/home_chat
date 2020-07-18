@@ -119,7 +119,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     db.transaction('r', db.message, async () => {
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       const images: Message[] = messages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
-      this.setState({ messages: messages, images: images })
+      this.setState({ messages: messages.concat(this.state.messages), images: images.concat(this.state.images) })
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
