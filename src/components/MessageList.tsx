@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactGA from 'react-ga'
 import Markdown from 'react-showdown'
 import { List, Comment, Layout, notification, Tooltip } from 'antd'
 import moment from 'moment'
@@ -207,15 +206,6 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         })
         nprogress.done()
       })
-
-    if ('https' === window.location.protocol) {
-      ReactGA.initialize(cfg.gaTrackingId, {
-        gaOptions: {
-          userId: this.user
-        }
-      })
-      ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
-    }
   }
 
   componentWillUnmount(): void {
