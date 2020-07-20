@@ -2,16 +2,10 @@ import React, { useState } from 'react'
 import { Layout, Alert } from 'antd'
 import { LoginOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useLocation, Redirect } from 'react-router-dom'
-import ReactGA from 'react-ga'
 import { cfg } from '../util/config'
 import axios from 'axios'
 import { RemoteIcon } from '../util/icon'
 import '../styles/login.css'
-
-if ('https' === window.location.protocol) {
-  ReactGA.initialize(cfg.gaTrackingId)
-  ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
-}
 
 const { Footer, Content } = Layout
 

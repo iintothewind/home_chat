@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactGA from 'react-ga'
 import Markdown from 'react-showdown'
 import { List, Comment, Layout, notification, Tooltip } from 'antd'
 import moment from 'moment'
@@ -119,7 +118,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     db.transaction('r', db.message, async () => {
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       const images: Message[] = messages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
-      this.setState({ messages: messages, images: images })
+      this.setState({ messages: messages.concat(this.state.messages), images: images.concat(this.state.images) })
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -207,15 +206,6 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         })
         nprogress.done()
       })
-
-    if ('https' === window.location.protocol) {
-      ReactGA.initialize(cfg.gaTrackingId, {
-        gaOptions: {
-          userId: this.user
-        }
-      })
-      ReactGA.pageview(`${window.location.pathname}${window.location.search}`)
-    }
   }
 
   componentWillUnmount(): void {
