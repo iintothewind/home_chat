@@ -1,6 +1,6 @@
 {
   "name": "home_chat",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": true,
   "homepage": "home_chat",
   "dependencies": {
@@ -15,6 +15,7 @@
     "push.js": "^1.0.12",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-github-corner": "^2.3.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-showdown": "^2.1.0",
