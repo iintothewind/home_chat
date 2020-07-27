@@ -4,6 +4,7 @@ export const cfg = {
   appKey: 'home_chat',
   baseName: '/',
   dbVersion: 1,
+  projectUrl: 'https://github.com/username/repo',
   // mqttUrl: 'ws://192.168.0.147:1884',
   // mqttsUrl: 'wss://mqtt.eclipse.org:443/mqtt',
   mqttUrl: 'ws://192.168.0.147:1884',
