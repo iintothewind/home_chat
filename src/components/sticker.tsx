@@ -8,6 +8,7 @@ import moment from 'moment'
 
 interface StickerProps {
   name?: string
+  indice?: number
   url: string
   handleClick?: () => void
 }
@@ -16,7 +17,9 @@ class StickerGrid extends React.Component<StickerProps> {
   render() {
     return <Card.Grid>
       <Tooltip title={this.props.name}>
-        <img src={this.props.url} alt={this.props.name} onClick={() => this.props.handleClick && this.props.handleClick()} />
+        <div className='img-box' role='button' tabIndex={0} onKeyPress={() => this.props.handleClick && this.props.handleClick()} onClick={() => this.props.handleClick && this.props.handleClick()} >
+          <img src={this.props.url} alt={this.props.name} />
+        </div>
       </Tooltip>
     </Card.Grid>;
   }
@@ -37,7 +40,7 @@ const stickerIcons: { k: string, v: string }[] = [
   { k: 'dodge001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/8h1u.png' },
   { k: 'alu001', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/kewp.png' },
   { k: 'alu002', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/5rko.png' },
-  { k: 'alu003', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/v49s.png'},
+  { k: 'alu003', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/v49s.png' },
   { k: 'alu004', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/zjms.png' },
   { k: 'alu005', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/7px0.png' },
   { k: 'alu006', v: 'https://bit-images.bj.bcebos.com/bit-new/file/20200714/qpea.png' },
@@ -184,6 +187,7 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
         {this.state.stickers.map((sticker, index) => {
           return <StickerGrid
             key={index}
+            indice={index}
             name={sticker.name || String(index)}
             url={sticker.url}
             handleClick={() => this.handleStickerClick(index, sticker.url)} />

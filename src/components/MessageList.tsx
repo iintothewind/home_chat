@@ -148,8 +148,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   pushNotification = (message: Message) => {
     if (this.state.allowNotify) {
-      push.create(`${message.sender}: `, {
+      void push.create(`${message.sender}: `, {
         tag: `msg${message.moment}`,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         icon: logo,
         body: message.content,
         timeout: 5000,
