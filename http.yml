@@ -19,15 +19,26 @@ services:
       # host:container dashboard
       - "18083:18083"
     volumes:
-      # host:container mosquitto config
       - ./etc/emqx.conf:/opt/emqx/etc/emqx.conf
-      - ./etc/key.pem:/opt/emqx/etc/certs/key.pem
-      - ./etc/cert.pem:/opt/emqx/etc/certs/cert.pem
+      - ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
+      - ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
       #- ./data:/opt/emqx/data
     networks:
-      - emqx-bridge
-
+      - home_chat
+  nginx:
+    depends_on:
+      - emqx
+    image: "nginx:stable"
+    ports:
+      # host:container http port
+      - "8080:8080"
+    volumes:
+      # host:container http config
+      - ./etc/nginx.conf:/etc/nginx/nginx.conf
+      # host:container app directory
+      - ./build:/usr/share/nginx/html/home_chat:ro
+    networks:
+      - home_chat
 networks:
-  emqx-bridge:
-    driver: bridge
-  
+  home_chat:
+    external: true
