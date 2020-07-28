@@ -20,8 +20,8 @@ services:
       - "18083:18083"
     volumes:
       - ./etc/http/emqx.conf:/opt/emqx/etc/emqx.conf
-      - ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
-      - ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
+      # - ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
+      # - ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
       #- ./data:/opt/emqx/data
     networks:
       - home_chat
