@@ -67,6 +67,7 @@ const Login = (props: LoginProps) => {
         setState({ user: response.data })
       })
       .catch(error => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         setState({ error: error })
       })
   }
