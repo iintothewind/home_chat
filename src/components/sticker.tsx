@@ -8,7 +8,6 @@ import moment from 'moment'
 
 interface StickerProps {
   name?: string
-  indice?: number
   url: string
   handleClick?: () => void
 }
@@ -187,7 +186,6 @@ export default class StickerCard extends React.Component<CardProps, CardState> {
         {this.state.stickers.map((sticker, index) => {
           return <StickerGrid
             key={index}
-            indice={index}
             name={sticker.name || String(index)}
             url={sticker.url}
             handleClick={() => this.handleStickerClick(index, sticker.url)} />
