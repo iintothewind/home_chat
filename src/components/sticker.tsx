@@ -17,7 +17,7 @@ class StickerGrid extends React.Component<StickerProps> {
     return <Card.Grid>
       <Tooltip title={this.props.name}>
         <div className='img-box' role='button' tabIndex={0} onKeyPress={() => this.props.handleClick && this.props.handleClick()} onClick={() => this.props.handleClick && this.props.handleClick()} >
-          <img src={this.props.url} alt={this.props.name} />
+          <img src={this.props.url} loading='lazy' alt={this.props.name} />
         </div>
       </Tooltip>
     </Card.Grid>;
