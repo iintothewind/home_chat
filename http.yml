@@ -45,6 +45,7 @@ services:
   nginx:
     depends_on:
       - emqx
+      - redis
     container_name: "home_chat_nginx"
     image: "nginx:stable"
     ports:
