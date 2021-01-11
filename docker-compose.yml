@@ -29,7 +29,7 @@ services:
 
   redis:
     container_name: "home_chat_redis"
-    image: "6.0.8"
+    image: "redis:6.0.8"
     privileged: false
     environment:
       - TZ=Asia/Shanghai
