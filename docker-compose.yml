@@ -1,6 +1,7 @@
 version: '3'
 services:
   emqx:
+    container_name: "home_chat_emqx"
     image: "emqx/emqx:v4.1.1"
     environment:
     - "EMQX_LOADED_PLUGINS=emqx_dashboard,emqx_management,emqx_rule_engine,emqx_retainer"
@@ -28,6 +29,7 @@ services:
   nginx:
     depends_on:
       - emqx
+    container_name: "home_chat_nginx"
     image: "nginx:stable"
     ports:
       # host:container http port
