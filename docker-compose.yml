@@ -26,9 +26,26 @@ services:
       #- ./data:/opt/emqx/data
     networks:
       - home_chat
+
+  redis:
+    container_name: "home_chat_redis"
+    image: "6.0.8"
+    privileged: false
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=en_US.UTF-8
+    volumes:
+      - ./etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "16379:16379"
+    command: "redis-server /usr/local/etc/redis/redis.conf"
+    networks:
+      - home_chat
+
   nginx:
     depends_on:
       - emqx
+      - redis
     container_name: "home_chat_nginx"
     image: "nginx:stable"
     ports:
