@@ -148,9 +148,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         }))
       messages.forEach(msg => {
         if (msg.category === 'markdown' && imageMarkdownRegex.test(msg.content)) {
-          this.setState({ messages: [msg, ...this.state.messages], images: [msg, ...this.state.images] })
+          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), images: this.state.images.concat(msg).sort((l, r) => l.moment - r.moment) })
         } else {
-          this.setState({ messages: [msg, ...this.state.messages] })
+          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment) })
         }
       })
     }
@@ -273,7 +273,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   render() {
     return (
       <div className='message-list-wrapper'>
-        <Affix offsetTop={10} style={{ position: 'absolute', left: '95%' }}>
+        <Affix offsetTop={10} style={{ position: 'absolute', left: '70%' }}>
           <Button onClick={this.loadHistory}>load history</Button>
         </Affix>
         <Layout>
