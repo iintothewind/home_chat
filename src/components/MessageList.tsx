@@ -1,12 +1,13 @@
 import React from 'react'
 import Markdown from 'react-showdown'
-import { List, Comment, Layout, notification, Tooltip } from 'antd'
-import moment from 'moment'
+import { List, Comment, Layout, notification, Tooltip, Affix, Button } from 'antd'
+import * as moment from 'moment'
 import ChatInput from './ChatInput'
 import db, { Message } from '../util/db'
 import { isJsonString, imageMarkdownRegex } from '../util'
 import { connect, MqttClient } from 'mqtt'
 import { cfg } from '../util/config'
+import axios from 'axios'
 import nprogress from 'nprogress'
 import push from 'push.js'
 import '../styles/global.css'
@@ -57,7 +58,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   initParams = (query: string | undefined) => {
     const params = new URLSearchParams(query)
-    const user = params.get('user')?.trim() || `user_${moment().format('x')}`
+    const user = params.get('user')?.trim() || `user_${moment.default().format('x')}`
     const topic = params.get('topic')?.trim() ? `${cfg.mqttTopicPrefx}${(params.get('topic') || '').trim()}` : `${cfg.mqttTopicPrefx}${cfg.mqttDefaultTopic}`
     return { user: user, topic: topic }
   }
@@ -82,7 +83,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredMessages = (owner: string) => {
-    const localMessageExpirationTime: number = Number(moment().subtract(cfg.localTextMessageExpiration.amount, cfg.localTextMessageExpiration.unit).format('x'))
+    const localMessageExpirationTime: number = Number(moment.default().subtract(cfg.localTextMessageExpiration.amount, cfg.localTextMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
@@ -97,7 +98,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   cleanExpiredImages = (owner: string) => {
-    const imageExpirationTime: number = Number(moment().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
+    const imageExpirationTime: number = Number(moment.default().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
     db.transaction('rw', db.message, async () => {
       await db.message
         .where('owner').equalsIgnoreCase(owner)
@@ -125,6 +126,34 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         description: 'failed to load chat log: '.concat(error)
       })
     })
+  }
+
+  // load last n messages in redis stream from start to 1 second before the moment of the first message in the list
+  loadHistory = async () => {
+    const momentOfHeadMessage: number = this.state.messages && this.state.messages.length > 0 ? this.state.messages[0].moment : Number(moment.default().format('x'))
+    const before: string = moment.default(momentOfHeadMessage, 'x').subtract(1, 'second').format('x')
+    const params = new URLSearchParams({ topic: this.topic, before: before })
+    const headers = { 'Accept': 'application/json' }
+    const messages: Message[] = await axios
+      .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers })
+      .then(response => response.data.messages)
+      .catch(_ => [])
+    if (messages && messages.length > 0) {
+      db
+        .message
+        .bulkAdd(messages.map(msg => ({ topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content } as Message)))
+        .catch(error => notification['error']({
+          message: 'IndexedDB',
+          description: 'failed to log message: '.concat(error)
+        }))
+      messages.forEach(msg => {
+        if (msg.category === 'markdown' && imageMarkdownRegex.test(msg.content)) {
+          this.setState({ messages: [msg, ...this.state.messages], images: [msg, ...this.state.images] })
+        } else {
+          this.setState({ messages: [msg, ...this.state.messages] })
+        }
+      })
+    }
   }
 
   logMessage = (message: Message) => {
@@ -216,7 +245,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   }
 
   refreshState = () => {
-    const imageExpirationTime: number = Number(moment().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
+    const imageExpirationTime: number = Number(moment.default().subtract(cfg.localImageMessageExpiration.amount, cfg.localImageMessageExpiration.unit).format('x'))
     const refreshedImages = this.state.images.slice(-cfg.maxInListImages).filter(msg => msg.moment > imageExpirationTime)
     const refreshedHeadImage = refreshedImages[0]
     const refreshedMessages = this.state.messages.map(message => {
@@ -244,6 +273,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   render() {
     return (
       <div className='message-list-wrapper'>
+        <Affix offsetTop={10} style={{ position: 'absolute', left: '95%' }}>
+          <Button onClick={this.loadHistory}>load history</Button>
+        </Affix>
         <Layout>
           <Content>
             <List
@@ -258,8 +290,8 @@ export default class MessageList extends React.Component<MessageListProps, Messa
                       </Tooltip>
                     }
                     datetime={
-                      <Tooltip title={moment(message.moment, 'x').fromNow()}>
-                        <span>{moment(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}</span>
+                      <Tooltip title={moment.default(message.moment, 'x').fromNow()}>
+                        <span>{moment.default(message.moment, 'x').format('YYYY-MM-DD HH:mm:ss')}</span>
                       </Tooltip>
                     }
                     content={'markdown' === message.category ?
