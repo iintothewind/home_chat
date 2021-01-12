@@ -1,4 +1,10 @@
 {
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -6,20 +12,22 @@
       "dom.iterable",
       "esnext"
     ],
+    "baseUrl": ".",
+    "alwaysStrict": true,
     "allowJs": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "noImplicitReturns": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
-  },
-  "include": [
-    "src"
-  ]
+    "jsx": "react",
+    "strict": true
+  }
 }
