@@ -122,15 +122,16 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       const images: Message[] = messages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
       this.setState({ messages: messages.concat(this.state.messages), images: images.concat(this.state.images) })
+    }).then(_ => {
+      if (this.state.messages && this.state.messages.length === 0) {
+        this.loadHistory()
+      }
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
         description: 'failed to load chat log: '.concat(error)
       })
     })
-    if(this.state.messages && this.state.messages.length === 0) {
-      this.loadHistory()
-    }
   }
 
   // load last n messages in redis stream from start to 1 second before the moment of the first message in the list
@@ -141,7 +142,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const params = new URLSearchParams({ topic: this.topic, before: before })
     const headers = { 'Accept': 'application/json' }
     const messages: Message[] = await axios
-      .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout:30000 })
+      .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout: 30000 })
       .then(response => response.data.messages)
       .catch(_ => [])
     if (messages && messages.length > 0) {
@@ -283,7 +284,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       <div className='message-list-wrapper'>
         {this.state.allowLoadHistory ?
           <Affix offsetTop={10} style={{ position: 'absolute', left: '70%' }}>
-            <Button shape='circle' icon={<RemoteIcon type='icon-history'/>} onClick={this.loadHistory} />
+            <Button shape='circle' icon={<RemoteIcon type='icon-history' />} onClick={this.loadHistory} />
           </Affix>
           :
           <div />
