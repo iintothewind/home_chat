@@ -283,7 +283,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     return (
       <div className='message-list-wrapper'>
         {this.state.allowLoadHistory ?
-          <Affix offsetTop={10} style={{ position: 'absolute', left: '70%' }}>
+          <Affix offsetTop={10} style={{ position: 'absolute', left: '80%' }}>
             <Button shape='circle' icon={<RemoteIcon type='icon-history' />} onClick={this.loadHistory} />
           </Affix>
           :
