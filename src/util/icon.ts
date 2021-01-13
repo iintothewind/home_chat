@@ -19,7 +19,7 @@ import alu016 from '../resources/stickers/alu016.png'
 import alu017 from '../resources/stickers/alu017.png'
 
 const RemoteIcon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1916135_7w437xp5ld2.js',
+  scriptUrl: '//at.alicdn.com/t/font_1916135_vn8ahm7dixi.js',
 });
 
 export {
