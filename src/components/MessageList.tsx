@@ -13,6 +13,7 @@ import push from 'push.js'
 import '../styles/global.css'
 import '../styles/nprogress.css'
 import logo from '../resources/logo70.png'
+import { RemoteIcon } from '../util/icon'
 
 
 const markdownOptions = {
@@ -37,6 +38,7 @@ interface MessageListState {
   messages: Message[]
   images: Message[]
   allowNotify: boolean
+  allowLoadHistory: boolean
 }
 
 export default class MessageList extends React.Component<MessageListProps, MessageListState> {
@@ -53,7 +55,7 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     this.user = params.user
     this.topic = params.topic
     this.mqtt = this.initMqttConnection(this.user)
-    this.state = { messages: [], images: [], allowNotify: false }
+    this.state = { messages: [], images: [], allowNotify: false, allowLoadHistory: true }
   }
 
   initParams = (query: string | undefined) => {
@@ -120,6 +122,10 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       const messages: Message[] = await db.message.where('owner').equalsIgnoreCase(owner).sortBy('moment')
       const images: Message[] = messages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
       this.setState({ messages: messages.concat(this.state.messages), images: images.concat(this.state.images) })
+    }).then(_ => {
+      if (this.state.messages && this.state.messages.length === 0) {
+        this.loadHistory()
+      }
     }).catch(error => {
       notification['error']({
         message: 'IndexedDB',
@@ -130,12 +136,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
 
   // load last n messages in redis stream from start to 1 second before the moment of the first message in the list
   loadHistory = async () => {
+    this.setState({ allowLoadHistory: false })
     const momentOfHeadMessage: number = this.state.messages && this.state.messages.length > 0 ? this.state.messages[0].moment : Number(moment.default().format('x'))
     const before: string = moment.default(momentOfHeadMessage, 'x').subtract(1, 'second').format('x')
     const params = new URLSearchParams({ topic: this.topic, before: before })
     const headers = { 'Accept': 'application/json' }
     const messages: Message[] = await axios
-      .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers })
+      .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout: 30000 })
       .then(response => response.data.messages)
       .catch(_ => [])
     if (messages && messages.length > 0) {
@@ -148,11 +155,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         }))
       messages.forEach(msg => {
         if (msg.category === 'markdown' && imageMarkdownRegex.test(msg.content)) {
-          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), images: this.state.images.concat(msg).sort((l, r) => l.moment - r.moment) })
+          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), images: this.state.images.concat(msg).sort((l, r) => l.moment - r.moment), allowLoadHistory: true })
         } else {
-          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment) })
+          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), allowLoadHistory: true })
         }
       })
+    } else {
+      this.setState({ allowLoadHistory: false })
     }
   }
 
@@ -273,9 +282,13 @@ export default class MessageList extends React.Component<MessageListProps, Messa
   render() {
     return (
       <div className='message-list-wrapper'>
-        <Affix offsetTop={10} style={{ position: 'absolute', left: '70%' }}>
-          <Button onClick={this.loadHistory}>load history</Button>
-        </Affix>
+        {this.state.allowLoadHistory ?
+          <Affix offsetTop={10} style={{ position: 'absolute', left: '80%' }}>
+            <Button shape='circle' icon={<RemoteIcon type='icon-history' />} onClick={this.loadHistory} />
+          </Affix>
+          :
+          <div />
+        }
         <Layout>
           <Content>
             <List
