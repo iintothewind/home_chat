@@ -11,7 +11,7 @@ export const cfg = {
   mqttsUrl: 'wss://mqtt.ivarchen.xyz:8084/mqtt',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
-  backendUrl: 'https://mqttchat.herokuapp.com',
+  backendUrl: 'https://home-chat.ivarchen.xyz:8443',
   clientId: 'd091146121f6eb144f83',
   maxInputLength: 5120,
   gaTrackingId: 'UA-171653853-1',
