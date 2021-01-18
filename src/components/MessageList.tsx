@@ -141,25 +141,25 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const before: string = moment.default(momentOfHeadMessage, 'x').subtract(1, 'second').format('x')
     const params = new URLSearchParams({ topic: this.topic, before: before })
     const headers = { 'Accept': 'application/json' }
-    const messages: Message[] = await axios
+    const historyMessages: Message[] = await axios
       .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout: 30000 })
       .then(response => response.data.messages)
       .catch(_ => [])
-    if (messages && messages.length > 0) {
+    if (historyMessages && historyMessages.length > 0) {
       db
         .message
-        .bulkAdd(messages.map(msg => ({ topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content } as Message)))
+        .bulkAdd(historyMessages.map(msg => ({ topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content } as Message)))
         .catch(error => notification['error']({
           message: 'IndexedDB',
           description: 'failed to log message: '.concat(error)
         }))
-      messages.forEach(msg => {
-        if (msg.category === 'markdown' && imageMarkdownRegex.test(msg.content)) {
-          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), images: this.state.images.concat(msg).sort((l, r) => l.moment - r.moment), allowLoadHistory: true })
-        } else {
-          this.setState({ messages: this.state.messages.concat(msg).sort((l, r) => l.moment - r.moment), allowLoadHistory: true })
-        }
+      const historyImages = historyMessages.filter(msg => msg.category === 'markdown' && imageMarkdownRegex.test(msg.content))
+      this.setState({
+        messages: this.state.messages.concat(historyMessages).sort((l, r) => l.moment - r.moment),
+        images: this.state.images.concat(historyImages).sort((l, r) => l.moment - r.moment),
+        allowLoadHistory: true
       })
+
     } else {
       this.setState({ allowLoadHistory: false })
     }
