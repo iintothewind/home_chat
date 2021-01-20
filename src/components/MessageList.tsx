@@ -143,9 +143,9 @@ export default class MessageList extends React.Component<MessageListProps, Messa
     const headers = { 'Accept': 'application/json' }
     const historyMessages: Message[] = await axios
       .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout: 30000 })
-      .then(response => response.data.messages)
+      .then(response => this.state.messages && this.state.messages.length > 0 ? response.data.messages.filter(_ => _.moment < this.state.messages[0].moment) : response.data.messages)
       .catch(_ => [])
-    if (historyMessages && historyMessages.length > 0 && this.state.messages && this.state.messages.length === 0) {
+    if (historyMessages && historyMessages.length > 0) {
       await db
         .message
         .bulkAdd(historyMessages.map(msg => ({ topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content } as Message)))
