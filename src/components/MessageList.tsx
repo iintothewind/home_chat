@@ -221,7 +221,8 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         const payload = buffer.toString()
         if (isJsonString(payload)) {
           const msg: Message = JSON.parse(payload) as Message
-          if (msg.sender && msg.moment && msg.content) {
+          if (msg.sender && msg.moment && msg.content
+            && !this.state.messages.find(_ => _.moment === msg.moment && _.sender === msg.sender)) {
             const message: Message = { topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content }
             if (msg.category === 'markdown' && imageMarkdownRegex.test(message.content)) {
               this.setState({ messages: this.state.messages.concat(message), images: this.state.images.concat(message) })
