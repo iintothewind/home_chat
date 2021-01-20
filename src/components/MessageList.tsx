@@ -145,8 +145,8 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       .get<{ messages: Message[] }>(`${cfg.backendUrl}/home_chat/history`, { params: params, headers: headers, timeout: 30000 })
       .then(response => response.data.messages)
       .catch(_ => [])
-    if (historyMessages && historyMessages.length > 0) {
-      db
+    if (historyMessages && historyMessages.length > 0 && this.state.messages && this.state.messages.length === 0) {
+      await db
         .message
         .bulkAdd(historyMessages.map(msg => ({ topic: msg.topic, owner: this.user, moment: msg.moment, sender: msg.sender, category: msg.category, content: msg.content } as Message)))
         .catch(error => notification['error']({
@@ -159,7 +159,6 @@ export default class MessageList extends React.Component<MessageListProps, Messa
         images: this.state.images.concat(historyImages).sort((l, r) => l.moment - r.moment),
         allowLoadHistory: true
       })
-
     } else {
       this.setState({ allowLoadHistory: false })
     }
