@@ -26,6 +26,8 @@ const markdownOptions = {
   requireSpaceBeforeHeadingText: true,
   openLinksInNewWindow: true,
   backslashEscapesHTMLTags: true,
+  ghMentions: false,
+  ghMentionsLink: false,
 }
 
 const { Footer, Content } = Layout
