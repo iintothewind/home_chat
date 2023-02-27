@@ -6,9 +6,11 @@ export const cfg = {
   dbVersion: 1,
   projectUrl: 'https://github.com/iintothewind/home_chat',
   // mqttUrl: 'ws://192.168.0.147:1884',
-  mqttsUrl: 'wss://mqtt.eclipseprojects.io:443/mqtt',
-  mqttUrl: 'ws://192.168.0.147:1884',
   // mqttsUrl: 'wss://ivarchen.xyz:8084/mqtt',
+  //mqttsUrl: 'wss://mqtt.eclipseprojects.io:443/mqtt',
+  // initMqttConnection looks up window location protocol to check with mqtt or mqtts should be used
+  mqttUrl: 'ws:///121.5.128.159:1884',
+  mqttsUrl: 'ws:///121.5.128.159:1884',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
   backendUrl: 'https://ivarchen.xyz:8443',
