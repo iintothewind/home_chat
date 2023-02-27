@@ -20,7 +20,7 @@ services:
       # host:container dashboard
       - "18083:18083"
     volumes:
-      - ./etc/https/emqx_4.4.0.conf:/opt/emqx/etc/emqx.conf
+      - ./etc/https/emqx_4.4.0.conf:/emqx/etc/emqx.conf
       #- ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
       #- ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
       #- ./data:/opt/emqx/data
