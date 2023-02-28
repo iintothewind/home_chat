@@ -10,7 +10,7 @@ export const cfg = {
   //mqttsUrl: 'wss://mqtt.eclipseprojects.io:443/mqtt',
   // initMqttConnection looks up window location protocol to check with mqtt or mqtts should be used
   mqttUrl: 'ws:///121.5.128.159:8083/mqtt',
-  mqttsUrl: 'mqtts://121.5.128.159:1884/mqtt',
+  mqttsUrl: 'wss://121.5.128.159:8084/mqtt',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
   backendUrl: 'https://121.5.128.159:8443',
