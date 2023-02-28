@@ -5,6 +5,7 @@ import { useLocation, Redirect } from 'react-router-dom'
 import GithubCorner from 'react-github-corner'
 import { cfg } from '../util/config'
 import axios from 'axios'
+import https from 'https'
 import { RemoteIcon } from '../util/icon'
 import '../styles/login.css'
 
@@ -62,6 +63,11 @@ const Login = (props: LoginProps) => {
     const params = new URLSearchParams({ code: code })
     const headers = { 'Accept': 'application/json' }
     axios
+      .create({
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      })
       .get<User>(`${cfg.backendUrl}/home_chat/user`, { params: params, headers: headers })
       .then(response => {
         setState({ user: response.data })
