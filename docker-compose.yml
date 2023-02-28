@@ -12,17 +12,17 @@ services:
       # host:container mqtt
       - "1883:1883"
       # host:container mqtts
-      #- "8883:8883"
+      - "8883:8883"
       # host:container ws
       - "8083:8083"
       # host:container wss
-      #- "8084:8084"
+      - "8084:8084"
       # host:container dashboard
       - "18083:18083"
     volumes:
       - ./etc/https/emqx_4.4.0.conf:/emqx/etc/emqx.conf
-      #- ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
-      #- ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
+      - ./etc/cert/key.pem:/opt/emqx/etc/certs/key.pem
+      - ./etc/cert/cert.pem:/opt/emqx/etc/certs/cert.pem
       #- ./data:/opt/emqx/data
     networks:
       - home_chat
