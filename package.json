@@ -35,8 +35,8 @@
   "scripts": {
     "start": "react-scripts start",
     "buildWithMap": "react-scripts build",
-    "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false react-scripts build",
-    "winBuild": "set \"GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true\" && react-scripts build",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false react-scripts build",
+    "winBuild": "set \"NODE_OPTIONS=--openssl-legacy-provider GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
