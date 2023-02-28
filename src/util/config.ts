@@ -13,7 +13,7 @@ export const cfg = {
   mqttsUrl: 'ws:///121.5.128.159:1884',
   mqttTopicPrefx: 'home_chat/',
   mqttDefaultTopic: 'general',
-  backendUrl: 'https://ivarchen.xyz:8443',
+  backendUrl: 'https://121.5.128.159:8081',
   clientId: 'd091146121f6eb144f83',
   maxInputLength: 5120,
   gaTrackingId: 'UA-171653853-1',
