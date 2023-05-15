@@ -41,7 +41,7 @@ const renderState = (state: LoginState | null) => {
     if (state.user) {
       return <Redirect exact to={{
         pathname: '/messageList',
-        search: `?topic=${cfg.mqttDefaultTopic}&user=${state.user.login}`
+        search: `?topic=${cfg.mqttDefaultTopic}&user=${state.user.login || ''}`
       }} />
     } else if (state.error) {
       console.log(`error: ${JSON.stringify(state.error)}`)

@@ -16,7 +16,6 @@ import '../styles/nprogress.css'
 import logo from '../resources/logo70.png'
 import { RemoteIcon } from '../util/icon'
 
-
 const markdownOptions = {
   omitExtraWLInCodeBlocks: true,
   parseImgDimensions: true,
@@ -127,7 +126,12 @@ export default class MessageList extends React.Component<MessageListProps, Messa
       this.setState({ messages: messages.concat(this.state.messages), images: images.concat(this.state.images) })
     }).then(_ => {
       if (this.state.messages && this.state.messages.length === 0) {
-        this.loadHistory()
+        this.loadHistory().catch(error=>{
+          notification['error']({
+            message: 'loadHistory',
+            description: 'failed to load history: '.concat(error)
+          })
+        })
       }
     }).catch(error => {
       notification['error']({
